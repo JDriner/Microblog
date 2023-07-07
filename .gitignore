@@ -48,3 +48,11 @@ Thumbs.db
 *.mov
 *.wmv
 
+# override yml file
+*override.yml
+
+# vendor
+/vendor/
+
+# vendor
+/node_modules/

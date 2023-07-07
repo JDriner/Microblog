@@ -1,0 +1,36 @@
+version: "3.3"
+services:
+  web-server:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      args:
+        PHP_MODE: development
+    restart: always
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8080:80"
+
+  mysql-server:
+    image: mysql:8.0.19
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+    volumes:
+      - mysql-data:/var/lib/mysql
+    command: ['--default-authentication-plugin=mysql_native_password', '--character-set-server=utf8', '--collation-server=utf8_general_ci']
+    ports: [12006:3306]
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.0.1
+    restart: always
+    environment:
+      PMA_HOST: mysql-server
+      PMA_USER: root
+      PMA_PASSWORD: secret
+    ports:
+      - "5000:80"
+      
+volumes:
+  mysql-data:
