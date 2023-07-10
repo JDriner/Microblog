@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
+use Validator;
 
 class ProfileController extends Controller
 {
@@ -16,9 +20,10 @@ class ProfileController extends Controller
      */
     public function view(Request $request): View
     {
+        $my_posts = Post::where('user_id', Auth::user()->id)->get();
         return view('profile.view-profile', [
             'user' => $request->user(),
-        ]);
+        ], compact('my_posts'));
     }
 
     public function edit(Request $request): View
@@ -37,6 +42,7 @@ class ProfileController extends Controller
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
+            $request->user()->is_activated = false;
         }
 
         $request->user()->save();
@@ -44,6 +50,28 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
+    public function updatePicture(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'profile_picture' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+        } else {
+
+            $image_path = $request->file('profile_picture')->store('user_picture', 'public');
+
+            $user =Auth::user();
+            $user->profile_picture = $image_path;
+            $user->save();
+
+
+
+            return response()->json(['success' => 'Profile picture has been updated.']);
+        }
+    }
     /**
      * Delete the user's account.
      */

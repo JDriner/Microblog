@@ -30,6 +30,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::get('/view-profile', [ProfileController::class, 'view'])->name('profile.view');
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::post('/profile', [ProfileController::class, 'updatePicture'])->name('profile.updatePicture');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
         Route::resource('posting', PostController::class);
