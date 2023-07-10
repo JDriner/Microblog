@@ -20,7 +20,7 @@ class ProfileController extends Controller
      */
     public function view(Request $request): View
     {
-        $my_posts = Post::where('user_id', Auth::user()->id)->get();
+        $my_posts = Post::where('user_id', Auth::user()->id)->latest()->get();
         return view('profile.view-profile', [
             'user' => $request->user(),
         ], compact('my_posts'));

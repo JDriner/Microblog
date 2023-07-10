@@ -12,7 +12,6 @@ class HomeController extends Controller
 {
     public function home() {
         $posts = Post::latest()->get();
-
         return view('home.home', compact('posts'));
     }
 }

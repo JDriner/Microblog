@@ -1,7 +1,7 @@
 @if ($errors->any())
     {{-- <h4>{{ $errors->all() }}</h4> --}}
     <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-red-800 dark:text-white" role="alert">
-        <span class="font-medium">Danger alert!</span> Change a few things up and try submitting again.
+        <span class="font-medium">Warning!</span> Change a few things up and try submitting again.
     </div>
 @endif
 

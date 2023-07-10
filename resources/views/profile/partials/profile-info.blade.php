@@ -155,6 +155,7 @@
                         $('#changePictureForm').trigger("reset");
                         $('#changePicModal').addClass('invisible');
                         alert("Profile Picture has been updated!")
+                        location.reload();
                     }
                 },
                 error: function(data) {

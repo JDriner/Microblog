@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostLikeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\HomeController;
@@ -32,6 +33,9 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::post('/profile', [ProfileController::class, 'updatePicture'])->name('profile.updatePicture');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+        Route::post('/like', [PostLikeController::class, 'likePost'])->name('like.likePost');
+        Route::post('/unlike', [PostLikeController::class, 'unlikePost'])->name('like.unlikePost');
 
         Route::resource('posting', PostController::class);
     });
