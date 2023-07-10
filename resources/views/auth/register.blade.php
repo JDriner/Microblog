@@ -1,13 +1,31 @@
 <x-guest-layout>
+    <div class="flex justify-center items-center">
+        <img src="{{ asset('images/logo-text.png') }}" class="object-center hover:object-top w-auto h-32">
+
+    </div>
+
+    <p class="text-center text-sm text-gray-600">
+        Register your account!
+    </p>
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
         <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
+        <div class="flex space-x-4">
+            <!-- First Name -->
+            <div class="mt-4">
+              <x-input-label for="first_name" :value="__('First name')" />
+              <x-text-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" :value="old('name')" required autofocus autocomplete="name" />
+              <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
+            </div>
+          
+            <!-- Last Name -->
+            <div class="mt-4">
+              <x-input-label for="name" :value="__('Last name')" />
+              <x-text-input id="name" class="block mt-1 w-full" type="text" name="last_name" :value="old('name')" required autofocus autocomplete="name" />
+              <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
+            </div>
+          </div>
 
         <!-- Email Address -->
         <div class="mt-4">
