@@ -39,8 +39,8 @@ class Post extends Model
         return $this->likes()->where('user_id', auth()->id())->exists();
     }
 
-    // If user liked the post
-    public function isAuthUserCommentPost()
+    // If user commented on the the post
+    public function isAuthUserCommentedPost()
     {
         return $this->comments()->where('user_id', auth()->id())->exists();
     }
@@ -48,5 +48,15 @@ class Post extends Model
     public function hasComments()
     {
         return $this->comments()->exists();
+    }
+
+    public function firstComment()
+    {
+        return $this->comments()->latest()->first();
+    }
+
+    public function getCommentByLatestDate()
+    {
+        return $this->comments()->orderBy('created_at', 'desc')->get();
     }
 }

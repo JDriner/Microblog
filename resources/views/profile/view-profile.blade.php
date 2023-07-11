@@ -12,7 +12,7 @@
             </div>
         </div>
         <!-- Posts -->
-        <div class="w-auto">
+        <div class="w-2/3">
             <div class="pt-4">
                 @include('profile.partials.my-posts')
             </div>

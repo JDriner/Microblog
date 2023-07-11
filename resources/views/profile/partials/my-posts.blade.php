@@ -16,7 +16,7 @@
                 <div class="flex flex-shrink-0">
                     <div>
                         @if ($my_post->user->profile_picture == null)
-                            <img src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"
+                            <img src="{{ asset('images/user-logo.png') }}"
                                 alt="" class="h-12 w-12 rounded-full">
                         @else
                             <img src="{{ url('storage/' . $my_post->user->profile_picture) }}"

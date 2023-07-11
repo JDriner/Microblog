@@ -4,27 +4,27 @@
         @foreach ($posts as $post)
             <div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg mt-3 p-6">
                 <a href="{{ route('blogpost.show', $post->id) }}">
-                    <div class="flex items-center">
+                    <div class="flex items-center mb-4">
                         <div class="flex-shrink-0">
                             @if ($post->user->profile_picture == null)
-                                <img src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"
-                                    alt="" class="h-12 w-12 rounded-full">
+                                <img src="{{ asset('images/user-logo.png') }}" alt=""
+                                    class="h-12 w-12 rounded-full object-cover border-2 border-indigo-600">
                             @else
                                 <img src="{{ url('storage/' . $post->user->profile_picture) }}"
                                     alt="{{ $post->user->first_name }}"
-                                    class="h-12 w-12 rounded-full object-cover overflow-hidden border-2 border-indigo-600">
+                                    class="h-12 w-12 rounded-full object-cover border-2 border-indigo-600">
                             @endif
-
                         </div>
                         <div class="ml-4">
                             <div class="font-semibold text-lg">
                                 {{ $post->user->first_name . ' ' . $post->user->last_name }}
                             </div>
                             <div class="text-sm text-gray-600 dark:text-gray-400">
-                                {{ date('F d, Y - h:i a', strtotime($post->created_at)) }}</div>
+                                {{ date('F d, Y - h:i a', strtotime($post->created_at)) }}
+                            </div>
                         </div>
                     </div>
-                    <div class="mt-4">
+                    <div>
                         <p class="text-gray-800 dark:text-white">{{ $post->content }}</p>
                         @if ($post->image)
                             <img src="{{ url('storage/' . $post->image) }}" alt="" title="">
@@ -32,47 +32,69 @@
                     </div>
                 </a>
 
-                {{-- Buttons --}}
+                <div
+                    class="flex flex-items-center mt-5 rounded-full border-2 border-slate-300 p-2 dark:border-slate-700">
+                    <div class="grow w-full ">
+                        {{-- LIKE/UNLIKE --}}
 
-                <div class="flex justify-end mt-4">
-                    {{-- LIKE/UNLIKE --}}
-                    <p class="text-sm text-gray-400 dark:text-white pt-3">{{ $post->likes()->count() }} Likes </p>
-                    @if (!$post->isAuthUserLikedPost())
-                        <button type="button" post_id="{{ $post->id }}" action="/like"
-                            class="like_unlike_btn text-white bg-indigo-500 hover:bg-indigo-600 rounded-full px-4 py-2 ml-2"><i
-                                class="fa-regular fa-heart"></i></button>
-                    @else
-                        <button type="button" post_id="{{ $post->id }}" action="/unlike"
-                            class="like_unlike_btn text-red-700 bg-red-300 hover:bg-indigo-600 hover:text-white rounded-full px-4 py-2 ml-2"><i
-                                class="fa-solid fa-heart"></i></button>
-                    @endif
-
-                    {{-- COMMENTS --}}
-                    <a href=""
-                        class="text-sm text-gray-400 dark:text-white pt-3">{{ $post->comments()->count() }}
-                        comments</a>
-                    <button type="button" post_id="{{ $post->id }}"
-                        class="addComment text-white bg-indigo-500 hover:bg-indigo-600 rounded-full px-4 py-2 ml-2"><i
-                            class="fa-regular fa-comment"></i></button>
-
-                    {{-- SHARE --}}
-                    <button type="submit"
-                        class="text-white bg-indigo-500 hover:bg-indigo-600 rounded-full px-4 py-2 ml-2"><i
-                            class="fa-solid fa-share"></i></button>
+                        @if (!$post->isAuthUserLikedPost())
+                            <button type="button" post_id="{{ $post->id }}" action="/like"
+                                class="like_unlike_btn text-slate-800 dark:text-white  hover:text-red-600 pl-4">
+                                <i class="fa-regular fa-heart"></i>
+                            </button>
+                        @else
+                            <button type="button" post_id="{{ $post->id }}" action="/unlike"
+                                class="like_unlike_btn text-red-700 hover:text-white pl-4">
+                                <i class="fa-solid fa-heart"></i>
+                            </button>
+                        @endif
+                        <span class="text-xs text-gray-700 dark:text-white pl-2">{{ $post->likes()->count() }}
+                            likes</span>
+                    </div>
+                    <div class="grow w-full">
+                        {{-- COMMENTS --}}
+                        <button type="button" post_id="{{ $post->id }}"
+                            class="addComment text-slate-800 dark:text-white hover:text-indigo-500">
+                            <i class="fa-regular fa-comment"></i>
+                        </button>
+                        <a href="{{ route('blogpost.show', $post->id) }}"
+                            class="text-xs text-gray-700 dark:text-white pl-2">{{ $post->comments()->count() }}
+                            comments</a>
+                    </div>
+                    <div class="grow w-20">
+                        <button type="submit" class="text-slate-800 dark:text-white   hover:text-indigo-500">
+                            <i class="fa-solid fa-share"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
 
-
-
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
+            @if (session('status') && session('postId') == $post->id)
+                <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md"
+                    role="alert">
+                    <div class="flex">
+                        <div class="py-1 fill-current h-6 w-6 text-teal-500 mr-4">
+                            <i class="fa-regular fa-circle-check"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold">Success!</p>
+                            <p class="text-bold">{{ session('status') }}</p>
+                        </div>
+                    </div>
                 </div>
             @endif
 
             @error('comment')
-                <span class="text-red-500">{{ $message }}</span>
+            <div role="alert">
+                <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                  Error
+                </div>
+                <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                  <p>{{ $message }}</p>
+                </div>
+              </div>
             @enderror
+
             <div id="commentBox_{{ $post->id }}"
                 class="bg-white dark:bg-slate-800 dark:text-black shadow rounded-lg ml-6 mt-3 p-3" hidden>
                 <form action="{{ route('sendComment') }}" method="POST" name="" id=""
@@ -93,35 +115,32 @@
                 </form>
             </div>
 
-
-            {{-- Comments --}}
+            {{-- Only one comment || latest --}}
             @if ($post->hasComments())
-                @foreach ($post->comments as $comment)
-                    <div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg ml-6 mt-3 p-6">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0">
-                                @if ($comment->user->profile_picture == null)
-                                    <img src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"
-                                        alt="" class="h-12 w-12 rounded-full">
-                                @else
-                                    <img src="{{ url('storage/' . $comment->user->profile_picture) }}"
-                                        alt="{{ $comment->user->first_name }}"
-                                        class="h-6 w-6 rounded-full object-cover overflow-hidden border-2 border-indigo-600">
-                                @endif
+                <div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg ml-6 mt-3 p-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            @if ($post->firstComment()->user->profile_picture == null)
+                                <img src="{{ asset('images/user-logo.png') }}"
+                                    alt="{{ $post->firstComment()->user->first_name }}"
+                                    class="h-6 w-6 rounded-full object-cover overflow-hidden border-2 border-indigo-600">
+                            @else
+                                <img src="{{ url('storage/' . $post->firstComment()->user->profile_picture) }}"
+                                    alt="{{ $post->firstComment()->user->first_name }}"
+                                    class="h-6 w-6 rounded-full object-cover overflow-hidden border-2 border-indigo-600">
+                            @endif
+                        </div>
+                        <div class="ml-2">
+                            <div class="text-sm text-gray-600 dark:text-gray-400 ">
+                                {{ $post->firstComment()->user->first_name . ' ' . $post->firstComment()->user->last_name }}
                             </div>
-                            <div class="ml-2">
-                                <div class="text-sm text-gray-600 dark:text-gray-400 ">
-                                    {{ $comment->user->first_name . ' ' . $comment->user->last_name }}
-                                </div>
-                                <div class="font-semibold text-sm text-black dark:text-white">{{ $comment->message }}
-                                </div>
+                            <div class="font-semibold text-sm text-black dark:text-white">
+                                {{ $post->firstComment()->message }}
                             </div>
                         </div>
-
                     </div>
-                @endforeach
+                </div>
             @endif
         @endforeach
     </div>
 </div>
-

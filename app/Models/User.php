@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -30,7 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'is_activated',
         'email_verified_at',
-        'is_email_verified'
+        'is_email_verified',
     ];
 
     /**
@@ -57,7 +56,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Post::class);
     }
 
-    public function user_id(): belongsTo {
-        return $this->belongsTo(Post::class,'user_id','id');
+    public function user_id(): belongsTo
+    {
+        return $this->belongsTo(Post::class, 'user_id', 'id');
     }
 }

@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostLikeController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +28,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
     // Middleware for authenticated and verified users
     Route::middleware('auth', 'verified')->group(function () {
+        // Routes for Profile management
         Route::get('/home', [HomeController::class, 'home'])->name('home');
         Route::get('/view-profile', [ProfileController::class, 'view'])->name('profile.view');
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -34,13 +36,16 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::post('/profile', [ProfileController::class, 'updatePicture'])->name('profile.updatePicture');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+        // Routes for posts
+        Route::resource('blogpost', PostController::class);
+
+        // Routes for like & unlike
         Route::post('/like', [PostLikeController::class, 'likePost'])->name('like.likePost');
         Route::post('/unlike', [PostLikeController::class, 'unlikePost'])->name('like.unlikePost');
 
-        Route::resource('posting', PostController::class);
+        // Routes for comments
+        Route::post('/sendComment', [CommentController::class, 'sendComment'])->name('sendComment');
     });
 });
 
-
-
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
