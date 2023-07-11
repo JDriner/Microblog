@@ -1,7 +1,8 @@
 <div class="mt-8">
     <div class="max-w-xl mx-auto">
         <div class="bg-zinc-200 dark:bg-slate-800 rounded-lg flex items-center">
-            <button class="createPost text-white dark:text-white bg-indigo-500 hover:bg-indigo-600 px-4 py-2 rounded-lg ml-4">
+            <button
+                class="createPost text-white dark:text-white bg-indigo-500 hover:bg-indigo-600 px-4 py-2 rounded-lg ml-4">
                 <i class="fa-solid fa-plus"></i>
             </button>
             <div class="mr-auto m-6">
@@ -31,30 +32,32 @@
                                 Express your ideas, feelings, or anything you'd like to share with others!
                             </p>
                         </div>
-                        <form action="{{ route('posting.store') }}" method="POST" name="createPostForm" id="createPostForm" enctype="multipart/form-data">
+                        <form action="{{ route('blogpost.store') }}" method="POST" name="createPostForm"
+                            id="createPostForm" enctype="multipart/form-data">
                             @csrf
                             <div class="mt-4">
                                 <div class="max-w-xl mx-auto">
                                     <textarea name="content" id="content" rows="5" placeholder="Write your thoughts here..."
                                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"></textarea>
-                                        <div class="text-sm text-gray-400" id="character_count">0 / 140 characters used</div>
-                                        <span class="text-red-600 text-sm error-text content_error"></span>
+                                    <div class="text-sm text-gray-400" id="character_count">0 / 140 characters used
+                                    </div>
+                                    <span class="text-red-600 text-sm error-text content_error"></span>
                                 </div>
                             </div>
                             <div class="mt-4">
                                 <div class="max-w-xl mx-auto">
                                     <div class="flex items-center">
                                         <input type="file" name="image" id="image" class="hidden">
-                                        <label for="image"
-                                            class="bg-gray-200 px-4 py-2 rounded-lg cursor-pointer">
+                                        <label for="image" class="bg-gray-200 px-4 py-2 rounded-lg cursor-pointer">
                                             Select Image
                                         </label>
                                     </div>
                                     <span class="text-red-600 text-sm error-text image_error"></span>
                                     <p class="text-sm text-gray-500">If you have any images related to your
-                                        post, you can upload them here. Images should be with the types jpg, jpeg, png. The file size should not exceed 4mb.</p>
-
-                                    <img id="preview" src="#" alt="your image" class="" style="display:none;" />
+                                        post, you can upload them here. Images should be with the types jpg, jpeg, png.
+                                        The file size should not exceed 4mb.</p>
+                                    <img id="preview" src="#" alt="your image" class=""
+                                        style="display:none;" />
                                 </div>
                             </div>
 
@@ -75,95 +78,3 @@
         </div>
     </div>
 </div>
-
-
-
-{{-- MODAL --}}
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('.createPost').on('click', function(e) {
-            $('#createPostModal').removeClass('invisible');
-        });
-        $('.closeModal').on('click', function(e) {
-            $('#createPostForm').trigger("reset");
-            $("#preview").css('display', 'none');
-            // $('#preview').trigger("reset");
-            $('#createPostModal').addClass('invisible');
-        });
-    });
-
-
- // Character Counter
-    $(document).ready(function() {
-      var maxLength = 140;
-      var textarea = $('#content');
-    
-      textarea.on('input', function() {
-        var currentLength = textarea.val().length;
-        console.log(currentLength);
-        $('#character_count').text(currentLength + ' / ' + maxLength + ' characters used');
-      });
-      
-    });
-
-
-//  IMAGE PREVIEW
-    image.onchange = evt => {
-        preview = document.getElementById('preview');
-        preview.style.display = 'block';
-        const [file] = image.files
-        if (file) {
-            preview.src = URL.createObjectURL(file)
-        }
-    }
-</script>
-
-{{-- AJAX --}}
-<script type="text/javascript">
-    $(function() {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        // Create post form
-        $('#createPostForm').on('submit', function(e) {
-            e.preventDefault();
-            var form = this;
-            $('#saveBtn').html('Submitting post...');
-            // let myUsername = document.getElementById('image').value;
-            // console.log(myUsername);
-
-            $.ajax({
-                url: $(form).attr('action'),
-                method: $(form).attr('method'),
-                data: new FormData(form),
-                processData: false,
-                dataType: 'json',
-                contentType: false,
-                beforeSend:function(){
-                    $(form).find('span.error-text').text('')
-                    $('#saveBtn').html('Create Post');
-                },
-                success: function(data) {
-                    if(data.code == 0) {
-                        $.each(data.error, function(prefix,val){
-                            $(form).find('span.'+prefix+'_error').text(val[0])
-                        });
-                    }else{
-                        $(form)[0].reset;
-                        $('#createPostForm').trigger("reset");
-                        $('#createPostModal').addClass('invisible');
-                        alert("Post has been created successfully!")
-                        location.reload();
-                    }
-                },
-                error: function(data) {
-                    console.log('Error:', data);
-                    $('#saveBtn').html('Create Post');
-                }
-            });
-        });
-    });
-</script>

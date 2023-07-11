@@ -23,4 +23,8 @@
     <!-- Display Create -->
     @include('home.partials.post-content')
 
+    @push('scripts')
+        <script src="{{ asset('js/post-content.js') }}"></script>
+        <script src="{{ asset('js/create-post.js') }}"></script>
+    @endpush
 </x-app-layout>

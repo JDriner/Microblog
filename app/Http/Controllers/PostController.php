@@ -5,11 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
 use Validator;
-
 
 class PostController extends Controller
 {
@@ -20,13 +16,12 @@ class PostController extends Controller
      */
     public function index()
     {
-        
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -49,6 +44,7 @@ class PostController extends Controller
                 'content' => $request->content,
                 'image' => $image_path,
             ]);
+
             return response()->json(['success' => 'Post saved successfully.']);
         }
     }
@@ -61,8 +57,10 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $posts = Post::latest()->get();
-        return view('home.home', compact('posts'));
+        // show a post
+        $post = Post::find($id);
+        // print($viewedPost);
+        return view('post.view-post', compact('post'));
     }
 
     /**
@@ -79,7 +77,6 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

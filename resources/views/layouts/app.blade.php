@@ -52,4 +52,6 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
 
 </body>
 
+@stack('scripts')
+
 </html>

@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Post;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-use Illuminate\Support\Facades\Storage;
 use Validator;
 
 class ProfileController extends Controller
@@ -21,6 +19,7 @@ class ProfileController extends Controller
     public function view(Request $request): View
     {
         $my_posts = Post::where('user_id', Auth::user()->id)->latest()->get();
+
         return view('profile.view-profile', [
             'user' => $request->user(),
         ], compact('my_posts'));
@@ -54,7 +53,7 @@ class ProfileController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'profile_picture' => 'required'
+            'profile_picture' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -63,15 +62,14 @@ class ProfileController extends Controller
 
             $image_path = $request->file('profile_picture')->store('user_picture', 'public');
 
-            $user =Auth::user();
+            $user = Auth::user();
             $user->profile_picture = $image_path;
             $user->save();
-
-
 
             return response()->json(['success' => 'Profile picture has been updated.']);
         }
     }
+
     /**
      * Delete the user's account.
      */

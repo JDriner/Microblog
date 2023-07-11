@@ -1,4 +1,15 @@
 <div class="max-w-xl mx-auto">
+    {{-- <h1 class="text-white">    {{ $my_posts }}</h1> --}}
+
+    @if (count($my_posts) < 1)
+        <div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg mb-4 p-6">
+            <div class="flex justify-between w-full">
+                <h1>You do not have any posts yet!</h1>
+            </div>
+        </div>
+    @endif
+
+
     @foreach ($my_posts as $my_post)
         <div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg mb-4 p-6">
             <div class="flex justify-between">

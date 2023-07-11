@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
@@ -18,21 +18,35 @@ class Post extends Model
         'image',
     ];
 
-    public function user(): BelongsTo{
-        return $this->belongsTo(User::class,'user_id','id');
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function likes(){
-        return $this->hasMany(PostLike::class,'post_id','id');
+    public function likes()
+    {
+        return $this->hasMany(PostLike::class, 'post_id', 'id');
     }
 
     public function comments()
     {
-        return $this->hasMany(Comment::class,'post_id','id');
+        return $this->hasMany(Comment::class, 'post_id', 'id');
     }
 
     // If user liked the post
-    public function isAuthUserLikedPost(){
-        return $this->likes()->where('user_id',  auth()->id())->exists();
-     }
+    public function isAuthUserLikedPost()
+    {
+        return $this->likes()->where('user_id', auth()->id())->exists();
+    }
+
+    // If user liked the post
+    public function isAuthUserCommentPost()
+    {
+        return $this->comments()->where('user_id', auth()->id())->exists();
+    }
+
+    public function hasComments()
+    {
+        return $this->comments()->exists();
+    }
 }

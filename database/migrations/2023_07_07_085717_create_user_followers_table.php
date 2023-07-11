@@ -20,10 +20,9 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
 
-            
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
             $table->foreign('user_following_id')->references('id')->on('users')->onDelete('restrict');
-            
+
         });
     }
 
