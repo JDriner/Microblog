@@ -39,6 +39,7 @@ $(function () {
         $('#modal-title').text('Create Post');
         $('#modal-sub-title').text('Express your ideas, feelings, or anything you\'d like to share with others!');
         $('#postForm').show();
+        $('#delete_post_modal_btn').hide();
         $('#saveBtn').text('Create Post');
     });
 
@@ -46,11 +47,13 @@ $(function () {
     $('.editPost').on('click', function (e) {
         let post_id = $(this).attr('post_id');
         console.log("edit: " + post_id);
+        // $.get("{{"+ route('blogpost.show', post_id)+"}}", function(data) {
         $.get('blogpost/' + post_id + '/edit', function (data) {
             $('#postModal').show();
             $('#modal-title').text('Edit Post');
             $('#modal-sub-title').text('Please make your desired changes for your post!');
             $('#postForm').show();
+            $('#delete_post_modal_btn').hide();
             console.log(data);
             $('#content').val(data.content);
             $('#post_id').val(data.id);
@@ -67,9 +70,12 @@ $(function () {
         let post_id = $(this).attr('post_id');
         console.log("delete: " + post_id);
         $('#postModal').show();
+        $('#delete_post_modal_btn').show();
         $('#modal-title').text('Delete Post');
         $('#modal-sub-title').text('Are you sure you want to delete this post?');
+        $("#deletePostBtn").attr('value', post_id);
     });
+
     // Close Modal
     $('.closeModal').on('click', function (e) {
         $('#postForm').trigger("reset");
@@ -89,19 +95,19 @@ $(function () {
         let formData = new FormData(this);
         // Display the key/value pairs
         for (var pair of formData.entries()) {
-            console.log(pair[0]+ ', ' + pair[1]); 
+            console.log(pair[0] + ', ' + pair[1]);
         }
-        console.log("form data: "+ formData);
+        console.log("form data: " + formData);
         $.ajax({
             url: $(form).attr('action'),
             type: $(form).attr('method'),
             data: formData,
-            cache:false,
+            cache: false,
             dataType: 'json',
             processData: false,
             contentType: false,
             beforeSend: function () {
-                console.log("form data: "+ formData);
+                console.log("form data: " + formData);
                 $(form).find('span.error-text').text('');
             },
             success: function (data) {
@@ -113,10 +119,31 @@ $(function () {
                 } else {
                     $(form)[0].reset;
                     $('#postForm').trigger("reset");
-                    $('#createPostModal').addClass('invisible');
-                    alert("Post has been created successfully!")
+                    $('#postForm').hide();
+                    $('#postModal').hide();
+                    alert(data.success)
                     location.reload();
                 }
+            },
+            error: function (data) {
+                console.log('Error:', data);
+            }
+        });
+    });
+
+    $('#deletePostBtn').click(function (e) {
+        e.preventDefault();
+        let post_id = $(this).attr('value');
+        console.log("Post_id: " + post_id);
+        $.ajax({
+            type: "DELETE",
+            url: 'blogpost/' + post_id,
+            success: function (data) {
+                $('#postForm').hide();
+                console.log(data)
+                $('#postModal').hide();
+                alert(data.success);
+                location.reload();
             },
             error: function (data) {
                 console.log('Error:', data);

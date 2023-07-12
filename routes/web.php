@@ -39,7 +39,8 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
         // Routes for posts
         Route::resource('blogpost', PostController::class);
-
+        // Route::get('/viewpost/{id}', [PostController::class, 'show'])->name('blogpost.show');
+        // Route::get('/blogpost/{id}', [PostController::class, 'edit'])->name('blogpost.edit');
         // Routes for like & unlike
         Route::post('/like', [PostLikeController::class, 'likePost'])->name('like.likePost');
         Route::post('/unlike', [PostLikeController::class, 'unlikePost'])->name('like.unlikePost');

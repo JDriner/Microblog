@@ -26,7 +26,7 @@
         </a>
 
         <!-- If the current user owns the post, they can edit/delete the post -->
-        @if (auth()->id() == $post->user->id)
+        @if (auth()->id() == $post->user->id && !request()->routeIs('blogpost.show'))
             <div>
                 <button type="button" post_id="{{ $post->id }}" class="editPost text-slate-800 dark:text-slate-300 hover:text-indigo-600 pr-4"><i
                         class="fa-solid fa-pen-to-square"></i></button>
@@ -47,10 +47,10 @@
     </a>
 
     <!-- If the post is shared-->
-    @if ($post->id)
-        {{-- <h1 class="text-xm">[[ This is a shared post and this is where the will contain the content of the  shared post ]]</h1> --}}
-        {{-- <h1>{{ $post->id->sharedPostContent() }}</h1>
-        @include('post.post-content') --}}
+    @if ($post->post_id)
+        <h1 class="text-xm">[[ This is a shared post and this is where the will contain the content of the  shared post ]]</h1>
+        {{-- <h1>{{ $post->id->sharedPostContent() }}</h1> --}}
+        {{-- @include('post.post-content') --}}
     @endif
 
     <div class="flex flex-items-center mt-5 rounded-full border-2 border-slate-300 p-2 dark:border-slate-700">
