@@ -28,6 +28,11 @@ class Post extends Model
         return $this->hasMany(PostLike::class, 'post_id', 'id');
     }
 
+    public function shared_post()
+    {
+        return $this->hasMany(Post::class, 'post_id', 'id');
+    }
+
     public function comments()
     {
         return $this->hasMany(Comment::class, 'post_id', 'id');
@@ -58,5 +63,12 @@ class Post extends Model
     public function getCommentByLatestDate()
     {
         return $this->comments()->orderBy('created_at', 'desc')->get();
+    }
+
+    public function sharedPostContent()
+    {
+        // return $this->post()->first();
+        // $post = Post::find($);
+        return $this->shared_post()->exists();
     }
 }

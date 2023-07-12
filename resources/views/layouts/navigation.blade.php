@@ -18,10 +18,6 @@
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                         {{ __('Home') }}
                     </x-nav-link>
-
-                    {{-- <x-nav-link href="">
-                        {{ __('Trends') }}
-                    </x-nav-link> --}}
                 </div>
             </div>
 

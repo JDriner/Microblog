@@ -18,13 +18,18 @@
     </div>
 
     <!-- Post Create -->
-    @include('home.partials.create-post')
+    @include('post.create-post')
+    @include('post.partials.modal-post')
 
-    <!-- Display Create -->
-    @include('home.partials.post-content')
+    <!-- Display Post -->
+    <div class="max-w-xl mx-auto">
+        @foreach ($posts as $post)
+            @include('post.post-content')
+        @endforeach
+    </div>
 
     @push('scripts')
+        <script src="{{ asset('js/modal-post.js') }}"></script>
         <script src="{{ asset('js/post-content.js') }}"></script>
-        <script src="{{ asset('js/create-post.js') }}"></script>
     @endpush
 </x-app-layout>

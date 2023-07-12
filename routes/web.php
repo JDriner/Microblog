@@ -31,6 +31,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         // Routes for Profile management
         Route::get('/home', [HomeController::class, 'home'])->name('home');
         Route::get('/view-profile', [ProfileController::class, 'view'])->name('profile.view');
+        Route::get('/view-profile/{id}', [ProfileController::class, 'viewUser'])->name('profile.view-profile');
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::post('/profile', [ProfileController::class, 'updatePicture'])->name('profile.updatePicture');

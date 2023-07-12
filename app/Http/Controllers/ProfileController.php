@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,14 @@ class ProfileController extends Controller
         return view('profile.view-profile', [
             'user' => $request->user(),
         ], compact('my_posts'));
+    }
+
+    public function viewUser($user_id)
+    {
+        $user = User::find($user_id);
+        $my_posts = Post::where('user_id', $user_id)->latest()->get();
+        // print($user);
+        return view('profile.view-profile', compact('my_posts', 'user'));
     }
 
     public function edit(Request $request): View

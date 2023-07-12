@@ -35,15 +35,22 @@ class PostController extends Controller
             return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
         } else {
             $image_path = null;
+
+            $postData = [
+                'user_id' => Auth::user()->id,
+                'content' => $request->content,
+            ];
+
             if ($request->file('image')) {
                 $image_path = $request->file('image')->store('post_picture', 'public');
+                $postData['image'] = $image_path;
             }
 
             Post::updateOrCreate([
-                'user_id' => Auth::user()->id,
-                'content' => $request->content,
-                'image' => $image_path,
-            ]);
+                'id' => $request->post_id,
+                ], 
+                $postData
+            );
 
             return response()->json(['success' => 'Post saved successfully.']);
         }
@@ -71,7 +78,8 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::find($id);
+        return response()->json($post);
     }
 
     /**
