@@ -40,7 +40,12 @@ class PostController extends Controller
                 'user_id' => Auth::user()->id,
                 'content' => $request->content,
             ];
-
+            //Means you are editing a shared post
+            if ($request->shared_post_id != null) {
+                $postData['post_id'] = $request->shared_post_id;
+            }
+            
+            //if the user has updated the image
             if ($request->file('image')) {
                 $image_path = $request->file('image')->store('post_picture', 'public');
                 $postData['image'] = $image_path;
@@ -53,6 +58,25 @@ class PostController extends Controller
             );
 
             return response()->json(['success' => 'Post saved successfully.']);
+        }
+    }
+
+    public function sharePost(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'content' => 'required|max:140',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+        } else {
+            Post::create([
+                'user_id' => Auth::user()->id,
+                'post_id' => $request->post_id,
+                'content' => $request->content,
+            ]);
+
+            return response()->json(['success' => 'Post has been shared successfully.']);
         }
     }
 
@@ -77,6 +101,12 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
+    {
+        $post = Post::find($id);
+        return response()->json($post);
+    }
+
+    public function share($id)
     {
         $post = Post::find($id);
         return response()->json($post);

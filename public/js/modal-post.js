@@ -13,14 +13,26 @@ $(document).ready(function () {
     });
 
     //  IMAGE PREVIEW
-    image.onchange = evt => {
-        preview = document.getElementById('preview');
+    $('#image').on('change', function(evt) {
+        var preview = $('#preview')[0];
+        var filename = $(this).val().split('\\').pop();
         preview.style.display = 'block';
-        const [file] = image.files
+        var file = this.files[0];
         if (file) {
-            preview.src = URL.createObjectURL(file)
+            preview.src = URL.createObjectURL(file);
+            $('.image_label').text('File uploaded: '+ filename);
+        }else{
+            preview.src = "";
+            $('.image_label').text('No image selected.');
+            $('#preview').hide();
         }
-    }
+    });
+
+    // $('#image').on('click', function(evt) {
+    //     var preview = $('#preview')[0];
+    //     preview.src = "";
+    //     $('#preview').hide();
+    // });
 });
 
 
@@ -36,10 +48,13 @@ $(function () {
     // Create post Modal
     $('.createPost').on('click', function (e) {
         $('#postModal').show();
-        $('#modal-title').text('Create Post');
+        $('#post-modal-title').text('Create Post');
         $('#modal-sub-title').text('Express your ideas, feelings, or anything you\'d like to share with others!');
         $('#postForm').show();
+        $("#postForm").attr('action', "/blogpost");
+        $('#image_selection_input').show();
         $('#delete_post_modal_btn').hide();
+        $('#shared_post_content').hide();
         $('#saveBtn').text('Create Post');
     });
 
@@ -50,18 +65,48 @@ $(function () {
         // $.get("{{"+ route('blogpost.show', post_id)+"}}", function(data) {
         $.get('blogpost/' + post_id + '/edit', function (data) {
             $('#postModal').show();
-            $('#modal-title').text('Edit Post');
+            $('#post-modal-title').text('Edit Post');
             $('#modal-sub-title').text('Please make your desired changes for your post!');
             $('#postForm').show();
+            $("#postForm").attr('action', "/blogpost");
             $('#delete_post_modal_btn').hide();
+            $('#shared_post_content').hide();
             console.log(data);
             $('#content').val(data.content);
             $('#post_id').val(data.id);
+            if (data.post_id !=null) {
+                $('#shared_post_id').val(data.post_id);
+            }else{
+                $('#image_selection_input').show();
+            }
             if (data.image != null) {
                 $("#preview").css('display', 'block');
                 $('#preview').attr('src', "storage/" + data.image + "");
             }
             $('#saveBtn').text('Update Post');
+        })
+    });
+
+    // Share Button shows modal
+    $('.sharePost').on('click', function (e) {
+        let post_id = $(this).attr('post_id');
+        $.get('share/' + post_id , function (data) {
+            $('#postModal').show();
+            $('#post-modal-title').text('Sharing Post');
+            $('#modal-sub-title').text('Tell something about this post!');
+            $('#postForm').show();
+            $('#shared_post_content').show();
+            $('#image_selection_input').hide();
+            $('#delete_post_modal_btn').hide();
+            $("#postForm").attr('action', "/sharepost");
+            $('#post_id').val(post_id);
+            // $('#shared-user-info').text(data.user_id+">first_name 's Post");
+            $('#shared-content').text(data.content);
+            if(data.image != null){
+                $('#shared-image').show();
+                $('#shared-image').attr('src', "storage/"+data.image);
+            }
+            $('#saveBtn').text('Share Post'); 
         })
     });
 
@@ -71,7 +116,7 @@ $(function () {
         console.log("delete: " + post_id);
         $('#postModal').show();
         $('#delete_post_modal_btn').show();
-        $('#modal-title').text('Delete Post');
+        $('#post-modal-title').text('Delete Post');
         $('#modal-sub-title').text('Are you sure you want to delete this post?');
         $("#deletePostBtn").attr('value', post_id);
     });
@@ -82,11 +127,10 @@ $(function () {
         $('#character_count').text('');
         $("#preview").css('display', 'none');
         // $('#preview').trigger("reset");
+        $('#shared-image').hide();
         $('#postForm').hide();
         $('#postModal').hide();
     });
-
-
 
     // Create post form ----- SUBMISSION of form
     $('#postForm').submit(function (e) {

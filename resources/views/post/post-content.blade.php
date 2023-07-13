@@ -1,6 +1,4 @@
 <!-- Display the Post and its contents -->
-
-
 <div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg mt-3 p-6">
     <div class="flex justify-between mb-4">
         <a href="{{ route('profile.view-profile', $post->user->id) }}"
@@ -19,7 +17,7 @@
                     <div class="font-semibold text-lg">
                         {{ $post->user->first_name . ' ' . $post->user->last_name }}
                     </div>
-                    <div class="text-sm text-gray-800 dark:text-white">
+                    <div class="text-xs text-gray-800 dark:text-slate-400">
                         {{ date('F d, Y - h:i a', strtotime($post->created_at)) }}</div>
                 </div>
             </div>
@@ -28,9 +26,11 @@
         <!-- If the current user owns the post, they can edit/delete the post -->
         @if (auth()->id() == $post->user->id && !request()->routeIs('blogpost.show'))
             <div>
-                <button type="button" post_id="{{ $post->id }}" class="editPost text-slate-800 dark:text-slate-300 hover:text-indigo-600 pr-4"><i
+                <button type="button" post_id="{{ $post->id }}"
+                    class="editPost text-slate-800 dark:text-slate-300 hover:text-indigo-600 pr-4"><i
                         class="fa-solid fa-pen-to-square"></i></button>
-                <button type="button" post_id="{{ $post->id }}" class="deletePost text-slate-800 dark:text-slate-300 hover:text-indigo-600"><i
+                <button type="button" post_id="{{ $post->id }}"
+                    class="deletePost text-slate-800 dark:text-slate-300 hover:text-indigo-600"><i
                         class="fa-solid fa-trash-can"></i></button>
             </div>
         @endif
@@ -46,17 +46,14 @@
         </div>
     </a>
 
-    <!-- If the post is shared-->
+    <!-- If the post is shared, display the contents.-->
     @if ($post->post_id)
-        <h1 class="text-xm">[[ This is a shared post and this is where the will contain the content of the  shared post ]]</h1>
-        {{-- <h1>{{ $post->id->sharedPostContent() }}</h1> --}}
-        {{-- @include('post.post-content') --}}
+        @include('post.partials.shared-post')
     @endif
 
     <div class="flex flex-items-center mt-5 rounded-full border-2 border-slate-300 p-2 dark:border-slate-700">
+        <!-- like or unlike post -->
         <div class="grow w-full ">
-            {{-- LIKE/UNLIKE --}}
-
             @if (!$post->isAuthUserLikedPost())
                 <button type="button" post_id="{{ $post->id }}" action="/like"
                     class="like_unlike_btn text-slate-800 hover:text-red-600 dark:text-white dark:hover:text-red-600 pl-4">
@@ -65,14 +62,15 @@
             @else
                 <button type="button" post_id="{{ $post->id }}" action="/unlike"
                     class="like_unlike_btn text-red-700 hover:text-slate-800 pl-4 dark:hover:text-white">
-                    <i class="fa-solid fa-heart fa-beat"></i>
+                    <i class="fa-solid fa-heart"></i>
                 </button>
             @endif
             <span class="text-xs text-gray-700 dark:text-white pl-2">{{ $post->likes()->count() }}
                 likes</span>
         </div>
+
+        <!-- Add Comment Button -->
         <div class="grow w-full">
-            {{-- COMMENTS --}}
             <button type="button" post_id="{{ $post->id }}"
                 class="addComment text-slate-800 dark:text-white hover:text-indigo-500 dark:hover:text-indigo-500">
                 <i class="fa-regular fa-comment"></i>
@@ -81,11 +79,22 @@
                 class="text-xs text-gray-700 dark:text-white pl-2">{{ $post->comments()->count() }}
                 comments</a>
         </div>
+
+        <!-- Share posts. Users are allowed to reshare posts -->
         <div class="grow w-20">
-            <button type="submit" class="text-slate-800 dark:text-white hover:text-indigo-500 dark:hover:text-indigo-500">
-                <i class="fa-solid fa-share"></i>
-            </button>
+            @if ($post->post_id != null)
+                <button type="button" post_id="{{ $post->post_id }}"
+                    class="sharePost text-slate-800 dark:text-white hover:text-indigo-500 dark:hover:text-indigo-500">
+                    <i class="fa-solid fa-share"></i>
+                </button>
+            @else
+                <button type="button" post_id="{{ $post->id }}"
+                    class="sharePost text-slate-800 dark:text-white hover:text-indigo-500 dark:hover:text-indigo-500">
+                    <i class="fa-solid fa-share"></i>
+                </button>
+            @endif
         </div>
+
     </div>
 </div>
 

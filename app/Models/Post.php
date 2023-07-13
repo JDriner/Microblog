@@ -23,10 +23,16 @@ class Post extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function shares(): BelongsTo
+    {
+        return $this->belongsTo(Post::class, 'post_id', 'id');
+    }
+
     public function likes()
     {
         return $this->hasMany(PostLike::class, 'post_id', 'id');
     }
+
 
     public function shared_post()
     {
@@ -64,11 +70,8 @@ class Post extends Model
     {
         return $this->comments()->orderBy('created_at', 'desc')->get();
     }
-
     public function sharedPostContent()
     {
-        // return $this->post()->first();
-        // $post = Post::find($);
-        return $this->shared_post()->exists();
+        return $this->shares()->get();
     }
 }

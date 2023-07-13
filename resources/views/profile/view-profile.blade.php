@@ -4,6 +4,21 @@
 @endsection
 
 <x-app-layout>
+    @if (Auth::user()->id != $user->id)
+    <x-slot name="header">
+        <div class="flex items-center">
+            <a dir="ltr" type="button" href="{{ URL::previous() }}"
+                class=" text-sm bg-indigo-500 hover:bg-indigo-600 text-white px-2 rounded-s-lg mr-4">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <h2 class="ml-2 font-semibold text-xs text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __('You are viewing '.$user->first_name.'\'s profile') }}
+            </h2>
+        </div>
+    </x-slot>
+    @endif
+
+
     <div class="flex">
         <!-- User Information -->
         <div class="w-1/3">
@@ -22,7 +37,7 @@
             <!-- Post Create -->
             @include('post.create-post')
             @include('post.partials.modal-post')
-            
+
             <div class="max-w-xl mx-auto">
                  <!-- No posts yet -->
                 @if (count($my_posts) < 1)

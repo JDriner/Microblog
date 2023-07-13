@@ -1,4 +1,4 @@
-<div class="bg-white shadow rounded-lg mb-4 p-6">
+<div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg mb-4 p-6">
     <div class="flex justify-center mb-4">
         @if (Auth::user()->profile_picture == null)
             <img src="{{ asset('images/user-logo.png') }}"
@@ -12,7 +12,7 @@
     
     <div class="flex justify-center mb-4">
         <button
-            class="changePicModal text-sm text-black bg-gray-100 outline outline-offset-2 outline-indigo-500 hover:bg-indigo-600 hover:text-white rounded-full px-4 py-0 ml-2">Change
+            class="changePicModal text-sm outline  outline-indigo-500 dark:text-slate-100  hover:bg-indigo-500 hover:text-white dark:hover:text-white rounded-full px-4 py-2 ml-2">Change
             profile picture</button>
     </div>
 
@@ -21,8 +21,8 @@
             <h2 class="text-xl font-bold">{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</h2>
             <h2 class="text-sm font-light">{{ Auth::user()->email }}</h2>
         </div>
-        <div class="self-end">
-            <a class="text-white bg-indigo-500 hover:bg-indigo-600 rounded-full px-4 py-2 ml-2"
+        <div class="">
+            <a class="text-white bg-indigo-600 hover:bg-indigo-500 rounded-full px-4 py-2 ml-2"
                 href="{{ route('profile.edit') }}">Edit
                 Profile</a>
         </div>

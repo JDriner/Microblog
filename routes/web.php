@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostLikeController;
@@ -39,14 +40,17 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
         // Routes for posts
         Route::resource('blogpost', PostController::class);
-        // Route::get('/viewpost/{id}', [PostController::class, 'show'])->name('blogpost.show');
-        // Route::get('/blogpost/{id}', [PostController::class, 'edit'])->name('blogpost.edit');
+        Route::get('/share/{id}', [PostController::class, 'share'])->name('blogpost.share');
+        Route::post('/sharepost', [PostController::class, 'sharepost'])->name('blogpost.sharepost');
         // Routes for like & unlike
         Route::post('/like', [PostLikeController::class, 'likePost'])->name('like.likePost');
         Route::post('/unlike', [PostLikeController::class, 'unlikePost'])->name('like.unlikePost');
 
         // Routes for comments
         Route::post('/sendComment', [CommentController::class, 'sendComment'])->name('sendComment');
+
+        // Routes for search
+        Route::get('/search', [SearchController::class, 'search'])->name('search');
     });
 });
 
