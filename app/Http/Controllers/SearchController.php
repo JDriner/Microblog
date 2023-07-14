@@ -8,28 +8,16 @@ use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
-    public function search(Request $request) {
+    public function search(Request $request)
+    {
         $search = $request->search;
-        $users = User::where([
-            ['first_name', '!=', Null],
-            [function ($query) use ($request) {
-                if (($s = $request->search)) {
-                    $query->orWhere('first_name', 'LIKE', '%' . $s . '%')
-                        ->orWhere('last_name', 'LIKE', '%' . $s . '%')
-                        ->get();
-                }
-            }]
-        ])->get();
-
-        $posts = Post::where([
-            ['content', '!=', Null],
-            [function ($query) use ($request) {
-                if (($s = $request->search)) {
-                    $query->orWhere('content', 'LIKE', '%' . $s . '%')
-                        ->get();
-                }
-            }]
-        ])->get();
+        // $->scopeSearch($search);
+        // scopeSearch(User, $search);
+        $users = User::where('first_name', 'LIKE', '%' . $search . '%')
+                ->orWhere('last_name', 'LIKE', '%' . $search . '%')
+                ->get();
+        $posts = Post::where('content', 'LIKE', '%' . $search . '%')
+                ->get();
 
         return view('home.search.search-result', compact('users', 'posts', 'search'));
     }

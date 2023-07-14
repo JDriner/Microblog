@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,30 +35,35 @@ class PostController extends Controller
         if ($validator->fails()) {
             return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
         } else {
-            $image_path = null;
 
-            $postData = [
-                'user_id' => Auth::user()->id,
-                'content' => $request->content,
-            ];
-            //Means you are editing a shared post
-            if ($request->shared_post_id != null) {
-                $postData['post_id'] = $request->shared_post_id;
-            }
-            
-            //if the user has updated the image
-            if ($request->file('image')) {
-                $image_path = $request->file('image')->store('post_picture', 'public');
-                $postData['image'] = $image_path;
-            }
+        $imagePath = null;
 
-            Post::updateOrCreate([
+        $postData = [
+            'user_id' => Auth::user()->id,
+            'content' => $request->content,
+        ];
+        //Means you are editing a shared post
+        if ($request->shared_post_id != null) {
+            $postData['post_id'] = $request->shared_post_id;
+        }
+
+        //if the user has updated the image
+        if ($request->file('image')) {
+            $imagePath = $request->file('image')
+                ->store('post_picture', 'public');
+            $postData['image'] = $request;
+        }
+
+        Post::updateOrCreate(
+            [
                 'id' => $request->post_id,
-                ], 
-                $postData
-            );
+            ],
+            $postData
+        );
 
-            return response()->json(['success' => 'Post saved successfully.']);
+        return response()->json([
+            'success' => 'Post saved successfully.'
+        ]);
         }
     }
 
@@ -68,7 +74,10 @@ class PostController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+            return response()->json([
+                'code' => 0, 
+                'error' => $validator->errors()->toArray()
+            ]);
         } else {
             Post::create([
                 'user_id' => Auth::user()->id,
@@ -76,7 +85,9 @@ class PostController extends Controller
                 'content' => $request->content,
             ]);
 
-            return response()->json(['success' => 'Post has been shared successfully.']);
+            return response()->json([
+                'success' => 'Post has been shared successfully.'
+            ]);
         }
     }
 
@@ -88,9 +99,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        // show a post
-        $post = Post::find($id);
-        // print($viewedPost);
+        $post = Post::findOrFail($id);
         return view('post.view-post', compact('post'));
     }
 
@@ -132,6 +141,8 @@ class PostController extends Controller
     public function destroy($id)
     {
         Post::find($id)->delete();
-        return response()->json(['success' => 'Post has been deleted successfully.']);
+        return response()->json([
+            'success' => 'Post has been deleted successfully.'
+        ]);
     }
 }

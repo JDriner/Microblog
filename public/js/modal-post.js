@@ -51,7 +51,7 @@ $(function () {
         $('#post-modal-title').text('Create Post');
         $('#modal-sub-title').text('Express your ideas, feelings, or anything you\'d like to share with others!');
         $('#postForm').show();
-        $("#postForm").attr('action', "/blogpost");
+        $("#postForm").attr('action', "/post");
         $('#image_selection_input').show();
         $('#delete_post_modal_btn').hide();
         $('#shared_post_content').hide();
@@ -62,13 +62,13 @@ $(function () {
     $('.editPost').on('click', function (e) {
         let post_id = $(this).attr('post_id');
         console.log("edit: " + post_id);
-        // $.get("{{"+ route('blogpost.show', post_id)+"}}", function(data) {
-        $.get('blogpost/' + post_id + '/edit', function (data) {
+        // $.get("{{"+ route('post.show', post_id)+"}}", function(data) {
+        $.get('post/' + post_id + '/edit', function (data) {
             $('#postModal').show();
             $('#post-modal-title').text('Edit Post');
             $('#modal-sub-title').text('Please make your desired changes for your post!');
             $('#postForm').show();
-            $("#postForm").attr('action', "/blogpost");
+            $("#postForm").attr('action', "/post");
             $('#delete_post_modal_btn').hide();
             $('#shared_post_content').hide();
             console.log(data);
@@ -181,7 +181,7 @@ $(function () {
         console.log("Post_id: " + post_id);
         $.ajax({
             type: "DELETE",
-            url: 'blogpost/' + post_id,
+            url: 'post/' + post_id,
             success: function (data) {
                 $('#postForm').hide();
                 console.log(data)

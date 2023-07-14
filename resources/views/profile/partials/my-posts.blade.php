@@ -42,7 +42,7 @@
             </div>
 
             <!-- View Post link-->
-            <a href="{{ route('blogpost.show', $my_post->id) }}" title="View post">
+            <a href="{{ route('post.show', $my_post->id) }}" title="View post">
                 <div>
                     <p class="text-gray-800 dark:text-white">{{ $my_post->content }}</p>
                     @if ($my_post->image)
@@ -74,7 +74,7 @@
                         class="addComment text-slate-800 dark:text-white hover:text-indigo-500">
                         <i class="fa-regular fa-comment"></i>
                     </button>
-                    <a href="{{ route('blogpost.show', $my_post->id) }}"
+                    <a href="{{ route('post.show', $my_post->id) }}"
                         class="text-xs text-gray-700 dark:text-white pl-2">{{ $my_post->comments()->count() }}
                         comments</a>
                 </div>

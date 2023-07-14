@@ -60,7 +60,6 @@ class ProfileController extends Controller
 
     public function updatePicture(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'profile_picture' => 'required',
         ]);

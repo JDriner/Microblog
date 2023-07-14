@@ -7,7 +7,7 @@
     <p class="text-center text-sm text-gray-600">
         Register your account!
     </p>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register') }}" novalidate>
         @csrf
 
         <!-- Name -->

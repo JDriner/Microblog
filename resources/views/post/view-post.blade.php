@@ -11,18 +11,18 @@
             </a>
 
             <h2 class="ml-2 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __($post->user->first_name.'\'s Post') }}
+                {{ __($post->user->first_name . '\'s Post') }}
             </h2>
         </div>
     </x-slot>
-    
+
     <div class="max-w-xl mx-auto">
         @include('post.post-content')
         @include('post.partials.modal-post')
     </div>
-    
+
     @push('scripts')
-    <script src="{{ asset('js/modal-post.js') }}"></script>
+        <script src="{{ asset('js/modal-post.js') }}"></script>
         <script src="{{ asset('js/post-content.js') }}"></script>
     @endpush
 </x-app-layout>

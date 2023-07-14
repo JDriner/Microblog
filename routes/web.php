@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
@@ -39,12 +40,15 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
         // Routes for posts
-        Route::resource('blogpost', PostController::class);
-        Route::get('/share/{id}', [PostController::class, 'share'])->name('blogpost.share');
-        Route::post('/sharepost', [PostController::class, 'sharepost'])->name('blogpost.sharepost');
+        Route::resource('post', PostController::class);
+        Route::get('/share/{id}', [PostController::class, 'share'])->name('post.share');
+        Route::post('/sharepost', [PostController::class, 'sharepost'])->name('post.sharepost');
         // Routes for like & unlike
         Route::post('/like', [PostLikeController::class, 'likePost'])->name('like.likePost');
         Route::post('/unlike', [PostLikeController::class, 'unlikePost'])->name('like.unlikePost');
+        // Routes for follow & unfollow
+        Route::post('/follow', [FollowerController::class, 'follow'])->name('follow');
+        Route::post('/unfollow', [FollowerController::class, 'unfollow'])->name('unfollow');
 
         // Routes for comments
         Route::post('/sendComment', [CommentController::class, 'sendComment'])->name('sendComment');

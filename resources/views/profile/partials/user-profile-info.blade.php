@@ -1,4 +1,4 @@
-<div class="bg-white shadow rounded-lg mb-4 p-6">
+<div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg mb-4 p-6">
     <div class="flex justify-center mb-4">
         @if ($user->profile_picture == null)
             <img src="{{ asset('images/user-logo.png') }}"

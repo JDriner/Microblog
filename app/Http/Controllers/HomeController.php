@@ -8,7 +8,9 @@ class HomeController extends Controller
 {
     public function home()
     {
-        $posts = Post::latest()->get();
+        $posts = Post::latest()
+            // ->isFollowed()
+            ->get();
 
         return view('home.home', compact('posts'));
     }

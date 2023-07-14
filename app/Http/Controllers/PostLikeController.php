@@ -15,16 +15,20 @@ class PostLikeController extends Controller
             'post_id' => $request->post_id,
         ]);
 
-        return response()->json(['success' => 'Liked']);
+        return response()->json([
+            'success' => 'Liked'
+        ]);
     }
 
     public function unlikePost(Request $request)
     {
-        $liked_post = PostLike::where('user_id', Auth::user()->id)
-            ->where('post_id', $request->post_id)
+        $likedPost = PostLike::whereUserId(Auth::id())
+            ->wherePostId($request->post_id)
             ->first();
-        $liked_post->delete();
+        $likedPost->delete();
 
-        return response()->json(['success' => 'Unliked']);
+        return response()->json([
+            'success' => 'Unliked'
+        ]);
     }
 }

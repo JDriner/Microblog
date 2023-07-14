@@ -33,8 +33,6 @@ $(function() {
             dataType: 'json',
             beforeSend: function() {
                 console.log("like")
-                // $(form).find('span.error-text').text('')
-                // $('#saveBtn').html('Create Post');
             },
             success: function(data) {
                 if (data.code == 0) {
@@ -43,8 +41,8 @@ $(function() {
                         alert("error" + val[0])
                     });
                 } else {
-                    location.reload();
                     console.log('Success:', data);
+                    // location.reload();
                 }
             },
             error: function(data) {
