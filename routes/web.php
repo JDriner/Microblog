@@ -47,6 +47,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::post('/like', [PostLikeController::class, 'likePost'])->name('like.likePost');
         Route::post('/unlike', [PostLikeController::class, 'unlikePost'])->name('like.unlikePost');
         // Routes for follow & unfollow
+        Route::get('/listFollows', [FollowerController::class, 'listFollows'])->name('listFollows');
         Route::post('/follow', [FollowerController::class, 'follow'])->name('follow');
         Route::post('/unfollow', [FollowerController::class, 'unfollow'])->name('unfollow');
 

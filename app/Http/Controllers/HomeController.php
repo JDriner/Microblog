@@ -8,9 +8,18 @@ class HomeController extends Controller
 {
     public function home()
     {
-        $posts = Post::latest()
-            // ->isFollowed()
+        $user = auth()->user();
+        // Get the IDs of users being followed
+        $following = $user->followings()
+            ->pluck('user_following_id'); 
+        // ->get();
+
+        $posts = Post::whereIn('user_id', $following)
+            ->latest()
             ->get();
+        // print($user);
+        // print($following);
+        // print($posts);
 
         return view('home.home', compact('posts'));
     }

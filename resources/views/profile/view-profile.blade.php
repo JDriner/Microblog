@@ -1,6 +1,5 @@
 @section('title')
     Profile
-    {{-- {{ Auth::user()->first_name }} --}}
 @endsection
 
 <x-app-layout>
@@ -25,8 +24,10 @@
             <div class="px-4 py-2">
                 {{-- Profile information --}}
                 @if ($user->id == Auth::user()->id)
+                    {{-- viewing own profile --}}
                     @include('profile.partials.profile-info')
                 @else
+                    {{-- viewing other user's profile --}}
                     @include('profile.partials.user-profile-info')
                 @endif
             </div>
@@ -35,7 +36,7 @@
         <!-- Posts -->
         <div class="w-2/3">
             @if ($user->id == Auth::user()->id)
-                <!-- Post Create -->
+                <!-- Creation of post (with the modal) -->
                 @include('post.create-post')
                 @include('post.partials.modal-post')
             @endif
@@ -46,9 +47,13 @@
                 @if (count($my_posts) < 1)
                     <div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg mt-3 p-6">
                         <div class="flex justify-between">
-                            <h1 class="text-black dark:text-white">You do not have any posts yet! <span
-                                    class="createPost text-indigo-800 dark:text-indigo-300 font-bold cursor-pointer underline underline-offset-2">Create
-                                    one now!</span></h1>
+                            <h1 class="text-black dark:text-white">
+                                You do not have any posts yet!
+                                <span
+                                    class="createPost text-indigo-800 dark:text-indigo-300 font-bold cursor-pointer underline underline-offset-2">
+                                    Create one now!
+                                </span>
+                            </h1>
                         </div>
                     </div>
                 @endif
@@ -61,6 +66,7 @@
     </div>
 
     @push('scripts')
+        <script src="{{ asset('js/follower.js') }}"></script>
         <script src="{{ asset('js/modal-post.js') }}"></script>
         <script src="{{ asset('js/post-content.js') }}"></script>
     @endpush

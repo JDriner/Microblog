@@ -26,10 +26,6 @@ class ProfileUpdateRequest extends FormRequest
                 'regex:/^[a-zA-Z\s]+$/', 
                 'max:255'
             ],
-            'birth_date' => [
-                'date', 
-                'max:255'
-            ],
             'phone_no' => [
                 'nullable', 
                 'string', 

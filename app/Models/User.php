@@ -24,12 +24,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'last_name',
         'email',
         'profile_picture',
-        'birthday',
         'phone_no',
         'password',
         'is_activated',
         'email_verified_at',
-        'is_email_verified',
     ];
 
     /**
@@ -56,10 +54,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Post::class);
     }
 
+    // followers of the logged in user
     public function followers()
     {
         return $this->hasMany(UserFollower::class, 'user_following_id', 'id');
     }
+
+    // followings of the logged in user
     public function followings()
     {
         return $this->hasMany(UserFollower::class, 'user_id', 'id');
@@ -68,10 +69,11 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->followers()->where('user_id', auth()->id())->exists();
     }
-    // public function isUserFollowing()
-    // {
-    //     return $this->followings()->where('user_id', auth()->id())->exists();
-    // }
+    public function isUserFollower()
+    {
+        return $this->followers()->where('user_id', auth()->id())->exists();
+    }
+
 
     public function scopeSearch($query, $keyword): belongsTo
     {

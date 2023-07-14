@@ -30,12 +30,6 @@
         </div>
 
         <div>
-            <x-input-label for="birth_date" :value="__('Birthdate')" />
-            <x-text-input id="birth_date" name="birth_date" type="date" class="mt-1 block w-full" :value="old('birth_date', $user->birth_date)" autocomplete="birth_date" />
-            <x-input-error class="mt-2" :messages="$errors->get('birth_date')" />
-        </div>
-
-        <div>
             <x-input-label for="phone_no" :value="__('Phone no')" />
             <x-text-input id="phone_no" name="phone_no" type="text" class="mt-1 block w-full" :value="old('phone_no', $user->phone_no)" autocomplete="phone_no" />
             <x-input-error class="mt-2" :messages="$errors->get('phone_no')" />
