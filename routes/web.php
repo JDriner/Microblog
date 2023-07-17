@@ -2,11 +2,11 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowerController;
-use App\Http\Controllers\SearchController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostLikeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,6 +42,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         // Routes for posts
         Route::resource('post', PostController::class);
         Route::get('/share/{id}', [PostController::class, 'share'])->name('post.share');
+        Route::post('/editPost', [PostController::class, 'editPost'])->name('post.editPost');
         Route::post('/sharepost', [PostController::class, 'sharepost'])->name('post.sharepost');
         // Routes for like & unlike
         Route::post('/like', [PostLikeController::class, 'likePost'])->name('like.likePost');

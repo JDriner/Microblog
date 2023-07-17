@@ -3,11 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
 
 class StorePostRequest extends FormRequest
 {
@@ -19,26 +16,38 @@ class StorePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'post_id' => 'exists:posts',
             'content' => 'required|max:140',
-            // 4 MB in kilobytes (1 MB = 1024 KB)
-            // 'image' => 'mimes:jpeg,jpg,bmp,png|file|max:4096', 
-            'image' => 'image|file|max:4096'
+            'image' => 'bail|image|mimes:jpeg,jpg,png,svg|size:2048',
+        ];
+    }
+
+        /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'content.required' => 'Please enter the content of your post.',
+            'content.max' => 'Your post must be at least 140 characters long.',
+            'image.image' => 'Please upload a valid image file.',
+            'image.mimes' => 'Only JPG, JPEG, PNG, and SVG image formats are allowed.',
+            'image.size' => 'The image size must not exceed 4MB.',
         ];
     }
 
     /**
      * Handle a failed validation attempt.
      *
-     * @param  \Illuminate\Contracts\Validation\Validator  $validator
      * @return void
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    protected function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(
-            response()->json(['code' => 0, 'error' => $validator->errors()->toArray()], 422)
-        );
-    }
+    // protected function failedValidation(Validator $validator)
+    // {
+    //     throw new HttpResponseException(
+    //         response()->json(['code' => 0, 'error' => $validator->errors()->toArray()], 422)
+    //     );
+    // }
 }

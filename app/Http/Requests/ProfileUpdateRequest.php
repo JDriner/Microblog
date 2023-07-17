@@ -17,24 +17,24 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             'first_name' => [
-                'string', 
-                'regex:/^[a-zA-Z\s]+$/', 
-                'max:255'
+                'string',
+                'regex:/^[a-zA-Z\s]+$/',
+                'max:255',
             ],
             'last_name' => [
-                'string', 
-                'regex:/^[a-zA-Z\s]+$/', 
-                'max:255'
+                'string',
+                'regex:/^[a-zA-Z\s]+$/',
+                'max:255',
             ],
             'phone_no' => [
-                'nullable', 
-                'string', 
-                'regex:/^(09)[0-9]{9}$/'
+                'nullable',
+                'string',
+                'regex:/^(09)[0-9]{9}$/',
             ],
             'email' => [
-                'email', 
-                'max:255', 
-                Rule::unique(User::class)->ignore($this->user()->id)
+                'email',
+                'max:255',
+                Rule::unique(User::class)->ignore($this->user()->id),
             ],
         ];
     }

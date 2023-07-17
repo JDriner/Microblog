@@ -4,20 +4,12 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 
-class SendCommentRequest extends FormRequest
-{
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
 
+class EditPostRequest extends FormRequest
+{
     /**
      * Get the validation rules that apply to the request.
      *
@@ -29,11 +21,15 @@ class SendCommentRequest extends FormRequest
             'post_id' => [
                 Rule::exists('posts', 'id'),
             ],
-            'comment' => 'required|max:140',
+            'shared_post_id' => [
+                'nullable',
+                Rule::exists('posts', 'id'),
+            ],
+            'content' => 'required|max:140',
         ];
     }
 
-    /**
+        /**
      * Get the error messages for the defined validation rules.
      *
      * @return array<string, string>
@@ -41,8 +37,8 @@ class SendCommentRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'comment.required' => 'Your comment should not be empty',
-            'comment.max' => 'Your comment should not exceed 140 characters.',
+            'content.required' => 'Please enter the content of your post.',
+            'content.max' => 'Your post must be at least 140 characters long.',
         ];
     }
 }

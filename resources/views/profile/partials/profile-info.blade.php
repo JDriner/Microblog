@@ -21,7 +21,7 @@
             <h2 class="text-sm font-light">{{ Auth::user()->email }}</h2>
         </div>
         <div class="mb-4">
-            <a href="{{ route('listFollows') }}" class="text-xs text-gray-600 dark:text-gray-300 hover:text-white">
+            <a href="{{ route('listFollows') }}" class="text-xs text-gray-600 dark:text-gray-300 hover:text-slate-900">
                 <p>{{ Auth::user()->followers->count() }} Followers | {{ Auth::user()->followings->count() }} Following</p>
             </a>
         </div>
@@ -99,8 +99,14 @@
                         $(form)[0].reset;
                         $('#changePictureForm').trigger("reset");
                         $('#changePicModal').addClass('invisible');
-                        alert("Profile Picture has been updated!")
-                        location.reload();
+                        toastr.options = {
+                            "closeButton": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-center",
+                            "showDuration": "600",
+                        }
+                        toastr.success("Profile Picture has been updated.");
+                        // location.reload();
                     }
                 },
                 error: function(data) {

@@ -20,7 +20,7 @@
 
     <div class="flex">
         <!-- User Information -->
-        <div class="w-1/3">
+        <div class="w-2/5">
             <div class="px-4 py-2">
                 {{-- Profile information --}}
                 @if ($user->id == Auth::user()->id)
@@ -34,7 +34,7 @@
         </div>
 
         <!-- Posts -->
-        <div class="w-2/3">
+        <div class="w-3/5">
             @if ($user->id == Auth::user()->id)
                 <!-- Creation of post (with the modal) -->
                 @include('post.create-post')
@@ -65,9 +65,11 @@
         </div>
     </div>
 
-    @push('scripts')
-        <script src="{{ asset('js/follower.js') }}"></script>
-        <script src="{{ asset('js/modal-post.js') }}"></script>
-        <script src="{{ asset('js/post-content.js') }}"></script>
-    @endpush
+    @include('flash.comment-flash')
+
+        @push('scripts')
+            <script src="{{ asset('js/follower.js') }}"></script>
+            <script src="{{ asset('js/modal-post.js') }}"></script>
+            <script src="{{ asset('js/post-content.js') }}"></script>
+        @endpush
 </x-app-layout>

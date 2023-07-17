@@ -10,13 +10,13 @@ class FollowerController extends Controller
 {
     public function follow(Request $request)
     {
-        $follow = UserFollower::updateOrCreate([
+        $follow = UserFollower::create([
             'user_id' => auth()->user()->id,
             'user_following_id' => $request->user_id,
         ]);
 
         return response()->json([
-            'success' => 'Followed'
+            'success' => 'Followed',
         ]);
     }
 
@@ -28,50 +28,37 @@ class FollowerController extends Controller
         $followedUser->delete();
 
         return response()->json([
-            'success' => 'Unfollowed'
+            'success' => 'Unfollowed',
         ]);
     }
 
     public function listFollows()
     {
         $user = auth()->user();
-        // print("USER".$user."<br>");
+        // Get the IDs of users being followed
+        // $following = $user->followings()
+        //     ->pluck('user_following_id');
 
         // Get the IDs of users being followed
-        $following = $user->followings()
-            ->pluck('user_following_id');
-        // print("FOLLOWING".$following."<br>");
+        // $followers = $user->followers()
+        //     ->pluck('user_id');
 
-        // Get the IDs of users being followed
-        $followers = $user->followers()
-            ->pluck('user_id');
-        // print("FOLLOWER".$followers."<br>");
-
-        $followingUsers = User::whereIn('id', $following)
+        $following = User::whereIn('id', $user->followings()
+            ->pluck('user_following_id'))
             ->get();
 
-        $followerUsers = User::whereIn('id', $followers)
+        $followers = User::whereIn('id', $user->followers()
+            ->pluck('user_id'))
             ->get();
-        // print("MY ID: ".$user->id ."<br>");
-        // print("users i follow: ".$following ."<br>");
 
-        $suggestedUserId = UserFollower::whereIn('user_id', $following)
-            ->whereNotIn('user_following_id', $following)
-            ->pluck('user_following_id');
-
-        // print("Suggested User IDs".$suggestedUserId ."<br>");
-
-        $suggestedUsers = User::whereIn('id', $suggestedUserId)->get();
-
-        // print("Suggested Users".$suggestedUsers."<br>");
-
+        $suggestedUsers = User::suggestedUsers()->get();
         $users = User::get();
 
         return view(
             'profile.follow-list',
             compact(
-                'followingUsers',
-                'followerUsers',
+                'followers',
+                'following',
                 'users',
                 'suggestedUsers'
             )

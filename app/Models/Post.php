@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -70,14 +69,24 @@ class Post extends Model
     {
         return $this->comments()->orderBy('created_at', 'desc')->get();
     }
+
     public function sharedPostContent()
     {
         return $this->shares()->get();
     }
 
     //Posts of users that the current user follows
-    public function scopeFollowedUserPost(Builder $query): void
+    public function scopeNewsFeed($query)
     {
-        $query->where('active', 1);
+        //Get the IDs of the followed users.
+        $followingIds = auth()->user()->followings()
+            ->pluck('user_following_id');
+        // Include own posts in the newsfeed
+        $currentUserId = auth()->user()->id;
+
+        return $query->whereIn('user_id', $followingIds)
+            ->orWhere('user_id', $currentUserId)
+            ->latest()
+            ->get();
     }
 }

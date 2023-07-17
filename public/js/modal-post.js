@@ -13,15 +13,15 @@ $(document).ready(function () {
     });
 
     //  IMAGE PREVIEW
-    $('#image').on('change', function(evt) {
+    $('#image').on('change', function (evt) {
         var preview = $('#preview')[0];
         var filename = $(this).val().split('\\').pop();
         preview.style.display = 'block';
         var file = this.files[0];
         if (file) {
             preview.src = URL.createObjectURL(file);
-            $('.image_label').text('File uploaded: '+ filename);
-        }else{
+            $('.image_label').text('File uploaded: ' + filename);
+        } else {
             preview.src = "";
             $('.image_label').text('No image selected.');
             $('#preview').hide();
@@ -68,15 +68,15 @@ $(function () {
             $('#post-modal-title').text('Edit Post');
             $('#modal-sub-title').text('Please make your desired changes for your post!');
             $('#postForm').show();
-            $("#postForm").attr('action', "/post");
+            $("#postForm").attr('action', "/editPost");
             $('#delete_post_modal_btn').hide();
             $('#shared_post_content').hide();
             console.log(data);
             $('#content').val(data.content);
             $('#post_id').val(data.id);
-            if (data.post_id !=null) {
+            if (data.post_id != null) {
                 $('#shared_post_id').val(data.post_id);
-            }else{
+            } else {
                 $('#image_selection_input').show();
             }
             if (data.image != null) {
@@ -90,7 +90,7 @@ $(function () {
     // Share Button shows modal
     $('.sharePost').on('click', function (e) {
         let post_id = $(this).attr('post_id');
-        $.get('share/' + post_id , function (data) {
+        $.get('share/' + post_id, function (data) {
             $('#postModal').show();
             $('#post-modal-title').text('Sharing Post');
             $('#modal-sub-title').text('Tell something about this post!');
@@ -102,11 +102,11 @@ $(function () {
             $('#post_id').val(post_id);
             // $('#shared-user-info').text(data.user_id+">first_name 's Post");
             $('#shared-content').text(data.content);
-            if(data.image != null){
+            if (data.image != null) {
                 $('#shared-image').show();
-                $('#shared-image').attr('src', "storage/"+data.image);
+                $('#shared-image').attr('src', "storage/" + data.image);
             }
-            $('#saveBtn').text('Share Post'); 
+            $('#saveBtn').text('Share Post');
         })
     });
 
@@ -155,22 +155,25 @@ $(function () {
                 $(form).find('span.error-text').text('');
             },
             success: function (data) {
-                if (data.code == 0) {
-                    $.each(data.error, function (prefix, val) {
-                        console.log(data);
-                        $(form).find('span.' + prefix + '_error').text(val[0])
-                    });
-                } else {
-                    $(form)[0].reset;
-                    $('#postForm').trigger("reset");
-                    $('#postForm').hide();
-                    $('#postModal').hide();
-                    alert(data.success)
-                    location.reload();
+                $(form)[0].reset;
+                $('#postForm').trigger("reset");
+                $('#postForm').hide();
+                $('#postModal').hide();
+                // alert(data.success)
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-center",
+                    "showDuration": "600",
                 }
+                toastr.success(data.success);
+                // location.reload();
             },
-            error: function (data) {
-                console.log('Error:', data);
+            error: function (xhr) {
+                console.log('XHR:', xhr);
+                $.each(xhr.responseJSON.errors, function (key, value) {
+                    $(form).find('span.' + key + '_error').text(value)
+                });
             }
         });
     });
@@ -186,7 +189,14 @@ $(function () {
                 $('#postForm').hide();
                 console.log(data)
                 $('#postModal').hide();
-                alert(data.success);
+                // alert(data.success);
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-center",
+                    "showDuration": "600",
+                }
+                toastr.success(data.success);
                 location.reload();
             },
             error: function (data) {

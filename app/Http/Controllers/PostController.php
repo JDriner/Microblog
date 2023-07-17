@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SharePostRequest;
+use App\Http\Requests\EditPostRequest;
 use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -25,26 +27,38 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'content' => 'required|max:140',
-            'image' => 'image|file|max:4096', // 4 MB in kilobytes (1 MB = 1024 KB)
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
-        } else {
-
+        $validated = $request->validated();
         $imagePath = null;
         $postData = [
             'user_id' => Auth::user()->id,
-            'content' => $request->content,
+            'content' => $validated['content'],
+        ];
+        //if the user has updated the image or it has content
+        if ($request->file('image')) {
+            $imagePath = $request->file('image')
+                ->store('post_picture', 'public');
+            $postData['image'] = $imagePath;
+        }
+        Post::create($postData);
+        return response()->json([
+            'success' => 'Post saved successfully.',
+        ]);
+    }
+
+    public function editPost(EditPostRequest $request)
+    {
+        $validated = $request->validated();
+        $imagePath = null;
+        $postData = [
+            'user_id' => Auth::user()->id,
+            'content' => $validated['content'],
         ];
 
         //Means you are editing a shared post
-        if ($request->shared_post_id != null) {
-            $postData['post_id'] = $request->shared_post_id;
+        if ($validated['shared_post_id'] != null) {
+            $postData['post_id'] = $validated['shared_post_id'];
         }
 
         //if the user has updated the image or it has content
@@ -56,39 +70,28 @@ class PostController extends Controller
 
         Post::updateOrCreate(
             [
-                'id' => $request->post_id,
+                'id' => $validated['post_id'],
             ],
             $postData
         );
 
         return response()->json([
-            'success' => 'Post saved successfully.'
+            'success' => 'Post saved successfully.',
         ]);
-        }
     }
 
-    public function sharePost(Request $request)
+    public function sharePost(SharePostRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'content' => 'required|max:140',
+        $validated = $request->validated();
+        Post::create([
+            'user_id' => Auth::user()->id,
+            'post_id' => $validated['post_id'],
+            'content' => $validated['content'],
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'code' => 0, 
-                'error' => $validator->errors()->toArray()
-            ]);
-        } else {
-            Post::create([
-                'user_id' => Auth::user()->id,
-                'post_id' => $request->post_id,
-                'content' => $request->content,
-            ]);
-
-            return response()->json([
-                'success' => 'Post has been shared successfully.'
-            ]);
-        }
+        return response()->json([
+            'success' => 'Post has been shared successfully.',
+        ]);
     }
 
     /**
@@ -100,7 +103,8 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::findOrFail($id);
-        return view('post.view-post', compact('post'));
+
+        return response()->view('post.view-post', compact('post'));
     }
 
     /**
@@ -112,12 +116,14 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::find($id);
+
         return response()->json($post);
     }
 
     public function share($id)
     {
         $post = Post::find($id);
+
         return response()->json($post);
     }
 
@@ -141,8 +147,9 @@ class PostController extends Controller
     public function destroy($id)
     {
         Post::find($id)->delete();
+
         return response()->json([
-            'success' => 'Post has been deleted successfully.'
+            'success' => 'Post has been deleted successfully.',
         ]);
     }
 }

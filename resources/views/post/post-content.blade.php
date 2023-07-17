@@ -54,7 +54,5 @@
     @include('post.partials.post-buttons')
 </div>
 
-<!-- Flash Messages-->
-@include('flash.comment-flash')
 <!-- Comment Box.-->
 @include('post.partials.comment-box')

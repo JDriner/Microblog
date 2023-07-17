@@ -21,6 +21,8 @@
         @include('post.partials.modal-post')
     </div>
 
+    <!-- Flash Messages-->
+    @include('flash.comment-flash')
     @push('scripts')
         <script src="{{ asset('js/modal-post.js') }}"></script>
         <script src="{{ asset('js/post-content.js') }}"></script>

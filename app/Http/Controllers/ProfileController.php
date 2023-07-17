@@ -55,13 +55,13 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('profile.edit')->with('success', 'Your profile has been updated successfully!');
     }
 
     public function updatePicture(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'profile_picture' => 'required',
+            'profile_picture' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048',
         ]);
 
         if ($validator->fails()) {

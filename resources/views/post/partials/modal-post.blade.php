@@ -29,7 +29,9 @@
                         <div class="mt-4 w-full">
                             <div class="w-full">
                                 <input type="hidden" id="post_id" name="post_id">
+                                <span class="text-red-600 text-sm error-text post_id_error"></span>
                                 <input type="hidden" id="shared_post_id" name="shared_post_id">
+                                <span class="text-red-600 text-sm error-text shared_post_id_error"></span>
                                 <textarea name="content" id="content" rows="5" placeholder="Write your thoughts here..."
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"></textarea>
                                 <div class="text-sm text-gray-400" id="character_count"></div>
@@ -47,7 +49,7 @@
                                 </div>
                                 <span class="text-red-600 text-sm error-text image_error"></span>
                                 <p class="text-xs text-gray-600 px-4 pt-2">If you have any images related to your
-                                    post, you can upload them here. Images should be with the types jpg, jpeg, png.
+                                    post, you can upload them here. Images should be with the types jpg, jpeg, png and svg.
                                     The file size should not exceed 4mb.</p>
                                 <img id="preview" src="#" alt="your image" class=""
                                     style="display:none;" />

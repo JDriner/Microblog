@@ -42,7 +42,7 @@
                             {{ $comment->user->first_name . ' ' . $comment->user->last_name }}
                         </div>
                         <div class="font-semibold text-sm text-black dark:text-white">
-                            {{ $comment->message }}
+                            {{ $comment->comment }}
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                         {{ $post->firstComment()->user->first_name . ' ' . $post->firstComment()->user->last_name }}
                     </div>
                     <div class="font-semibold text-sm text-black dark:text-white">
-                        {{ $post->firstComment()->message }}
+                        {{ $post->firstComment()->comment }}
                     </div>
                 </div>
             </div>

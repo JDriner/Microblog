@@ -12,6 +12,7 @@
         <div class="ml-2">
             <div class="text-sm text-gray-600 dark:text-gray-200 ">
                 {{ $user->first_name . ' ' . $user->last_name }}
+                {{-- <span class="text-xs text-gray-300">({{ $user->mutualFollowers() }} mutual followers) </span> --}}
             </div>
             <div class="font-semibold text-sm text-black dark:text-white mt-2">
                 <a type="button" href="{{ route('profile.view-profile', $user->id) }}"
@@ -19,14 +20,10 @@
                     View Profile
                 </a>
 
-                {{-- <p>Following: {{ $user->followings }}</p>
-                <p>Followers: {{ $user->followers }}</p>
-                <p>User is user Followed: {{ $user->isUserFollowed() }}</p> --}}
-
                 @if ($user->id != Auth::user()->id)
                     @if ($user->isUserFollowed())
                         <button type="button" user_id="{{ $user->id }}" action="/unfollow"
-                            class="follow_unfollow text-white border-2 border-indigo-500  hover:bg-indigo-500 rounded-md px-4 py-1 ml-2">
+                            class="follow_unfollow text-slate-700 dark:text-white border-2 hover:text-white border-indigo-500  hover:bg-indigo-500 rounded-md px-4 py-1 ml-2">
                             Unfollow</button>
                     @else
                         <button type="button" user_id="{{ $user->id }}" action="/follow"

@@ -16,7 +16,7 @@ class PostLikeController extends Controller
         ]);
 
         return response()->json([
-            'success' => 'Liked'
+            'success' => 'Liked',
         ]);
     }
 
@@ -28,7 +28,7 @@ class PostLikeController extends Controller
         $likedPost->delete();
 
         return response()->json([
-            'success' => 'Unliked'
+            'success' => 'Unliked',
         ]);
     }
 }

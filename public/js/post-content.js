@@ -38,11 +38,18 @@ $(function() {
                 if (data.code == 0) {
                     $.each(data.error, function(prefix, val) {
                         // $(form).find('span.'+prefix+'_error').text(val[0])
-                        alert("error" + val[0])
+                        // alert("error" + val[0])
+                        toastr.options = {
+                            "closeButton": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-center",
+                            "showDuration": "600",
+                        }
+                        toastr.error("error" + val[0]);
                     });
                 } else {
                     console.log('Success:', data);
-                    // location.reload();
+                    location.reload();
                 }
             },
             error: function(data) {

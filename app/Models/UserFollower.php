@@ -23,12 +23,4 @@ class UserFollower extends Model
     {
         return $this->belongsTo(User::class, 'user_following_id', 'id');
     }
-
-    // If authenticated user follows the user
-    // public function userIsFollowing()
-    // {
-    //     return $this->followers->where('user_id', auth()->id())->first();
-    // }
-
-
 }
