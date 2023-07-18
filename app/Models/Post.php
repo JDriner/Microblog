@@ -23,9 +23,24 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
+    // public function share(): BelongsTo
+    // {
+    //     return $this->belongsTo(Post::class, 'post_id', 'id');
+    // }
+
+    // public function likes()
+    // {
+    //     return $this->hasMany(PostLike::class);
+    // }
+
+    // public function shares()
+    // {
+    //     return $this->hasMany(Post::class, 'post_id', 'id');
+    // }
+    
     public function share(): BelongsTo
     {
-        return $this->belongsTo(Post::class, 'post_id', 'id');
+        return $this->belongsTo(Post::class, 'post_id', 'id')->withTrashed();
     }
 
     public function likes()
@@ -35,8 +50,9 @@ class Post extends Model
 
     public function shares()
     {
-        return $this->hasMany(Post::class, 'post_id', 'id');
+        return $this->hasMany(Post::class, 'id', 'post_id')->withTrashed();
     }
+
 
     public function comments()
     {
@@ -86,7 +102,7 @@ class Post extends Model
 
         return $query->whereIn('user_id', $followingIds)
             ->orWhere('user_id', $currentUserId)
-            ->latest()
-            ->get();
+            ->latest();
+            // ->get();
     }
 }

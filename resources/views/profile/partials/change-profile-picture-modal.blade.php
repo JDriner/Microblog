@@ -39,6 +39,7 @@
                                             class="bg-gray-200 px-4 py-2 rounded-lg cursor-pointer">
                                             Select Image
                                         </label>
+                                        <span class="text-red-600 text-sm error-text profile_picture_error"></span>
                                     </div>
                                 </div>
                             </div>

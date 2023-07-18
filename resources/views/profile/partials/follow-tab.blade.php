@@ -35,21 +35,26 @@
     </div>
     <div id="myTabContent">
         <div class="p-4" id="all" role="tabpanel" aria-labelledby="all-tab">
-            
-            <p class="text-gray-500 dark:text-gray-400 text-sm">Followers</p>
+            @if (!$followers->isEmpty())
+                <p class="text-gray-500 dark:text-gray-400 text-sm">Followers</p>
                 @foreach ($followers as $user)
                     @include('home.search.user-result')
                 @endforeach
+            @endif
 
-            <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">Following</p>
+            @if (!$following->isEmpty())
+                <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">Following</p>
                 @foreach ($following as $user)
                     @include('home.search.user-result')
                 @endforeach
+            @endif
 
-            <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">Suggested Users</p>
+            @if (!$suggestedUsers->isEmpty())
+                <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">Suggested Users</p>
                 @foreach ($suggestedUsers as $user)
                     @include('home.search.user-result')
                 @endforeach
+            @endif
         </div>
 
         <div class="p-4 hidden" id="follower" role="tabpanel" aria-labelledby="follower-tab">

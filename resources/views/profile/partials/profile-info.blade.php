@@ -10,7 +10,8 @@
     </div>
 
     <div class="flex justify-center mb-4">
-        <button class="changePicModal text-sm outline  outline-indigo-500 dark:text-slate-100  hover:bg-indigo-500 hover:text-white dark:hover:text-white rounded-full px-4 py-2 ml-2">
+        <button
+            class="changePicModal text-sm outline  outline-indigo-500 dark:text-slate-100  hover:bg-indigo-500 hover:text-white dark:hover:text-white rounded-full px-4 py-2 ml-2">
             Change profile picture
         </button>
     </div>
@@ -22,7 +23,8 @@
         </div>
         <div class="mb-4">
             <a href="{{ route('listFollows') }}" class="text-xs text-gray-600 dark:text-gray-300 hover:text-slate-900">
-                <p>{{ Auth::user()->followers->count() }} Followers | {{ Auth::user()->followings->count() }} Following</p>
+                <p>{{ Auth::user()->followers->count() }} Followers | {{ Auth::user()->followings->count() }} Following
+                </p>
             </a>
         </div>
         <div class="mt-4">
@@ -106,13 +108,17 @@
                             "showDuration": "600",
                         }
                         toastr.success("Profile Picture has been updated.");
-                        // location.reload();
+                        setTimeout(function() { // wait for 3 secs(2)
+                            location.reload(); // then reload the page.(3)
+                        }, 3000);
                     }
                 },
-                error: function(data) {
-                    console.log('Error:', data);
-                    $('#saveBtn').html('Update');
-                }
+                error: function (xhr) {
+                console.log('XHR:', xhr);
+                $.each(xhr.responseJSON.errors, function (key, value) {
+                    $(form).find('span.' + key + '_error').text(value)
+                });
+            }
             });
         });
     });

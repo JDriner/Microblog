@@ -12,8 +12,10 @@
                 <i class="fa-solid fa-heart"></i>
             </button>
         @endif
-        <span class="text-xs text-gray-700 dark:text-white pl-2">{{ $post->likes()->count() }}
-            likes</span>
+        @if ($post->likes()->count() >= 1)
+            <span class="text-xs text-gray-700 dark:text-white pl-2">{{ $post->likes()->count() }}
+                likes</span>
+        @endif
     </div>
 
     <!-- Add Comment Button -->
@@ -22,9 +24,11 @@
             class="addComment text-slate-800 dark:text-white hover:text-indigo-500 dark:hover:text-indigo-500">
             <i class="fa-regular fa-comment"></i>
         </button>
-        <a href="{{ route('post.show', $post->id) }}"
-            class="text-xs text-gray-700 dark:text-white pl-2">{{ $post->comments()->count() }}
-            comments</a>
+        @if ($post->comments()->count() >= 1)
+            <a href="{{ route('post.show', $post->id) }}"
+                class="text-xs text-gray-700 dark:text-white pl-2">{{ $post->comments()->count() }}
+                comments</a>
+        @endif
     </div>
 
     <!-- Share posts. Users are allowed to reshare posts -->

@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\Validator;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 
-class SharePostRequest extends FormRequest
+class ProfilePictureUpdateRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -17,11 +16,7 @@ class SharePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'post_id' => [
-                'required',
-                Rule::exists('posts', 'id')->whereNull('deleted_at'),
-            ],
-            'content' => 'max:140',
+            'profile_picture' => 'required|mimes:jpeg,jpg,png,gif|max:2048',
         ];
     }
 
@@ -33,8 +28,9 @@ class SharePostRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'post_id' => 'The original post is no longer available. You cannot share this content.',
-            'content.max' => 'Your post must be at least 140 characters long.',
+            'profile_picture.required' => 'Please upload your picture.',
+            'profile_picture.mimes' => 'Only JPG and PNG image formats are allowed.',
+            'profile_picture.max' => 'Please upload files less than 2mb.',
         ];
     }
 }

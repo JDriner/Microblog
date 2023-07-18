@@ -21,6 +21,10 @@
                 @foreach ($posts as $post)
                     @include('post.post-content')
                 @endforeach
+
+                <div class="my-4 mx-2">
+                        {{ $posts->links('pagination::tailwind') }}
+                </div>
             </div>
         </div>
         <div class="w-1/4 mx-2 mr-12">
@@ -31,6 +35,7 @@
                     @include('home.search.user-result')
                 @endforeach
             @endif
+            
         </div>
     </div>
 

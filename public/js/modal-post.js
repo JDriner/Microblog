@@ -1,10 +1,6 @@
-
-// console.log("modal-post javascript");
-
 // Character Counter
 $(document).ready(function () {
     // $('#postModal').hide();
-
     var maxLength = 140;
     var textarea = $('#content');
     textarea.on('input', function () {
@@ -27,12 +23,6 @@ $(document).ready(function () {
             $('#preview').hide();
         }
     });
-
-    // $('#image').on('click', function(evt) {
-    //     var preview = $('#preview')[0];
-    //     preview.src = "";
-    //     $('#preview').hide();
-    // });
 });
 
 
@@ -61,8 +51,7 @@ $(function () {
     // Edit Button shows modal
     $('.editPost').on('click', function (e) {
         let post_id = $(this).attr('post_id');
-        console.log("edit: " + post_id);
-        // $.get("{{"+ route('post.show', post_id)+"}}", function(data) {
+        // console.log("edit: " + post_id);
         $.get('post/' + post_id + '/edit', function (data) {
             $('#postModal').show();
             $('#post-modal-title').text('Edit Post');
@@ -151,7 +140,6 @@ $(function () {
             processData: false,
             contentType: false,
             beforeSend: function () {
-                console.log("form data: " + formData);
                 $(form).find('span.error-text').text('');
             },
             success: function (data) {
@@ -164,13 +152,14 @@ $(function () {
                     "closeButton": true,
                     "progressBar": true,
                     "positionClass": "toast-top-center",
-                    "showDuration": "600",
+                    "showDuration": "300",
                 }
                 toastr.success(data.success);
-                // location.reload();
+                setTimeout(function () {// wait for 5 secs(2)
+                    location.reload(); // then reload the page.(3)
+                }, 3000);
             },
             error: function (xhr) {
-                console.log('XHR:', xhr);
                 $.each(xhr.responseJSON.errors, function (key, value) {
                     $(form).find('span.' + key + '_error').text(value)
                 });
@@ -197,7 +186,9 @@ $(function () {
                     "showDuration": "600",
                 }
                 toastr.success(data.success);
-                location.reload();
+                setTimeout(function () {// wait for 5 secs(2)
+                    location.reload(); // then reload the page.(3)
+                }, 3000);
             },
             error: function (data) {
                 console.log('Error:', data);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfilePictureUpdateRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Post;
 use App\Models\User;
@@ -58,15 +59,15 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('success', 'Your profile has been updated successfully!');
     }
 
-    public function updatePicture(Request $request)
+    public function updatePicture(ProfilePictureUpdateRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'profile_picture' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'profile_picture' => 'required|mimes:jpeg,jpg,png,gif|max:2048',
+        // ]);
 
-        if ($validator->fails()) {
-            return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
-        } else {
+        // if ($validator->fails()) {
+        //     return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
+        // } else {
 
             $image_path = $request->file('profile_picture')->store('user_picture', 'public');
 
@@ -75,7 +76,7 @@ class ProfileController extends Controller
             $user->save();
 
             return response()->json(['success' => 'Profile picture has been updated.']);
-        }
+        // }
     }
 
     /**

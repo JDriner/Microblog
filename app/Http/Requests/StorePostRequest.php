@@ -17,7 +17,7 @@ class StorePostRequest extends FormRequest
     {
         return [
             'content' => 'required|max:140',
-            'image' => 'bail|image|mimes:jpeg,jpg,png,svg|size:2048',
+            'image' => 'mimes:jpeg,jpg,png,gif|max:2000',
         ];
     }
 
@@ -31,9 +31,9 @@ class StorePostRequest extends FormRequest
         return [
             'content.required' => 'Please enter the content of your post.',
             'content.max' => 'Your post must be at least 140 characters long.',
-            'image.image' => 'Please upload a valid image file.',
-            'image.mimes' => 'Only JPG, JPEG, PNG, and SVG image formats are allowed.',
-            'image.size' => 'The image size must not exceed 4MB.',
+            // 'image.image' => 'Please upload a valid image file.',
+            'image.mimes' => 'Only JPG and PNG image formats are allowed.',
+            'image.max' => 'The image size must not exceed 2MB.',
         ];
     }
 

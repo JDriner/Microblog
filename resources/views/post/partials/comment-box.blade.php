@@ -6,10 +6,10 @@
         enctype="multipart/form-data">
         @csrf
         <div class="max-w-xl mx-auto">
-            <input type="text" name="post_id" value="{{ $post->id }}" hidden>
+            <input type="hidden" name="post_id" value="{{ $post->id }}">
             <textarea name="comment" id="comment" rows="2" placeholder="Write your thoughts here..."
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"></textarea>
-            <div class="text-sm text-gray-400" id="comment_character_count">0 / 140 characters used</div>
+            {{-- <div class="text-sm text-gray-400" id="comment_character_count">0 / 140 characters used</div> --}}
             <span class="text-red-600 text-sm error-text comment_error"></span>
         </div>
         <div class="px-4 sm:px-2 sm:flex sm:flex-row-reverse">
@@ -74,3 +74,17 @@
         </div>
     @endif
 @endif
+
+<script>
+     // Character Counter
+ $(document).ready(function() {
+    var maxLength = 140;
+    var textarea = $('#comment');
+    textarea.on('input', function() {
+        var currentLength = textarea.val().length;
+        console.log(currentLength);
+        $('#comment_character_count').text(currentLength + ' / ' + maxLength + ' characters used');
+    });
+});
+
+</script>
