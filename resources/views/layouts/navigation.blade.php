@@ -20,6 +20,13 @@
                         <i class="fa-solid fa-house"></i>
                     </x-nav-link>
                 </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('trends')" :active="request()->routeIs('trends')">
+                        {{-- {{ __(' Trending') }}  --}}
+                        <i class="fa-solid fa-fire fa-beat" style="color: #f5963d;"></i>
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->

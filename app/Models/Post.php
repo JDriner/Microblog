@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Post extends Model
 {
@@ -23,21 +24,6 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    // public function share(): BelongsTo
-    // {
-    //     return $this->belongsTo(Post::class, 'post_id', 'id');
-    // }
-
-    // public function likes()
-    // {
-    //     return $this->hasMany(PostLike::class);
-    // }
-
-    // public function shares()
-    // {
-    //     return $this->hasMany(Post::class, 'post_id', 'id');
-    // }
-    
     public function share(): BelongsTo
     {
         return $this->belongsTo(Post::class, 'post_id', 'id')->withTrashed();
@@ -103,6 +89,56 @@ class Post extends Model
         return $query->whereIn('user_id', $followingIds)
             ->orWhere('user_id', $currentUserId)
             ->latest();
-            // ->get();
+        // ->get();
+    }
+
+
+
+
+    // ---------------TRENDING TOPICS-------------------------
+    public function getHashtags()
+    {
+        $allHashtags = Post::all()->map(function ($post) {
+            preg_match_all('/#\w+/', $post->content, $matches);
+            return $matches[0];
+        })->flatten();
+        return $allHashtags;
+    }
+
+    public function scopeCountHashtags()
+    {
+        $allHashtags = $this->getHashtags();
+        $hashtagCounts = $allHashtags->countBy()->sortByDesc(function ($count) {
+            return $count;
+        });
+        return $hashtagCounts;
+    }
+
+    public function scopePopularHashtag()
+    {
+        $hashtagCounts = $this->countHashtags();
+        if ($hashtagCounts->isEmpty()) {
+            return null; // No hashtags found, return null or handle the case accordingly.
+        }
+        return $hashtagCounts->keys()->first();
+    }
+
+   
+    public function scopePostHasHashtag($query, $hashtag)
+    {
+        // print($hashtag);
+        // print("content: ".$this->content);
+        return $query->where('id', $this->id)
+            ->where('content', 'LIKE', '%' . $hashtag . '%');
+        // ->exists();
+        // ->get();
+    }
+
+    // Most Liked post
+    public function scopeMostLikedPost($query)
+    {
+        return $query->withCount('likes')
+        ->orderBy('likes_count', 'desc')
+        ->get();
     }
 }

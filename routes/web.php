@@ -7,6 +7,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostLikeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\TrendController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
     Route::middleware('auth', 'verified')->group(function () {
         // Routes for Profile management
         Route::get('/home', [HomeController::class, 'home'])->name('home');
+        Route::get('/trends', [TrendController::class, 'trends'])->name('trends');
         Route::get('/view-profile', [ProfileController::class, 'view'])->name('profile.view');
         Route::get('/view-profile/{id}', [ProfileController::class, 'viewUser'])->name('profile.view-profile');
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

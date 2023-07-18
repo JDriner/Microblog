@@ -39,7 +39,10 @@
     <!-- View Post link-->
     <a href="{{ route('post.show', $post->id) }}">
         <div>
-            <p class="text-gray-800 dark:text-white">{{ $post->content }}</p>
+            <p class="text-gray-800 dark:text-white">
+                {!! nl2br(e($post->content )) !!}
+                {{-- {{ $post->content }} --}}
+            </p>
             @if ($post->image)
                 <img src="{{ url('storage/' . $post->image) }}" alt="" title="">
             @endif
