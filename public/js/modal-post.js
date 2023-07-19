@@ -9,18 +9,27 @@ $(document).ready(function () {
     });
 
     //  IMAGE PREVIEW
-    $('#image').on('change', function (evt) {
-        var preview = $('#preview')[0];
-        var filename = $(this).val().split('\\').pop();
-        preview.style.display = 'block';
-        var file = this.files[0];
-        if (file) {
-            preview.src = URL.createObjectURL(file);
-            $('.image_label').text('File uploaded: ' + filename);
-        } else {
-            preview.src = "";
-            $('.image_label').text('No image selected.');
+    $('#image').on('change', function (e) {
+        const size = (this.files[0].size / 1024 / 1024).toFixed(2);
+        console.log("sizeadsfasdfasf");
+        console.log("size"+size);
+        if (size > 2) {
+            $('.image_error').text('The file size should not be more than 2mb.');
             $('#preview').hide();
+        } else {
+            var preview = $('#preview')[0];
+            var filename = $(this).val().split('\\').pop();
+            preview.style.display = 'block';
+            $('.image_error').text('');
+            var file = this.files[0];
+            if (file) {
+                preview.src = URL.createObjectURL(file);
+                $('.image_label').text('File uploaded: ' + filename);
+            } else {
+                preview.src = "";
+                $('.image_label').text('No image selected.');
+                $('#preview').hide();
+            }
         }
     });
 });

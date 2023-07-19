@@ -29,7 +29,7 @@ class ProfilePictureUpdateRequest extends FormRequest
     {
         return [
             'profile_picture.required' => 'Please upload your picture.',
-            'profile_picture.mimes' => 'Only JPG and PNG image formats are allowed.',
+            'profile_picture.mimes' => 'Only jpg, png and gif image formats are allowed.',
             'profile_picture.max' => 'Please upload files less than 2mb.',
         ];
     }

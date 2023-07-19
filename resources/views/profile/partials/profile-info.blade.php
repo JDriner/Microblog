@@ -22,104 +22,23 @@
             <h2 class="text-sm font-light">{{ Auth::user()->email }}</h2>
         </div>
         <div class="mb-4">
-            <a href="{{ route('listFollows') }}" class="text-xs text-gray-600 dark:text-gray-300 hover:text-slate-900">
-                <p>{{ Auth::user()->followers->count() }} Followers | {{ Auth::user()->followings->count() }} Following
+            <a href="{{ route('listFollows') }}">
+                <p class="text-xs text-gray-600 dark:text-gray-300 hover:text-slate-900">
+                    {{ Auth::user()->followers->count() }} Followers | {{ Auth::user()->followings->count() }} Following
                 </p>
             </a>
         </div>
         <div class="mt-4">
             <a class="text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg px-4 py-2"
-                href="{{ route('profile.edit') }}">Edit
-                Profile</a>
+                href="{{ route('profile.edit') }}">
+                Edit Profile
+            </a>
         </div>
     </div>
 </div>
 
 @include('profile.partials.change-profile-picture-modal')
 
-
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('.changePicModal').on('click', function(e) {
-            // $('#changePictureForm').trigger("reset");
-            $('#changePicModal').removeClass('invisible');
-        });
-        $('.closeModal').on('click', function(e) {
-            $('#changePictureForm').trigger("reset");
-            $('#changePicModal').addClass('invisible');
-        });
-    });
-</script>
-
-{{-- Image Preview --}}
-<script>
-    profile_picture.onchange = evt => {
-        preview = document.getElementById('image-preview');
-        div = document.getElementById('preview-div');
-        div.style.display = 'block';
-        const [file] = profile_picture.files
-        if (file) {
-            preview.src = URL.createObjectURL(file)
-        }
-    }
-</script>
-
-{{-- AJAX --}}
-<script type="text/javascript">
-    $(function() {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        // Change Picture form
-        $('#changePictureForm').on('submit', function(e) {
-            e.preventDefault();
-            var form = this;
-            console.log("picture submit");
-            let file_name = document.getElementById('profile_picture').value;
-            console.log(file_name);
-
-            $.ajax({
-                url: $(form).attr('action'),
-                method: $(form).attr('method'),
-                data: new FormData(form),
-                processData: false,
-                dataType: 'json',
-                contentType: false,
-                beforeSend: function() {
-                    $(form).find('span.error-text').text('')
-                },
-                success: function(data) {
-                    if (data.code == 0) {
-                        $.each(data.error, function(prefix, val) {
-                            $(form).find('span.' + prefix + '_error').text(val[0])
-                        });
-                    } else {
-                        $(form)[0].reset;
-                        $('#changePictureForm').trigger("reset");
-                        $('#changePicModal').addClass('invisible');
-                        toastr.options = {
-                            "closeButton": true,
-                            "progressBar": true,
-                            "positionClass": "toast-top-center",
-                            "showDuration": "600",
-                        }
-                        toastr.success("Profile Picture has been updated.");
-                        setTimeout(function() { // wait for 3 secs(2)
-                            location.reload(); // then reload the page.(3)
-                        }, 3000);
-                    }
-                },
-                error: function (xhr) {
-                console.log('XHR:', xhr);
-                $.each(xhr.responseJSON.errors, function (key, value) {
-                    $(form).find('span.' + key + '_error').text(value)
-                });
-            }
-            });
-        });
-    });
-</script>
+@push('scripts')
+    <script src="{{ asset('js/profile-info.js') }}"></script>
+@endpush

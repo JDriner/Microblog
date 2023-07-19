@@ -1,4 +1,3 @@
-
 <!-- Change Picture modal-->
 <div class="fixed z-10 inset-0 invisible overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true"
     id="changePicModal">
@@ -15,7 +14,8 @@
                         </h3>
                         <div class="mt-2">
                             <p class="text-sm text-gray-500">
-                                Picture should be with the types jpg, jpeg, png. The file size should not exceed 4mb.
+                                Picture should be with the types jpg, jpeg, png or gif. The file size should not exceed
+                                2mb.
                             </p>
                         </div>
 
@@ -26,8 +26,8 @@
                                 <div class="max-w-xl mx-auto">
                                     <div class="flex justify-center flex-col items-center">
                                         <div class="w-64 h-64 rounded-full overflow-hidden border-2 border-indigo-600"
-                                            id="preview-div" style="display:none;">
-                                            <img id="image-preview" src="#" alt="Profile Picture"
+                                            id="preview-dp-div" style="display:none;">
+                                            <img id="image_preview" src="#" alt="Profile Picture"
                                                 class="object-cover w-full h-full" />
                                         </div>
                                     </div>
@@ -36,7 +36,7 @@
                                         <input type="file" name="profile_picture" id="profile_picture"
                                             class="hidden">
                                         <label for="profile_picture"
-                                            class="bg-gray-200 px-4 py-2 rounded-lg cursor-pointer">
+                                            class="dp_label text-xs bg-gray-200 px-4 py-2 rounded-lg cursor-pointer">
                                             Select Image
                                         </label>
                                         <span class="text-red-600 text-sm error-text profile_picture_error"></span>

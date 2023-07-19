@@ -20,7 +20,9 @@ class ProfileController extends Controller
      */
     public function view(Request $request): View
     {
-        $my_posts = Post::where('user_id', Auth::user()->id)->latest()->get();
+        $my_posts = Post::where('user_id', Auth::user()->id)
+            ->latest()
+            ->get();
 
         return view('profile.view-profile', [
             'user' => $request->user(),
@@ -30,7 +32,9 @@ class ProfileController extends Controller
     public function viewUser($user_id)
     {
         $user = User::find($user_id);
-        $my_posts = Post::where('user_id', $user_id)->latest()->get();
+        $my_posts = Post::where('user_id', $user_id)
+            ->latest()
+            ->get();
         // print($user);
         return view('profile.view-profile', compact('my_posts', 'user'));
     }
@@ -56,27 +60,23 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('success', 'Your profile has been updated successfully!');
+        return Redirect::route('profile.edit')
+            ->with('success', 'Your profile has been updated successfully!');
     }
 
     public function updatePicture(ProfilePictureUpdateRequest $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //     'profile_picture' => 'required|mimes:jpeg,jpg,png,gif|max:2048',
-        // ]);
+        $image_path = $request->file('profile_picture')
+            ->store('user_picture', 'public');
 
-        // if ($validator->fails()) {
-        //     return response()->json(['code' => 0, 'error' => $validator->errors()->toArray()]);
-        // } else {
+        $user = Auth::user();
+        $user->profile_picture = $image_path;
+        $user->save();
 
-            $image_path = $request->file('profile_picture')->store('user_picture', 'public');
+        return response()->json([
+            'success' => 'Profile picture has been updated.'
+        ]);
 
-            $user = Auth::user();
-            $user->profile_picture = $image_path;
-            $user->save();
-
-            return response()->json(['success' => 'Profile picture has been updated.']);
-        // }
     }
 
     /**

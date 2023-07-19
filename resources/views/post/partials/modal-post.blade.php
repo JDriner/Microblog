@@ -50,7 +50,7 @@
                                 <span class="text-red-600 text-sm error-text image_error"></span>
                                 <p class="text-xs text-gray-600 px-4 pt-2">If you have any images related to your
                                     post, you can upload them here. Images should be with the types jpg, jpeg, png and svg.
-                                    The file size should not exceed 4mb.</p>
+                                    The file size should not exceed 2mb.</p>
                                 <img id="preview" src="#" alt="your image" class=""
                                     style="display:none;" />
                             </div>

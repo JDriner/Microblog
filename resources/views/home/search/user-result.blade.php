@@ -24,11 +24,13 @@
                     @if ($user->isUserFollowed())
                         <button type="button" user_id="{{ $user->id }}" action="/unfollow"
                             class="follow_unfollow text-slate-700 dark:text-white border-2 hover:text-white border-indigo-500  hover:bg-indigo-500 rounded-md px-4 py-1 ml-2">
-                            Unfollow</button>
+                            Unfollow
+                        </button>
                     @else
                         <button type="button" user_id="{{ $user->id }}" action="/follow"
                             class="follow_unfollow text-white bg-indigo-600 hover:bg-indigo-500 rounded-md px-4 py-1 ml-2">
-                            Follow</button>
+                            Follow
+                        </button>
                     @endif
                 @endif
 

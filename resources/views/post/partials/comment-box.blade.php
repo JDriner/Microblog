@@ -15,7 +15,8 @@
         <div class="px-4 sm:px-2 sm:flex sm:flex-row-reverse">
             <button type="submit" post_id="{{ $post->id }}"
                 class="addComment text-white bg-indigo-500 hover:bg-indigo-600 rounded-md px-4 py-2 ml-2"><i
-                    class="fa-regular fa-paper-plane"></i></button>
+                    class="fa-regular fa-paper-plane"></i>
+                </button>
         </div>
     </form>
 </div>

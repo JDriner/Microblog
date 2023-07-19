@@ -11,9 +11,13 @@ class HomeController extends Controller
     {
         $posts = Post::newsFeed()->paginate(3);
 
+        $hashtags = Post::countHashtags()->take(3);
+        // $hashtags = $hashtagCounts->toArray();
+
+
         $suggestedUsers = User::suggestedUsers()->get();
         // print($suggestedUsers);
-        return view('home.home', compact('posts', 'suggestedUsers'));
+        return view('home.home', compact('posts', 'suggestedUsers', 'hashtags'));
 
         // $posts = Post::get();
 
