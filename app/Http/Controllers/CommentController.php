@@ -15,10 +15,12 @@ class CommentController extends Controller
             'post_id' => $validated['post_id'],
             'comment' => $validated['comment'],
         ]);
-
-        return redirect()->back()->with([
-            'comment_success' => 'Comment has been submitted!',
-            'postId' => $validated['post_id'],
+        return response()->json([
+            'success' => 'Comment has been submitted!.',
         ]);
+        // return redirect()->back()->with([
+        //     'comment_success' => 'Comment has been submitted!',
+        //     'postId' => $validated['post_id'],
+        // ]);
     }
 }

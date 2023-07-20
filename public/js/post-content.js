@@ -58,11 +58,4 @@ $(function() {
         });
 
     });
-
-    // Show Add comment box
-    $(".addComment").click(function() {
-        var postId = $(this).attr('post_id');
-        // console.log(postId);
-        $("#commentBox_" + postId).toggle(500);
-    });
 });

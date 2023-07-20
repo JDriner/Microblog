@@ -6,7 +6,7 @@
     <!-- Search Box -->
     @include('home.search.search-box')
     <div class="flex">
-        <div class="w-1/4 ml-2 ">
+        <div class="w-1/4 ml-4 ">
             {{-- <div class="fixed left-3"> --}}
             @if (!$hashtags->isEmpty())
                 <h1 class="text-sm text-slate-900 dark:text-gray-300">
@@ -16,7 +16,7 @@
 
                     <div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg mt-1 p-3">
                         @foreach ($hashtags as $hashtag => $count)
-                            <ul class="list-none" class="text-sm italic text-slate-300">
+                            <ul class="list-none text-sm italic text-slate-300">
                                 <li>{{ $hashtag }}</li>
                             </ul>
                         @endforeach
@@ -26,11 +26,10 @@
             {{-- </div> --}}
         </div>
         <!-- Left side -->
-        <div class="w-2/4 ml-2">
+        <div class="w-2/4 mx-2">
             <!-- Middle -->
-            <!-- Modals for Post Creation/Edit/Share/Delete -->
+            <!-- Create post component -->
             @include('post.create-post')
-            @include('post.partials.modal-post')
 
             <!-- Display Post -->
             <div class="max-w-xl mx-auto">
@@ -43,27 +42,44 @@
                 </div>
             </div>
         </div>
-        <div class="w-1/4 mx-2 mr-12">
+
+        <div class="w-1/4 mr-12">
             {{-- <div class="fixed right-12"> --}}
             @if (!$suggestedUsers->isEmpty())
                 <!-- Right side -->
                 <h1 class="text-sm text-slate-900 dark:text-gray-300">
                     Suggested Users
                 </h1>
+                @php
+                    $counter = 0;
+                @endphp
                 @foreach ($suggestedUsers as $user)
-                    @include('home.search.user-result')
-                @endforeach
-            @endif
-            {{-- </div> --}}
-        </div>
+                    @if ($counter >= 4)
+                    @break
+                @endif
+                @include('home.search.user-result')
+                @php
+                    $counter++;
+                @endphp
+            @endforeach
+
+
+        @endif
+        {{-- </div> --}}
     </div>
+</div>
 
+<!-- Flash Messages-->
+@include('flash.comment-flash')
+<!-- Modals for Post Creation/Edit/Share/Delete -->
+@include('post.partials.modal-post')
+<!-- Modals for addinv comments -->
+@include('post.partials.comment-modal')
 
-    <!-- Flash Messages-->
-    @include('flash.comment-flash')
-    @push('scripts')
-        <script src="{{ asset('js/follower.js') }}"></script>
-        <script src="{{ asset('js/modal-post.js') }}"></script>
-        <script src="{{ asset('js/post-content.js') }}"></script>
-    @endpush
+@push('scripts')
+    <script src="{{ asset('js/follower.js') }}"></script>
+    <script src="{{ asset('js/modal-post.js') }}"></script>
+    <script src="{{ asset('js/comment.js') }}"></script>
+    <script src="{{ asset('js/post-content.js') }}"></script>
+@endpush
 </x-app-layout>

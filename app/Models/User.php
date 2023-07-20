@@ -113,13 +113,6 @@ class User extends Authenticatable implements MustVerifyEmail
         $followingIds = $this->followings->pluck('user_following_id');
         $followersIds = $this->followers->pluck('user_id');
         $userFollowingIds = $authUser->followings->pluck('user_following_id');
-
-        // $result = $query->whereExists(function ($subquery) use ($userId) {
-        //     $subquery->select('user_id')
-        //         ->from('user_followers')
-        //         ->whereColumn('user_id', '=', 'user_followers.user_following_id')
-        //         ->where('user_followers.user_id', $userId);
-        // });
         $result = 2;
 
         return $userFollowingIds;

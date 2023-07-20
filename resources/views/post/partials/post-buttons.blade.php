@@ -20,7 +20,7 @@
 
     <!-- Add Comment Button -->
     <div class="grow w-full">
-        <button type="button" post_id="{{ $post->id }}"
+        <button type="button" post_id="{{ $post->id }}" user_name="{{ $post->user->first_name }}"
             class="addComment text-slate-800 dark:text-white hover:text-indigo-500 dark:hover:text-indigo-500">
             <i class="fa-regular fa-comment"></i>
         </button>

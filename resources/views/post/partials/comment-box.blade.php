@@ -1,24 +1,8 @@
-
-<!-- Comment box -->
-<div id="commentBox_{{ $post->id }}"
-    class="bg-white dark:bg-slate-800 dark:text-black shadow rounded-lg ml-6 mt-3 p-3" hidden>
-    <form action="{{ route('sendComment') }}" method="POST" name="" id=""
-        enctype="multipart/form-data">
-        @csrf
-        <div class="max-w-xl mx-auto">
-            <input type="hidden" name="post_id" value="{{ $post->id }}">
-            <textarea name="comment" id="comment" rows="2" placeholder="Write your thoughts here..."
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"></textarea>
-            {{-- <div class="text-sm text-gray-400" id="comment_character_count">0 / 140 characters used</div> --}}
-            <span class="text-red-600 text-sm error-text comment_error"></span>
-        </div>
-        <div class="px-4 sm:px-2 sm:flex sm:flex-row-reverse">
-            <button type="submit" post_id="{{ $post->id }}"
-                class="addComment text-white bg-indigo-500 hover:bg-indigo-600 rounded-md px-4 py-2 ml-2"><i
-                    class="fa-regular fa-paper-plane"></i>
-                </button>
-        </div>
-    </form>
+<div class="bg-white dark:bg-slate-800 dark:text-black shadow rounded-lg ml-6 mt-2 p-2">
+    <button type="button" post_id="{{ $post->id }}" user_name="{{ $post->user->first_name }}"
+        class="addComment italic text-xs text-slate-800 dark:text-white  hover:font-medium ml-2">
+        Write a comment to {{ $post->user->first_name }}'s post.
+    </button>
 </div>
 
 {{-- Only one comment & latest --}}
@@ -26,7 +10,7 @@
     @if (request()->routeIs('post.show'))
         {{-- All comment & latest first --}}
         @foreach ($post->getCommentByLatestDate() as $comment)
-            <div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg ml-6 mt-3 p-6">
+            <div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg ml-6 mt-2 p-6">
                 <div class="flex items-center">
                     <div class="flex-shrink-0">
                         @if ($comment->user->profile_picture == null)
@@ -50,7 +34,7 @@
             </div>
         @endforeach
     @else
-        <div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg ml-6 mt-3 p-6">
+        <div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg ml-6 mt-2 p-6">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
                     @if ($post->firstComment()->user->profile_picture == null)
@@ -75,17 +59,3 @@
         </div>
     @endif
 @endif
-
-<script>
-     // Character Counter
- $(document).ready(function() {
-    var maxLength = 140;
-    var textarea = $('#comment');
-    textarea.on('input', function() {
-        var currentLength = textarea.val().length;
-        console.log(currentLength);
-        $('#comment_character_count').text(currentLength + ' / ' + maxLength + ' characters used');
-    });
-});
-
-</script>

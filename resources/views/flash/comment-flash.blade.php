@@ -1,4 +1,4 @@
-<script>
+{{-- <script>
     @if (Session::has('comment_success'))
         toastr.options = {
             "closeButton": true,
@@ -16,4 +16,4 @@
         }
         toastr.error("{{ $message }}");
     @enderror
-</script>
+</script> --}}

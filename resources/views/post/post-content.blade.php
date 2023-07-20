@@ -59,3 +59,7 @@
 
 <!-- Comment Box.-->
 @include('post.partials.comment-box')
+
+<!-- Comments-->
+{{-- @include('post.partials.comments') --}}
+

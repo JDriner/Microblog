@@ -14,9 +14,9 @@
                 {{ $user->first_name . ' ' . $user->last_name }}
                 {{-- <span class="text-xs text-gray-300">({{ $user->mutualFollowers() }} mutual followers) </span> --}}
             </div>
-            <div class="font-semibold text-sm text-black dark:text-white mt-2">
+            <div class="font-semibold text-xs text-black dark:text-white mt-2">
                 <a type="button" href="{{ route('profile.view-profile', $user->id) }}"
-                    class="text-white bg-indigo-600 hover:bg-indigo-500 rounded-md px-4 py-1 ml-2">
+                    class="text-white bg-indigo-600 hover:bg-indigo-500 rounded-md px-4 p-1 m-1">
                     View Profile
                 </a>
 
@@ -28,7 +28,7 @@
                         </button>
                     @else
                         <button type="button" user_id="{{ $user->id }}" action="/follow"
-                            class="follow_unfollow text-white bg-indigo-600 hover:bg-indigo-500 rounded-md px-4 py-1 ml-2">
+                            class="follow_unfollow text-white bg-indigo-600 hover:bg-indigo-500 rounded-md px-4 p-1 m-1">
                             Follow
                         </button>
                     @endif
