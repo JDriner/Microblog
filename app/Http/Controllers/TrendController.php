@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class TrendController extends Controller
 {
-    public function trends()
+    public function trends(Request $request)
     {
         // $popularHashtag = Post::popularHashtag();
         // dd($popularHashtag);

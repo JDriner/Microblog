@@ -4,7 +4,10 @@ $(document).ready(function () {
     var maxLength = 140;
     var textarea = $('#content');
     textarea.on('input', function () {
+        var text = $(textarea).val();
         var currentLength = textarea.val().length;
+        var newLinesCount = (text.match(/\n/g) || []).length;
+        currentLength += newLinesCount;
         $('#character_count').text(currentLength + ' / ' + maxLength + ' characters used');
     });
 
@@ -61,7 +64,7 @@ $(function () {
     $('.editPost').on('click', function (e) {
         let post_id = $(this).attr('post_id');
         // console.log("edit: " + post_id);
-        $.get('post/' + post_id + '/edit', function (data) {
+        $.get('/post/' + post_id + '/edit', function (data) {
             $('#postModal').show();
             $('#post-modal-title').text('Edit Post');
             $('#modal-sub-title').text('Please make your desired changes for your post!');
@@ -74,12 +77,13 @@ $(function () {
             $('#post_id').val(data.id);
             if (data.post_id != null) {
                 $('#shared_post_id').val(data.post_id);
+                $('#image_selection_input').hide();
             } else {
                 $('#image_selection_input').show();
             }
             if (data.image != null) {
                 $("#preview").css('display', 'block');
-                $('#preview').attr('src', "storage/" + data.image + "");
+                $('#preview').attr('src', "/storage/" + data.image + "");
             }
             $('#saveBtn').text('Update Post');
         })
@@ -88,7 +92,7 @@ $(function () {
     // Share Button shows modal
     $('.sharePost').on('click', function (e) {
         let post_id = $(this).attr('post_id');
-        $.get('share/' + post_id, function (data) {
+        $.get('/share/' + post_id, function (data) {
             $('#postModal').show();
             $('#post-modal-title').text('Sharing Post');
             $('#modal-sub-title').text('Tell something about this post!');
@@ -102,7 +106,7 @@ $(function () {
             $('#shared-content').text(data.content);
             if (data.image != null) {
                 $('#shared-image').show();
-                $('#shared-image').attr('src', "storage/" + data.image);
+                $('#shared-image').attr('src', "/storage/" + data.image);
             }
             $('#saveBtn').text('Share Post');
         })
@@ -125,6 +129,7 @@ $(function () {
         $('#character_count').text('');
         $("#preview").css('display', 'none');
         // $('#preview').trigger("reset");
+        $('.image_label').text('Upload Image');
         $('#shared-image').hide();
         $('#postForm').hide();
         $('#postModal').hide();
@@ -168,7 +173,8 @@ $(function () {
                     location.reload(); // then reload the page.(3)
                 }, 3000);
             },
-            error: function (xhr) {
+            error: function (xhr, data) {
+                console.log("error"+data.error);
                 $.each(xhr.responseJSON.errors, function (key, value) {
                     $(form).find('span.' + key + '_error').text(value)
                 });

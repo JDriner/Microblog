@@ -15,6 +15,7 @@
         </div>
     </x-slot>
     <!-- Search Box -->
+    {{-- @include('post.create-post') --}}
     @include('home.search.search-box')
     <div class="flex">
         <div class="w-1/4 mx-2">
@@ -46,32 +47,26 @@
                 @endforeach
             </div>
             <!-- Middle -->
+
             @foreach ($hashtags as $hashtag => $count)
                 <p class="text-sm text-slate-800 dark:text-white mt-4" id="{{ $hashtag }}">
                     Topics related with <span class="font-extrabold">"{{ $hashtag }}"</span>
                 </p>
                 <!-- Display Post -->
                 <div class="max-w-xl mx-auto mb-4">
-                    @foreach ($posts as $post)
-                        @if ($post->postHasHashtag($hashtag)->exists())
-                            @include('post.post-content')
-                        @endif
-                    @endforeach
+                    @include('post.trends-posts')
                 </div>
             @endforeach
         </div>
 
     </div>
-    <!-- Modals for Post Creation/Edit/Share/Delete -->
-    {{-- @include('post.create-post') --}}
-    @include('post.partials.modal-post')
+    <!-- Loading pages -->
+    {{-- @include('home.load-page') --}}
 
     <!-- Flash Messages-->
-    @include('flash.comment-flash')
+    @include('flash.flash')
 
     @push('scripts')
-        <script src="{{ asset('js/follower.js') }}"></script>
-        <script src="{{ asset('js/modal-post.js') }}"></script>
-        <script src="{{ asset('js/post-content.js') }}"></script>
+        {{-- <script src="{{ asset('js/load-page.js') }}"></script> --}}
     @endpush
 </x-app-layout>

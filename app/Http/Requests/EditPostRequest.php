@@ -6,10 +6,21 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
+use App\Models\Post;
+use Illuminate\Support\Facades\Gate;
 
 
 class EditPostRequest extends FormRequest
 {
+    // public function authorize()
+    // {
+    //     $postId = $request->post_id;
+
+    //     $post = Post::find($postId);
+
+    //     return Gate::allows('update', $post);
+    // }
+
     /**
      * Get the validation rules that apply to the request.
      *

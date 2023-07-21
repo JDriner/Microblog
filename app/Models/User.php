@@ -73,10 +73,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isUserFollower()
     {
-        return $this->followers()->where('user_id', auth()->id())->exists();
+        return $this->followers()->where('user_id', auth()->id())
+            ->exists();
     }
 
-    // search function - returns users based on keyword
+    // search function - returns the users based on keyword
     public function scopeSearchUser(Builder $query, $search)
     {
         $loggedInUserId = auth()->user()->id;
@@ -85,8 +86,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $query->where('first_name', 'LIKE', '%' . $search . '%')
                 ->orWhere('last_name', 'LIKE', '%' . $search . '%');
         })
-            ->where('id', '!=', $loggedInUserId)
-            ->get();
+            ->where('id', '!=', $loggedInUserId);
     }
 
     // Show suggested users
@@ -101,21 +101,4 @@ class User extends Authenticatable implements MustVerifyEmail
         return $query->whereIn('id', $suggestedUserId)
             ->where('id', '!=', $user->id);
     }
-
-
-
-
-    // For Mutual Followers count ------ not working ----> not required tho -----------
-    public function scopeMutualFollowers($query)
-    {
-        $userId = $this->id;
-        $authUser = auth()->user();
-        $followingIds = $this->followings->pluck('user_following_id');
-        $followersIds = $this->followers->pluck('user_id');
-        $userFollowingIds = $authUser->followings->pluck('user_following_id');
-        $result = 2;
-
-        return $userFollowingIds;
-    }
-    
 }

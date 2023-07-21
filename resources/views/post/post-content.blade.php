@@ -1,5 +1,5 @@
 <!-- Display the Post and its contents -->
-<div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg mt-3 p-6">
+<div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg mt-6 p-6">
     <div class="flex justify-between mb-4">
         <a href="{{ route('profile.view-profile', $post->user->id) }}"
             title="View {{ $post->user->first_name }} 's Profile">
@@ -24,7 +24,7 @@
         </a>
 
         <!-- If the current user owns the post, they can edit/delete the post -->
-        @if (auth()->id() == $post->user->id && !request()->routeIs('post.show'))
+        @if (auth()->id() == $post->user->id)
             <div>
                 <button type="button" post_id="{{ $post->id }}"
                     class="editPost text-slate-800 dark:text-slate-300 hover:text-indigo-600 pr-4"><i
@@ -40,7 +40,7 @@
     <a href="{{ route('post.show', $post->id) }}">
         <div>
             <p class="text-gray-800 dark:text-white">
-                {!! nl2br(e($post->content )) !!}
+                {!! nl2br(e($post->content)) !!}
                 {{-- {{ $post->content }} --}}
             </p>
             @if ($post->image)
@@ -57,9 +57,6 @@
     @include('post.partials.post-buttons')
 </div>
 
-<!-- Comment Box.-->
+<!-- Comment Box - add comment, comment modal and comment/s-->
 @include('post.partials.comment-box')
-
-<!-- Comments-->
-{{-- @include('post.partials.comments') --}}
 

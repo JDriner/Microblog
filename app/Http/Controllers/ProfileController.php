@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Auth\Events\Registered;
 use Validator;
 
 class ProfileController extends Controller
@@ -31,11 +32,11 @@ class ProfileController extends Controller
 
     public function viewUser($user_id)
     {
-        $user = User::find($user_id);
+        $user = User::findOrFail($user_id);
         $my_posts = Post::where('user_id', $user_id)
             ->latest()
             ->get();
-        // print($user);
+            
         return view('profile.view-profile', compact('my_posts', 'user'));
     }
 
@@ -56,6 +57,8 @@ class ProfileController extends Controller
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
             $request->user()->is_activated = false;
+
+            event(new Registered($request->user())); 
         }
 
         $request->user()->save();

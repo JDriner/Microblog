@@ -1,7 +1,7 @@
-<div class="bg-white dark:bg-slate-800 dark:text-black shadow rounded-lg ml-6 mt-2 p-2">
+<div class="bg-white dark:bg-slate-700 dark:text-black shadow rounded-lg ml-6 mt-2 p-2">
     <button type="button" post_id="{{ $post->id }}" user_name="{{ $post->user->first_name }}"
         class="addComment italic text-xs text-slate-800 dark:text-white  hover:font-medium ml-2">
-        Write a comment to {{ $post->user->first_name }}'s post.
+        <i class="fa-solid fa-comment-dots fa-bounce fa-lg"></i> Write a comment to {{ $post->user->first_name }}'s post.
     </button>
 </div>
 
@@ -59,3 +59,4 @@
         </div>
     @endif
 @endif
+

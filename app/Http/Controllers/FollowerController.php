@@ -24,7 +24,7 @@ class FollowerController extends Controller
     {
         $followedUser = UserFollower::whereUserId(auth()->user()->id)
             ->whereUserFollowingId($request->user_id)
-            ->first();
+            ->firstOrFail();
         $followedUser->delete();
 
         return response()->json([

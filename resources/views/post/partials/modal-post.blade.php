@@ -48,17 +48,20 @@
                                     </label>
                                 </div>
                                 <span class="text-red-600 text-sm error-text image_error"></span>
-                                <p class="text-xs text-gray-600 px-4 pt-2">If you have any images related to your
+                                <div class="flex justify-center items-center">
+                                    <img id="preview" src="#" alt="your image" class="h-64 w-auto my-4"  style="display:none;" />
+                                </div>
+                                <p class="text-xs text-gray-600 px-4 pt-2 mb-4">If you have any images related to your
                                     post, you can upload them here. Images should be with the types jpg, jpeg, png and svg.
                                     The file size should not exceed 2mb.</p>
-                                <img id="preview" src="#" alt="your image" class=""
-                                    style="display:none;" />
+
                             </div>
                         </div>
 
                         <div class="px-4 py-4 sm:px-6 sm:flex sm:flex-row-reverse">
                             <button type="submit" id="saveBtn" value="create"
                                 class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
+                            Save
                             </button>
                             <button type="button"
                                 class="closeModal mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">

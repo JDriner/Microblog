@@ -12,9 +12,8 @@ class SearchController extends Controller
     {
         $search = $request->search;
 
-        $users = User::searchUser($search);
-        $posts = Post::where('content', 'LIKE', '%'.$search.'%')
-            ->get();
+        $users = User::searchUser($search)->get();
+        $posts = Post::searchPost($search)->latest()->get();
 
         return view('home.search.search-result', compact('users', 'posts', 'search'));
     }

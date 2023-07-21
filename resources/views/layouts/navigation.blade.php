@@ -1,5 +1,5 @@
 <nav x-data="{ open: false }"
-    class="fixed top-0 w-full z-4 bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+    class="fixed top-0 w-full z-10 bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -17,20 +17,20 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                         {{-- {{ __(' Home') }}  --}}
-                        <i class="fa-solid fa-house"></i>
+                        <i class="fa-solid fa-lg fa-house"></i>
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('listFollows')" :active="request()->routeIs('listFollows')">
-                        <i class="fa-solid fa-users"></i>
+                        <i class="fa-solid fa-lg fa-users"></i>
                     </x-nav-link>
                 </div>
                 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('trends')" :active="request()->routeIs('trends')">
                         {{-- {{ __(' Trending') }}  --}}
-                        <i class="fa-solid fa-fire fa-beat" style="color: #f5963d;"></i>
+                        <i class="fa-solid fa-fire fa-lg fa-beat" style="color: #f5963d;"></i>
                     </x-nav-link>
                 </div>
 

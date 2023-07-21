@@ -27,7 +27,6 @@
     @endif
 
     @if (!$posts->isEmpty())
-        @include('post.partials.modal-post')
         <!-- Display Results for Post -->
         <div class="max-w-xl mx-auto">
             <h1 class="text-xs text-slate-900 dark:text-white mt-4">
@@ -40,8 +39,6 @@
     @endif
 
     @push('scripts')
-        <script src="{{ asset('js/follower.js') }}"></script>
-        <script src="{{ asset('js/modal-post.js') }}"></script>
-        <script src="{{ asset('js/post-content.js') }}"></script>
+        {{-- <script src="{{ asset('js/load-page.js') }}"></script> --}}
     @endpush
 </x-app-layout>

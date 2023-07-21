@@ -38,24 +38,33 @@
             @if ($user->id == Auth::user()->id)
                 <!-- Creation of post (with the modal) -->
                 @include('post.create-post')
-                @include('post.partials.modal-post')
             @endif
 
 
             <div class="max-w-xl mx-auto">
                 <!-- No posts yet -->
                 @if (count($my_posts) < 1)
-                    <div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg mt-3 p-6">
-                        <div class="flex justify-between">
-                            <h1 class="text-black dark:text-white">
-                                You do not have any posts yet!
-                                <span
-                                    class="createPost text-indigo-800 dark:text-indigo-300 font-bold cursor-pointer underline underline-offset-2">
-                                    Create one now!
-                                </span>
-                            </h1>
+                    @if ($user->id == Auth::user()->id)
+                        <div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg mt-3 p-6">
+                            <div class="flex justify-between">
+                                <h1 class="text-black dark:text-white">
+                                    You do not have any posts yet!
+                                    <span
+                                        class="createPost text-indigo-800 dark:text-indigo-300 font-bold cursor-pointer underline underline-offset-2">
+                                        Create one now!
+                                    </span>
+                                </h1>
+                            </div>
                         </div>
-                    </div>
+                    @else
+                        <div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg mt-3 p-6">
+                            <div class="flex">
+                                <h1 class="text-black dark:text-white text-center">
+                                    {{ $user->first_name }} does not have any posts yet!
+                                </h1>
+                            </div>
+                        </div>
+                    @endif
                 @endif
                 <!-- user has posts -->
                 @foreach ($my_posts as $post)
@@ -65,11 +74,9 @@
         </div>
     </div>
 
-    @include('flash.comment-flash')
+    @include('flash.flash')
 
-        @push('scripts')
-            <script src="{{ asset('js/follower.js') }}"></script>
-            <script src="{{ asset('js/modal-post.js') }}"></script>
-            <script src="{{ asset('js/post-content.js') }}"></script>
-        @endpush
+    @push('scripts')
+        {{-- <script src="{{ asset('js/load-page.js') }}"></script> --}}
+    @endpush
 </x-app-layout>

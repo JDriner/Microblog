@@ -53,11 +53,19 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                     {{ $slot }}
                 </main>
             </div>
-
         </div>
+
+        <!-- Modals for Post Creation/Edit/Share/Delete -->
+        @include('post.partials.modal-post')
+        <!-- Modals for Comment Creation -->
+        @include('post.partials.comment-modal')
 
 </body>
 
 @stack('scripts')
+<script src="{{ asset('js/follower.js') }}"></script>
+<script src="{{ asset('js/modal-post.js') }}"></script>
+<script src="{{ asset('js/comment.js') }}"></script>
+<script src="{{ asset('js/post-content.js') }}"></script>
 
 </html>

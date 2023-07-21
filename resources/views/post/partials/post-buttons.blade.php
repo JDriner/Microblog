@@ -9,7 +9,7 @@
         @else
             <button type="button" post_id="{{ $post->id }}" action="/unlike"
                 class="like_unlike_btn text-red-700 hover:text-slate-800 pl-4 dark:hover:text-white">
-                <i class="fa-solid fa-heart"></i>
+                <i class="fa-solid fa-heart fa-beat"></i>
             </button>
         @endif
         @if ($post->likes()->count() >= 1)

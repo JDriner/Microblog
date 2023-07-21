@@ -1,10 +1,5 @@
-// // Show Add comment box
-// $(".addComment").click(function () {
-//     var postId = $(this).attr('post_id');
-//     // console.log(postId);
-//     $("#commentBox_" + postId).toggle(500);
-// });
 
+// Add Comment JS
 $(document).ready(function () {
     var maxLength = 140;
     var textarea = $('#comment');
@@ -15,9 +10,10 @@ $(document).ready(function () {
 
 
     $('.addComment').on('click', function () {
+        console.log("Add comment!");
         let post_id = $(this).attr('post_id');
         let user = $(this).attr('user_name');
-        $.get('share/' + post_id, function (data) {
+        $.get('/share/' + post_id, function (data) {
             $('#commentModal').show();
             $('#comment-modal-title').text('Add Comment');
             $('#comment-sub-title').text('Share your thoughts about this post!');
@@ -30,7 +26,7 @@ $(document).ready(function () {
                 $('#comment-image').show();
                 $('#comment-image').attr('src', "storage/" + data.image);
             }
-            $('#saveBtn').text('Share Post');
+            $('#saveCommentBtn').text('Submit Comment!');
         })
     });
 

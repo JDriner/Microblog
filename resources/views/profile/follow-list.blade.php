@@ -9,8 +9,6 @@
     @include('profile.partials.follow-tab')
 
     @push('scripts')
-        <script src="{{ asset('js/follower.js') }}"></script>
-        <script src="{{ asset('js/modal-post.js') }}"></script>
-        <script src="{{ asset('js/post-content.js') }}"></script>
+        {{-- <script src="{{ asset('js/load-page.js') }}"></script> --}}
     @endpush
 </x-app-layout>

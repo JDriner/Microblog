@@ -42,6 +42,7 @@ class PostController extends Controller
             $postData['image'] = $imagePath;
         }
         Post::create($postData);
+        
         return response()->json([
             'success' => 'Post saved successfully.',
         ]);
@@ -50,6 +51,9 @@ class PostController extends Controller
     public function editPost(EditPostRequest $request)
     {
         $validated = $request->validated();
+        $post = Post::findOrFail($validated['post_id']);
+        $this->authorize('update', [Post::class, $post]);
+        
         $imagePath = null;
         $postData = [
             'user_id' => Auth::user()->id,
@@ -67,13 +71,7 @@ class PostController extends Controller
                 ->store('post_picture', 'public');
             $postData['image'] = $imagePath;
         }
-
-        Post::updateOrCreate(
-            [
-                'id' => $validated['post_id'],
-            ],
-            $postData
-        );
+        $post->update($postData);
 
         return response()->json([
             'success' => 'Post saved successfully.',
@@ -115,14 +113,14 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
 
         return response()->json($post);
     }
 
     public function share($id)
     {
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
 
         return response()->json($post);
     }
@@ -146,7 +144,9 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        Post::find($id)->delete();
+        $post = Post::findOrFail($id);
+        $this->authorize('delete', [Post::class, $post]);
+        $post->delete();
 
         return response()->json([
             'success' => 'Post has been deleted successfully.',

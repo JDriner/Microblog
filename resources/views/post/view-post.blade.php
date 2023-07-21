@@ -18,13 +18,11 @@
 
     <div class="max-w-xl mx-auto">
         @include('post.post-content')
-        @include('post.partials.modal-post')
     </div>
 
     <!-- Flash Messages-->
-    @include('flash.comment-flash')
+    @include('flash.flash')
     @push('scripts')
-        <script src="{{ asset('js/modal-post.js') }}"></script>
-        <script src="{{ asset('js/post-content.js') }}"></script>
+        {{-- <script src="{{ asset('js/load-page.js') }}"></script> --}}
     @endpush
 </x-app-layout>

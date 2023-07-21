@@ -7,36 +7,30 @@
     @include('home.search.search-box')
     <div class="flex">
         <div class="w-1/4 ml-4 ">
-            {{-- <div class="fixed left-3"> --}}
             @if (!$hashtags->isEmpty())
                 <h1 class="text-sm text-slate-900 dark:text-gray-300">
                     Trending hashtags
                 </h1>
                 <a href="{{ route('trends') }}">
 
-                    <div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg mt-1 p-3">
+                    <div class="bg-white dark:bg-slate-800 shadow rounded-lg mt-1 py-2">
                         @foreach ($hashtags as $hashtag => $count)
-                            <ul class="list-none text-sm italic text-slate-300">
+                            <ul class="list-none text-xs italic text-slate-700 dark:text-white px-2 py-2">
                                 <li>{{ $hashtag }}</li>
                             </ul>
                         @endforeach
                     </div>
                 </a>
             @endif
-            {{-- </div> --}}
         </div>
-        <!-- Left side -->
+
         <div class="w-2/4 mx-2">
-            <!-- Middle -->
             <!-- Create post component -->
             @include('post.create-post')
 
-            <!-- Display Post -->
-            <div class="max-w-xl mx-auto">
-                @foreach ($posts as $post)
-                    @include('post.post-content')
-                @endforeach
-
+            <!-- Display Posts -->
+            <div class="max-w-xl mx-auto" id="post-data">
+                @include('post.home-posts')
                 <div class="my-4 mx-2">
                     {{ $posts->links('pagination::tailwind') }}
                 </div>
@@ -44,9 +38,8 @@
         </div>
 
         <div class="w-1/4 mr-12">
-            {{-- <div class="fixed right-12"> --}}
+            <!-- Display suggested users -->
             @if (!$suggestedUsers->isEmpty())
-                <!-- Right side -->
                 <h1 class="text-sm text-slate-900 dark:text-gray-300">
                     Suggested Users
                 </h1>
@@ -62,24 +55,18 @@
                     $counter++;
                 @endphp
             @endforeach
-
-
         @endif
-        {{-- </div> --}}
     </div>
 </div>
 
+
+<!-- Loading pages -->
+{{-- @include('home.load-page') --}}
+
 <!-- Flash Messages-->
-@include('flash.comment-flash')
-<!-- Modals for Post Creation/Edit/Share/Delete -->
-@include('post.partials.modal-post')
-<!-- Modals for addinv comments -->
-@include('post.partials.comment-modal')
+@include('flash.flash')
 
 @push('scripts')
-    <script src="{{ asset('js/follower.js') }}"></script>
-    <script src="{{ asset('js/modal-post.js') }}"></script>
-    <script src="{{ asset('js/comment.js') }}"></script>
-    <script src="{{ asset('js/post-content.js') }}"></script>
+    {{-- <script src="{{ asset('js/load-page.js') }}"></script> --}}
 @endpush
 </x-app-layout>
