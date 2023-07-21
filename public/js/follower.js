@@ -1,5 +1,5 @@
 
-$(function() {
+$(function () {
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -8,13 +8,16 @@ $(function() {
 
 
     // Follow/Unfollow user
-    $(document).on('click', '.follow_unfollow', function(e) {
+    $('.follow_unfollow').on('click', function (e) {
         e.preventDefault();
-        console.log("asdfasdfasdfasf");
         let user_to_id = $(this).attr('user_id');
         let action = $(this).attr('action');
-        console.log(user_to_id);
-        console.log(action);
+        // Get the current URL then route name
+        var currentUrl = window.location.href;
+        var currentRouteName = currentUrl.split("/").slice(-1)[0];
+        currentRouteName = String(currentRouteName);
+        // console.log(user_to_id);
+        // console.log(action);
         $.ajax({
             type: "post",
             url: action,
@@ -22,20 +25,20 @@ $(function() {
                 user_id: user_to_id
             },
             dataType: 'json',
-            beforeSend: function() {
-                console.log("asdfasdfasdfasdfa")
+            beforeSend: function () {
+                console.log("follow/unfollow")
             },
-            success: function(data) {
+            success: function (data) {
                 if (data.code == 0) {
-                    $.each(data.error, function(prefix, val) {
+                    $.each(data.error, function (prefix, val) {
                         alert("error" + val[0])
                     });
                 } else {
                     console.log('Success:', data);
-                    location.reload();
+                    $('#page-content').load(currentRouteName);
                 }
             },
-            error: function(data) {
+            error: function (data) {
                 console.log('Error:', data);
             }
         });

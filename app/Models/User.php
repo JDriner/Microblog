@@ -92,6 +92,12 @@ class User extends Authenticatable implements MustVerifyEmail
     // Show suggested users
     public function scopeSuggestedUsers(Builder $query)
     {
+
+        
+
+
+
+
         $user = auth()->user();
         $followingIds = $user->followings->pluck('user_following_id');
         $suggestedUserId = UserFollower::whereIn('user_id', $followingIds)

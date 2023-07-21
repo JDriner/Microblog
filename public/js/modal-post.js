@@ -15,7 +15,7 @@ $(document).ready(function () {
     $('#image').on('change', function (e) {
         const size = (this.files[0].size / 1024 / 1024).toFixed(2);
         console.log("sizeadsfasdfasf");
-        console.log("size"+size);
+        console.log("size" + size);
         if (size > 2) {
             $('.image_error').text('The file size should not be more than 2mb.');
             $('#preview').hide();
@@ -129,6 +129,7 @@ $(function () {
         $('#character_count').text('');
         $("#preview").css('display', 'none');
         // $('#preview').trigger("reset");
+        $('.error-text').text('');
         $('.image_label').text('Upload Image');
         $('#shared-image').hide();
         $('#postForm').hide();
@@ -140,11 +141,12 @@ $(function () {
         e.preventDefault();
         var form = this;
         let formData = new FormData(this);
-        // Display the key/value pairs
-        for (var pair of formData.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
-        }
-        console.log("form data: " + formData);
+
+        // Get the current URL then route name
+        var currentUrl = window.location.href;
+        var currentRouteName = currentUrl.split("/").slice(-1)[0];
+        currentRouteName = String(currentRouteName);
+
         $.ajax({
             url: $(form).attr('action'),
             type: $(form).attr('method'),
@@ -161,7 +163,6 @@ $(function () {
                 $('#postForm').trigger("reset");
                 $('#postForm').hide();
                 $('#postModal').hide();
-                // alert(data.success)
                 toastr.options = {
                     "closeButton": true,
                     "progressBar": true,
@@ -169,12 +170,10 @@ $(function () {
                     "showDuration": "300",
                 }
                 toastr.success(data.success);
-                setTimeout(function () {// wait for 5 secs(2)
-                    location.reload(); // then reload the page.(3)
-                }, 3000);
+                $('#page-content').load(currentRouteName);
             },
             error: function (xhr, data) {
-                console.log("error"+data.error);
+                console.log("error" + data.error);
                 $.each(xhr.responseJSON.errors, function (key, value) {
                     $(form).find('span.' + key + '_error').text(value)
                 });
@@ -185,7 +184,11 @@ $(function () {
     $('#deletePostBtn').click(function (e) {
         e.preventDefault();
         let post_id = $(this).attr('value');
-        console.log("Post_id: " + post_id);
+        // console.log("Post_id: " + post_id);
+        // Get the current URL then route name
+        var currentUrl = window.location.href;
+        var currentRouteName = currentUrl.split("/").slice(-1)[0];
+        currentRouteName = String(currentRouteName);
         $.ajax({
             type: "DELETE",
             url: 'post/' + post_id,
@@ -201,9 +204,7 @@ $(function () {
                     "showDuration": "600",
                 }
                 toastr.success(data.success);
-                setTimeout(function () {// wait for 5 secs(2)
-                    location.reload(); // then reload the page.(3)
-                }, 3000);
+                $('#page-content').load(currentRouteName);
             },
             error: function (data) {
                 console.log('Error:', data);

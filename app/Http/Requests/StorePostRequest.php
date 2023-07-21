@@ -16,8 +16,8 @@ class StorePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'content' => 'required|max:140',
-            'image' => 'mimes:jpeg,jpg,png,gif|max:2000',
+            'content' => 'required_without_all:image|max:140',
+            'image' => 'required_without_all:content|mimes:jpeg,jpg,png,gif|max:2000',
         ];
     }
 
@@ -29,9 +29,9 @@ class StorePostRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'content.required' => 'Please enter the content of your post.',
+            'content.required_without_all' => 'Please enter the content of your post when an image is not present.',
             'content.max' => 'Your post must be at least 140 characters long.',
-            // 'image.image' => 'Please upload a valid image file.',
+            'image.required_without_all' => 'Please upload an image of your post when you have no content.',
             'image.mimes' => 'Only JPG and PNG image formats are allowed.',
             'image.max' => 'The image size must not exceed 2MB.',
         ];

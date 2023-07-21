@@ -25,4 +25,11 @@ class HomeController extends Controller
 
         return view('home.home', compact('posts', 'suggestedUsers', 'hashtags'));
     }
+
+    public function posts()
+    {
+        $posts = Post::newsFeed()->paginate(5);
+
+        return view('post.home-posts', compact('posts'));
+    }
 }

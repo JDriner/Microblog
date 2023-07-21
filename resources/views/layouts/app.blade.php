@@ -37,21 +37,21 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             @include('layouts.navigation')
             <div class="mt-16">
-
-
-                <!-- Page Heading -->
-                @if (isset($header))
-                    <header class="bg-white dark:bg-gray-800 shadow">
-                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                            {{ $header }}
-                        </div>
-                    </header>
-                @endif
-
                 <!-- Page Content -->
-                <main class="pt-2">
-                    {{ $slot }}
-                </main>
+                <div id="page-content">
+                    <!-- Page Heading -->
+                    @if (isset($header))
+                        <header class="bg-white dark:bg-gray-800 shadow">
+                            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                                {{ $header }}
+                            </div>
+                        </header>
+                    @endif
+                    <!-- Main contents of the page -->
+                    <main class="pt-2">
+                        {{ $slot }}
+                    </main>
+                </div>
             </div>
         </div>
 
@@ -63,9 +63,10 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
 </body>
 
 @stack('scripts')
-<script src="{{ asset('js/follower.js') }}"></script>
-<script src="{{ asset('js/modal-post.js') }}"></script>
-<script src="{{ asset('js/comment.js') }}"></script>
 <script src="{{ asset('js/post-content.js') }}"></script>
+<script src="{{ asset('js/modal-post.js') }}"></script>
+<script src="{{ asset('js/follower.js') }}"></script>
+<script src="{{ asset('js/comment.js') }}"></script>
+
 
 </html>

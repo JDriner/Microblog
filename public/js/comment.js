@@ -1,6 +1,12 @@
 
 // Add Comment JS
 $(document).ready(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     var maxLength = 140;
     var textarea = $('#comment');
     textarea.on('input', function () {
@@ -20,11 +26,11 @@ $(document).ready(function () {
             $('#comment_post_content').show();
             $("#commentForm").attr('action', "/sendComment");
             $('#comment_post_id').val(post_id);
-            $('#comment-user-info').text(user+"'s Post");
+            $('#comment-user-info').text(user + "'s Post");
             $('#comment-content').text(data.content);
             if (data.image != null) {
                 $('#comment-image').show();
-                $('#comment-image').attr('src', "storage/" + data.image);
+                $('#comment-image').attr('src', "/storage/" + data.image);
             }
             $('#saveCommentBtn').text('Submit Comment!');
         })
@@ -35,6 +41,7 @@ $(document).ready(function () {
     $('.closeModalComment').on('click', function (e) {
         $('#commentForm').trigger("reset");
         $('#comment_character_count').text('');
+        $('.error-text').text('');
         $('#comment-image').hide();
         $('#commentModal').hide();
     });
@@ -46,9 +53,11 @@ $('#commentForm').submit(function (e) {
     e.preventDefault();
     var form = this;
     let formData = new FormData(this);
-    // for (var pair of formData.entries()) {
-    //     console.log(pair[0] + ', ' + pair[1]);
-    // }
+    // Get the current URL then route name
+    var currentUrl = window.location.href;
+    var currentRouteName = currentUrl.split("/").slice(-1)[0];
+    currentRouteName = String(currentRouteName);
+
     $.ajax({
         url: '/sendComment',
         type: 'POST',
@@ -63,6 +72,9 @@ $('#commentForm').submit(function (e) {
         success: function (data) {
             $(form)[0].reset;
             $('#commentForm').trigger("reset");
+            $('#comment_character_count').text('');
+            $('#comment-image').hide();
+            $('#commentModal').hide();
             toastr.options = {
                 "closeButton": true,
                 "progressBar": true,
@@ -70,9 +82,9 @@ $('#commentForm').submit(function (e) {
                 "showDuration": "300",
             }
             toastr.success(data.success);
-            setTimeout(function () {// wait for 5 secs(2)
-                location.reload(); // then reload the page.(3)
-            }, 3000);
+            // $('#page-content').click(false);
+            $('#page-content').load(currentRouteName);
+            // $('#page-content').click(true);
         },
         error: function (xhr) {
             $.each(xhr.responseJSON.errors, function (key, value) {
