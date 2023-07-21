@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -92,11 +93,11 @@ class User extends Authenticatable implements MustVerifyEmail
     // Show suggested users
     public function scopeSuggestedUsers(Builder $query)
     {
-
-        
-
-
-
+        // $followingIds = $user->followings->pluck('user_following_id');
+        // return $query->join('user_followers', function (JoinClause $join) {
+        //     $join->on('user_followers.user_id', '=', 'users.id')
+        //          ->where('user_followers.user_follower_id', '=', auth()->user()->id);
+        // });
 
         $user = auth()->user();
         $followingIds = $user->followings->pluck('user_following_id');

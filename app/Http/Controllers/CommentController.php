@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SendCommentRequest;
+use App\Http\Requests\EditCommentRequest;
 use App\Models\Comment;
 
 class CommentController extends Controller
@@ -29,5 +30,38 @@ class CommentController extends Controller
         //     'comment_success' => 'Comment has been submitted!',
         //     'postId' => $validated['post_id'],
         // ]);
+    }
+
+    public function view($id)
+    {
+        $comment = Comment::findOrFail($id);
+
+        return response()->json($comment);
+    }
+
+    public function editComment(EditCommentRequest $request)
+    {
+        $validated = $request->validated();
+        $comment = Comment::findOrfail($validated['comment_id']);
+        $this->authorize('update', [Comment::class, $comment]);
+
+        $comment->update([
+            'comment' => $validated['comment'],
+        ]);
+
+        return response()->json([
+            'success' => 'Comment has been updated!.',
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        $comment = Comment::findOrFail($id);
+        $this->authorize('delete', [Comment::class, $comment]);
+        $comment->delete();
+
+        return response()->json([
+            'success' => 'Comment has been deleted successfully.',
+        ]);
     }
 }

@@ -55,7 +55,9 @@ $(function () {
                     });
                 } else {
                     console.log('Success:', data);
+                    $('#page-content').attr('disabled', true);
                     $('#page-content').load(currentRouteName);
+                    $('#page-content').attr('disabled', false);
                 }
             },
             error: function (data) {

@@ -25,4 +25,10 @@ class Comment extends Model
     {
         return $this->belongsTo(Post::class, 'post_id', 'id');
     }
+
+    public function isUserOwnComment()
+    {
+        return $this->likes()->where('user_id', auth()->id())
+            ->exists();
+    }
 }

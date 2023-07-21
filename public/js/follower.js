@@ -21,6 +21,7 @@ $(function () {
         $.ajax({
             type: "post",
             url: action,
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: {
                 user_id: user_to_id
             },

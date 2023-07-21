@@ -57,7 +57,12 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::post('/unfollow', [FollowerController::class, 'unfollow'])->name('unfollow');
 
         // Routes for comments
-        Route::post('/sendComment', [CommentController::class, 'sendComment'])->name('sendComment');
+        Route::resource('comment', CommentController::class);
+        Route::post('/sendComment', [CommentController::class, 'sendComment'])->name('comment.sendComment');
+        Route::get('/viewComment/{id}', [CommentController::class, 'view'])->name('viewComment');
+        Route::post('/editComment', [CommentController::class, 'editComment'])->name('comment.editComment');
+
+
 
         // Routes for search
         Route::get('/search', [SearchController::class, 'search'])->name('search');

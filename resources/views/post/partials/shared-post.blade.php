@@ -30,7 +30,10 @@
         <!-- View Post link-->
         <a href="{{ route('post.show', $post->share->id) }}">
             <div>
-                <p class="text-gray-800 dark:text-white">{{ $post->share->content }}</p>
+                <p class="text-gray-800 dark:text-white">
+                    {{-- {{ $post->share->content }} --}}
+                    {!! nl2br(e($post->share->content)) !!}
+                </p>
                 @if ($post->share->image)
                     <img src="{{ url('storage/' . $post->share->image) }}" alt="" title="" class="mt-2">
                 @endif

@@ -181,6 +181,7 @@ $(function () {
         });
     });
 
+    // Delete Post
     $('#deletePostBtn').click(function (e) {
         e.preventDefault();
         let post_id = $(this).attr('value');

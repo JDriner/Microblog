@@ -10,7 +10,7 @@
     @if (request()->routeIs('post.show'))
         {{-- All comment & latest first --}}
         @foreach ($post->getCommentByLatestDate() as $comment)
-            <div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg ml-6 mt-2 p-6">
+            <div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg ml-6 mt-2 p-3">
                 <div class="flex items-center">
                     <div class="flex-shrink-0">
                         @if ($comment->user->profile_picture == null)
@@ -23,7 +23,7 @@
                         @endif
                     </div>
                     <div class="ml-2">
-                        <div class="text-sm text-gray-600 dark:text-gray-400 ">
+                        <div class="text-sm text-gray-400 dark:text-gray-400 ">
                             {{ $comment->user->first_name . ' ' . $comment->user->last_name }}
                         </div>
                         <div class="font-semibold text-sm text-black dark:text-white">
@@ -32,6 +32,16 @@
                     </div>
                 </div>
             </div>
+            @if ($comment->user->id == auth()->user()->id)
+                <div class="ml-6 text-xs text-slate-800 dark:text-white text-right">
+                    <button type="button" class="editComment mx-3" comment_id="{{ $comment->id }}">
+                        Edit
+                    </button>
+                    <button type="button" class="deleteComment mx-3" comment_id="{{ $comment->id }}">
+                        Delete
+                    </button>
+                </div>
+            @endif
         @endforeach
     @else
         <div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg ml-6 mt-2 p-6">
@@ -48,7 +58,7 @@
                     @endif
                 </div>
                 <div class="ml-2">
-                    <div class="text-sm text-gray-600 dark:text-gray-400 ">
+                    <div class="text-sm text-gray-400 dark:text-gray-400 ">
                         {{ $post->firstComment()->user->first_name . ' ' . $post->firstComment()->user->last_name }}
                     </div>
                     <div class="font-semibold text-sm text-black dark:text-white">
@@ -57,6 +67,15 @@
                 </div>
             </div>
         </div>
+        @if ($post->firstComment()->user->id == auth()->user()->id)
+        <div class="ml-6 text-xs text-slate-800 dark:text-white text-right">
+            <button type="button" class="editComment mx-3" comment_id="{{ $post->firstComment()->id }}">
+                Edit
+            </button>
+            <button type="button" class="deleteComment mx-3" comment_id="{{ $post->firstComment()->id }}">
+                Delete
+            </button>
+        </div>
+    @endif
     @endif
 @endif
-

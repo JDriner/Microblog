@@ -17,11 +17,6 @@ class HomeController extends Controller
         $suggestedUsers = User::suggestedUsers()->get();
 
         // print($suggestedUsers);
-        // if ($request->ajax()) {
-    	// 	$view = view('post.home-posts', compact('posts'))->render();
-
-        //     return response()->json(['html' => $view]);
-        // }
 
         return view('home.home', compact('posts', 'suggestedUsers', 'hashtags'));
     }

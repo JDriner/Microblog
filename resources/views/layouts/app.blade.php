@@ -48,7 +48,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                         </header>
                     @endif
                     <!-- Main contents of the page -->
-                    <main class="pt-2">
+                    <main class="pt-2 pb-32">
                         {{ $slot }}
                     </main>
                 </div>
@@ -63,7 +63,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
 </body>
 
 @stack('scripts')
-<script src="{{ asset('js/post-content.js') }}"></script>
+<script src="{{ asset('js/like-unlike.js') }}"></script>
 <script src="{{ asset('js/modal-post.js') }}"></script>
 <script src="{{ asset('js/follower.js') }}"></script>
 <script src="{{ asset('js/comment.js') }}"></script>
