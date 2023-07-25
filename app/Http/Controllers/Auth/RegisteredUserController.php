@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RegisterUserRequest;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -28,42 +29,14 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(RegisterUserRequest $request): RedirectResponse
     {
-        $request->validate([
-            'first_name' => [
-                'required',
-                'string',
-                'regex:/^[a-zA-Z\s]+$/',
-                'max:50',
-            ],
-            'last_name' => [
-                'required',
-                'string',
-                'regex:/^[a-zA-Z\s]+$/',
-                'max:50',
-            ],
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                'unique:'.User::class,
-            ],
-            'password' => [
-                'required',
-                'min:8',
-                'max:24',
-                'confirmed',
-                Password::defaults(),
-            ],
-        ]);
-
+        $validated = $request->validated();
         $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'first_name' => $validated['first_name'],
+            'last_name' => $validated['last_name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
         ]);
 
         event(new Registered($user));

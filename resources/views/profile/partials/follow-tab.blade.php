@@ -36,6 +36,7 @@
     <div id="followTabContent">
         <div class="p-4 {{ request()->is('listFollows/all') ? '' : 'hidden' }}" id="all" role="tabpanel"
             aria-labelledby="all-tab">
+            
             @if (!$followers->isEmpty())
                 <p class="text-gray-500 dark:text-gray-400 text-sm">Followers</p>
                 @foreach ($followers as $user)
@@ -93,6 +94,5 @@
             history.pushState(null, '', route);
             $('#page-content').load(route);
         });
-
     });
 </script>

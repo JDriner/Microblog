@@ -12,8 +12,6 @@ class CommentController extends Controller
     {
         $validated = $request->validated();
 
-        // $user = auth()->user();
-
         // $user->comments()
         //     ->create($validated);
         Comment::create([
@@ -25,11 +23,6 @@ class CommentController extends Controller
         return response()->json([
             'success' => 'Comment has been submitted!.',
         ]);
-
-        // return redirect()->back()->with([
-        //     'comment_success' => 'Comment has been submitted!',
-        //     'postId' => $validated['post_id'],
-        // ]);
     }
 
     public function view($id)
