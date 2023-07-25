@@ -6,13 +6,12 @@ use App\Http\Requests\ProfilePictureUpdateRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-use Illuminate\Auth\Events\Registered;
-use Validator;
 
 class ProfileController extends Controller
 {
@@ -36,7 +35,7 @@ class ProfileController extends Controller
         $my_posts = Post::where('user_id', $user_id)
             ->latest()
             ->get();
-            
+
         return view('profile.view-profile', compact('my_posts', 'user'));
     }
 
@@ -58,7 +57,7 @@ class ProfileController extends Controller
             $request->user()->email_verified_at = null;
             $request->user()->is_activated = false;
 
-            event(new Registered($request->user())); 
+            event(new Registered($request->user()));
         }
 
         $request->user()->save();
@@ -77,7 +76,7 @@ class ProfileController extends Controller
         $user->save();
 
         return response()->json([
-            'success' => 'Profile picture has been updated.'
+            'success' => 'Profile picture has been updated.',
         ]);
 
     }

@@ -2,13 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Rule;
 use App\Models\Post;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
-
+use Illuminate\Validation\Rule;
 
 class EditPostRequest extends FormRequest
 {
@@ -41,7 +38,7 @@ class EditPostRequest extends FormRequest
                 'required_without_all:content',
                 'image',
                 'mimes:jpeg,jpg,png,svg,gif',
-                'max:2048'
+                'max:2048',
             ],
         ];
     }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\StoreRequest;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -11,9 +10,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Illuminate\View\View;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
@@ -50,14 +48,14 @@ class RegisteredUserController extends Controller
                 'string',
                 'email',
                 'max:255',
-                'unique:' . User::class
+                'unique:'.User::class,
             ],
             'password' => [
                 'required',
                 'min:8',
                 'max:24',
                 'confirmed',
-                Password::defaults()
+                Password::defaults(),
             ],
         ]);
 
@@ -72,7 +70,7 @@ class RegisteredUserController extends Controller
 
         // Auth::login($user);
         // return redirect(RouteServiceProvider::HOME);
-        
+
         return redirect('/login')->with(
             'status',
             'An email verification link has been sent to your email. Please verify your email to proceed. Thanks!'

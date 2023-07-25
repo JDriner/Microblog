@@ -62,8 +62,6 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::get('/viewComment/{id}', [CommentController::class, 'view'])->name('viewComment');
         Route::post('/editComment', [CommentController::class, 'editComment'])->name('comment.editComment');
 
-
-
         // Routes for search
         Route::get('/search', [SearchController::class, 'search'])->name('search');
     });

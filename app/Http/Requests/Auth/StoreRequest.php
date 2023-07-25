@@ -2,12 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
-use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rules\Password;
 
 class StoreRequest extends FormRequest
@@ -45,12 +40,12 @@ class StoreRequest extends FormRequest
                 'string',
                 'email',
                 'max:255',
-                'unique:' . User::class
+                'unique:'.User::class,
             ],
             'password' => [
                 'required',
                 'confirmed',
-                Password::defaults()
+                Password::defaults(),
             ],
         ];
     }

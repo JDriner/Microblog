@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\DB;
 
 class Post extends Model
 {
@@ -40,7 +39,6 @@ class Post extends Model
         return $this->hasMany(Post::class, 'id', 'post_id')
             ->withTrashed();
     }
-
 
     public function comments()
     {
@@ -106,7 +104,7 @@ class Post extends Model
     // Search posts related to the keyword then returns the posts.
     public function scopeSearchPost($query, $search)
     {
-        return $query->where('content', 'LIKE', '%' . $search . '%');
+        return $query->where('content', 'LIKE', '%'.$search.'%');
     }
 
     // ---------------TRENDING TOPICS-------------------------
@@ -114,6 +112,7 @@ class Post extends Model
     {
         $allHashtags = Post::all()->map(function ($post) {
             preg_match_all('/#\w+/', $post->content, $matches);
+
             return $matches[0];
         })->flatten();
 
@@ -136,15 +135,14 @@ class Post extends Model
         if ($hashtagCounts->isEmpty()) {
             return null; // No hashtags found
         }
-        
+
         return $hashtagCounts->keys()->first();
     }
-
 
     public function scopePostHasHashtag($query, $hashtag)
     {
         return $query->where('id', $this->id)
-            ->where('content', 'LIKE', '%' . $hashtag . '%');
+            ->where('content', 'LIKE', '%'.$hashtag.'%');
     }
 
     // Most Liked post

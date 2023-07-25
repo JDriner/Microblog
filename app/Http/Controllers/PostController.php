@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SharePostRequest;
 use App\Http\Requests\EditPostRequest;
+use App\Http\Requests\SharePostRequest;
 use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Validator;
 
 class PostController extends Controller
 {
@@ -42,7 +41,7 @@ class PostController extends Controller
             $postData['image'] = $imagePath;
         }
         Post::create($postData);
-        
+
         return response()->json([
             'success' => 'Post saved successfully.',
         ]);
@@ -53,7 +52,7 @@ class PostController extends Controller
         $validated = $request->validated();
         $post = Post::findOrFail($validated['post_id']);
         $this->authorize('update', [Post::class, $post]);
-        
+
         $imagePath = null;
         $postData = [
             'user_id' => Auth::user()->id,

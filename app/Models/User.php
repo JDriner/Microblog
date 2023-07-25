@@ -6,7 +6,6 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Query\JoinClause;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
@@ -85,9 +84,9 @@ class User extends Authenticatable implements MustVerifyEmail
         $loggedInUserId = auth()->user()->id;
 
         return $query->where(function ($query) use ($search) {
-            $query->where('first_name', 'LIKE', '%' . $search . '%')
-                ->orWhere('last_name', 'LIKE', '%' . $search . '%')
-                ->orWhere(DB::raw("concat(first_name, ' ', last_name)"), 'LIKE', "%" . $search . "%");
+            $query->where('first_name', 'LIKE', '%'.$search.'%')
+                ->orWhere('last_name', 'LIKE', '%'.$search.'%')
+                ->orWhere(DB::raw("concat(first_name, ' ', last_name)"), 'LIKE', '%'.$search.'%');
         })
             ->where('id', '!=', $loggedInUserId);
     }
@@ -95,25 +94,25 @@ class User extends Authenticatable implements MustVerifyEmail
     // Show suggested users
     public function scopeSuggestedUsers(Builder $query)
     {
-        $loggedInUserId = auth()->user()->id;
-        return $query->select('users.*')
-            ->join('user_followers as following', 'users.id', '=', 'following.user_following_id')
-            ->leftJoin('user_followers as followers', function ($join) use ($loggedInUserId) {
-                $join->on('users.id', '=', 'followers.user_id')
-                    ->where('followers.user_following_id', '=', $loggedInUserId);
-            })
-            ->whereNull('followers.id') // Filter out users already followed by the logged-in user
-            ->where('users.id', '!=', $loggedInUserId) // Exclude the logged-in user
-            ->groupBy('users.id');
+        // $loggedInUserId = auth()->user()->id;
+        // return $query->select('users.*')
+        //     ->join('user_followers as following', 'users.id', '=', 'following.user_following_id')
+        //     ->leftJoin('user_followers as followers', function ($join) use ($loggedInUserId) {
+        //         $join->on('users.id', '=', 'followers.user_id')
+        //             ->where('followers.user_following_id', '=', $loggedInUserId);
+        //     })
+        //     ->whereNull('followers.id') // Filter out users already followed by the logged-in user
+        //     ->where('users.id', '!=', $loggedInUserId) // Exclude the logged-in user
+        //     ->groupBy('users.id');
 
         // --------------------WORKINGGGGGG------------
-        // $user = auth()->user();
-        // $followingIds = $user->followings->pluck('user_following_id');
-        // $suggestedUserId = UserFollower::whereIn('user_id', $followingIds)
-        //     ->whereNotIn('user_following_id', $followingIds)
-        //     ->pluck('user_following_id');
+        $user = auth()->user();
+        $followingIds = $user->followings->pluck('user_following_id');
+        $suggestedUserId = UserFollower::whereIn('user_id', $followingIds)
+            ->whereNotIn('user_following_id', $followingIds)
+            ->pluck('user_following_id');
 
-        // return $query->whereIn('id', $suggestedUserId)
-        //     ->where('id', '!=', $user->id);
+        return $query->whereIn('id', $suggestedUserId)
+            ->where('id', '!=', $user->id);
     }
 }

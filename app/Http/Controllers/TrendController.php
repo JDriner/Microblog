@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class TrendController extends Controller
@@ -20,7 +19,7 @@ class TrendController extends Controller
         $hashtagCounts = Post::countHashtags()->take(3);
 
         $hashtags = $hashtagCounts->toArray();
-        
+
         $posts = Post::all();
 
         return view('home.trends', compact('posts', 'hashtags', 'mostLikedPost'));
