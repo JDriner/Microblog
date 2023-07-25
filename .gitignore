@@ -4,7 +4,7 @@
 #     https://www.atlassian.com/git/tutorials/saving-changes/gitignore
 
 # Node artifact files
-node_modules/
+# node_modules/
 dist/
 
 # Compiled Java class files
@@ -54,7 +54,5 @@ Thumbs.db
 # vendor
 /vendor/
 
-# vendor
-/node_modules/
-
+# environment
 .env
