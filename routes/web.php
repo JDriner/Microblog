@@ -31,11 +31,12 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
     // Middleware for authenticated and verified users
     Route::middleware('auth', 'verified')->group(function () {
-        // Routes for Profile management
+        // routes for the navigation
         Route::get('/home', [HomeController::class, 'home'])->name('home');
         Route::get('/posts', [HomeController::class, 'posts'])->name('home.posts');
-
         Route::get('/trends', [TrendController::class, 'trends'])->name('trends');
+        
+        // Routes for Profile management
         Route::get('/view-profile', [ProfileController::class, 'view'])->name('profile.view');
         Route::get('/view-profile/{id}', [ProfileController::class, 'viewUser'])->name('profile.view-profile');
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -51,8 +52,9 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         // Routes for like & unlike
         Route::post('/like', [PostLikeController::class, 'likePost'])->name('like.likePost');
         Route::post('/unlike', [PostLikeController::class, 'unlikePost'])->name('like.unlikePost');
-        // Routes for follow & unfollow
-        Route::get('/listFollows', [FollowerController::class, 'listFollows'])->name('listFollows');
+
+        // Routes for listing the list follows, follow & unfollow
+        Route::get('/listFollows/{slug}', [FollowerController::class, 'listFollows'])->name('listFollows');
         Route::post('/follow', [FollowerController::class, 'follow'])->name('follow');
         Route::post('/unfollow', [FollowerController::class, 'unfollow'])->name('unfollow');
 

@@ -32,17 +32,9 @@ class FollowerController extends Controller
         ]);
     }
 
-    public function listFollows()
+    public function listFollows($type)
     {
         $user = auth()->user();
-        // Get the IDs of users being followed
-        // $following = $user->followings()
-        //     ->pluck('user_following_id');
-
-        // Get the IDs of users being followed
-        // $followers = $user->followers()
-        //     ->pluck('user_id');
-
         $following = User::whereIn('id', $user->followings()
             ->pluck('user_following_id'))
             ->get();
