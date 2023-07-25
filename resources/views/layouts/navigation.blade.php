@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('listFollows')" :active="request()->routeIs('listFollows')">
+                    <x-nav-link :href="route('listFollows', 'all')" :active="request()->routeIs('listFollows')">
                         <i class="fa-solid fa-lg fa-users"></i>
                     </x-nav-link>
                 </div>
