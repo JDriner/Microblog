@@ -14,10 +14,14 @@ class HomeController extends Controller
 
         $hashtags = Post::countHashtags()->take(3);
         // $hashtags = $hashtagCounts->toArray();
-        $suggestedUsers = User::suggestedUsers()->get();
+        $suggestedUsers = User::suggestedUsers()
+            ->take(5)
+            ->get();
 
-        // print($suggestedUsers);
-
+        // foreach ($suggestedUsers as $x) {
+        //     print($x->id . $x->first_name . "<br>");
+        // }
+        // dd($suggestedUsers);
         return view('home.home', compact('posts', 'suggestedUsers', 'hashtags'));
     }
 

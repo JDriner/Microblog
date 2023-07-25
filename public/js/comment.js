@@ -14,7 +14,6 @@ $(document).ready(function () {
         $('#comment_character_count').text(currentLength + ' / ' + maxLength + ' characters used');
     });
 
-
     $('.addComment').on('click', function () {
         console.log("Add comment!");
         let post_id = $(this).attr('post_id');
@@ -83,8 +82,6 @@ $(document).ready(function () {
         $('#comment').text("");
     });
 
-
-
     // create comment - submit form
     $('#commentForm').submit(function (e) {
         console.log("submitted Form");
@@ -132,7 +129,6 @@ $(document).ready(function () {
         });
     });
 
-
     // Delete Commment
     $('#deleteCommentBtn').click(function (e) {
         e.preventDefault();
@@ -164,5 +160,4 @@ $(document).ready(function () {
             }
         });
     });
-
 });

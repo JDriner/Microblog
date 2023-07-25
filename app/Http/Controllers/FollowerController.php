@@ -16,7 +16,7 @@ class FollowerController extends Controller
         ]);
 
         return response()->json([
-            'success' => 'Followed',
+            'success' => 'You have followed a user!',
         ]);
     }
 
@@ -28,7 +28,7 @@ class FollowerController extends Controller
         $followedUser->delete();
 
         return response()->json([
-            'success' => 'Unfollowed',
+            'success' => 'You have unfollowed a user!',
         ]);
     }
 

@@ -6,7 +6,6 @@ $(function () {
         }
     });
 
-
     // Follow/Unfollow user
     $('.follow_unfollow').on('click', function (e) {
         e.preventDefault();
@@ -36,6 +35,13 @@ $(function () {
                     });
                 } else {
                     console.log('Success:', data);
+                    toastr.options = {
+                        "closeButton": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "showDuration": "600",
+                    }
+                    toastr.success(data.success);
                     $('#page-content').load(currentRouteName);
                 }
             },
@@ -43,7 +49,5 @@ $(function () {
                 console.log('Error:', data);
             }
         });
-
     });
-
 });
