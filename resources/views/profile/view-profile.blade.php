@@ -1,7 +1,6 @@
 @section('title')
     Profile
 @endsection
-
 <x-app-layout>
     @if (Auth::user()->id != $user->id)
         <x-slot name="header">
@@ -16,8 +15,6 @@
             </div>
         </x-slot>
     @endif
-
-
     <div class="flex">
         <!-- User Information -->
         <div class="w-2/5">
@@ -32,15 +29,12 @@
                 @endif
             </div>
         </div>
-
         <!-- Posts -->
         <div class="w-3/5">
             @if ($user->id == Auth::user()->id)
                 <!-- Creation of post (with the modal) -->
                 @include('post.create-post')
             @endif
-
-
             <div class="max-w-xl mx-auto">
                 <!-- No posts yet -->
                 @if (count($my_posts) < 1)
@@ -70,13 +64,15 @@
                 @foreach ($my_posts as $post)
                     @include('post.post-content')
                 @endforeach
+                <div class="my-4 mx-2">
+                    {{ $my_posts->links('pagination::tailwind') }}
+                </div>
             </div>
         </div>
     </div>
-
     @include('flash.flash')
-
     @push('scripts')
         {{-- <script src="{{ asset('js/load-page.js') }}"></script> --}}
     @endpush
 </x-app-layout>
+

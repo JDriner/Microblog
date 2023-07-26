@@ -1,5 +1,5 @@
 @section('title')
-    Showing results for " {{  $search }}"
+    Showing results for " {{ $search }}"
 @endsection
 
 <x-app-layout>
@@ -37,6 +37,15 @@
             @endforeach
         </div>
     @endif
+    <div class="max-w-xl mx-auto">
+        <div class="my-4 mx-2 flex justify-center">
+            @if ($users->lastpage() >= $posts->lastPage())
+                {{ $users->links('pagination::tailwind') }}
+            @else
+                {{ $posts->links('pagination::tailwind') }}
+            @endif
+        </div>
+    </div>
 
     @push('scripts')
         {{-- <script src="{{ asset('js/load-page.js') }}"></script> --}}
