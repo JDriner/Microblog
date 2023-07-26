@@ -22,7 +22,7 @@ class ProfileController extends Controller
     {
         $my_posts = Post::where('user_id', Auth::user()->id)
             ->latest()
-            ->get();
+            ->paginate(5);
 
         return view('profile.view-profile', [
             'user' => $request->user(),
@@ -34,7 +34,7 @@ class ProfileController extends Controller
         $user = User::findOrFail($user_id);
         $my_posts = Post::where('user_id', $user_id)
             ->latest()
-            ->get();
+            ->paginate(5);
 
         return view('profile.view-profile', compact('my_posts', 'user'));
     }

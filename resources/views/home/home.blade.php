@@ -31,8 +31,13 @@
             <!-- Display Posts -->
             <div class="max-w-xl mx-auto" id="post-data">
                 @include('post.home-posts')
-                <div class="my-4 mx-2">
+            </div>
+
+            <!-- pagination of posts -->
+            <div class="max-w-xl mx-auto">
+                <div class="my-4 mx-2 flex justify-center">
                     {{ $posts->links('pagination::tailwind') }}
+
                 </div>
             </div>
         </div>

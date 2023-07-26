@@ -70,6 +70,9 @@
                 @foreach ($my_posts as $post)
                     @include('post.post-content')
                 @endforeach
+                <div class="my-4 mx-2">
+                    {{ $my_posts->links('pagination::tailwind') }}
+                </div>
             </div>
         </div>
     </div>

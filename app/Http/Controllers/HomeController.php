@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function home()
+    public function home(Request $request)
     {
         $posts = Post::newsFeed()->paginate(5);
 
@@ -22,6 +22,12 @@ class HomeController extends Controller
         //     print($x->id . $x->first_name . "<br>");
         // }
         // dd($suggestedUsers);
+
+        // if ($request->ajax()) {
+        //     $view = view('post.home-posts', compact('posts'))->render();
+        //     return response()->json(['html' => $view]);
+        // }
+
         return view('home.home', compact('posts', 'suggestedUsers', 'hashtags'));
     }
 
