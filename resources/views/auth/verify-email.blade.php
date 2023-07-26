@@ -1,6 +1,6 @@
 <x-guest-layout>
     <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        {{ __('You have updated your email! Please click on the the button below to send a verification message to your emai!.') }}
+        {{ __('Your email is not verified!') }}
     </div>
 
     {{-- @if (session('status'))

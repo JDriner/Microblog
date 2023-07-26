@@ -35,7 +35,6 @@ class RegisterUserRequest extends FormRequest
             ],
             'email' => [
                 'required',
-                'string',
                 'email',
                 'max:255',
                 'unique:'.User::class,
