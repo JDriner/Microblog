@@ -23,7 +23,7 @@ $(function () {
         let postId = $(this).attr('post_id');
         let action = $(this).attr('action');
 
-        console.log(action+ "===" + postId);
+        console.log(action + "===" + postId);
         // Get the current URL then route name
         var currentUrl = window.location.href;
         var currentRouteName = currentUrl.split("/").slice(-1)[0];
@@ -32,7 +32,7 @@ $(function () {
         $.ajax({
             type: "post",
             url: action,
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: {
                 post_id: postId
             },
@@ -41,27 +41,25 @@ $(function () {
                 console.log("like")
             },
             success: function (data) {
-                if (data.code == 0) {
-                    $.each(data.error, function (prefix, val) {
-                        // $(form).find('span.'+prefix+'_error').text(val[0])
-                        // alert("error" + val[0])
-                        toastr.options = {
-                            "closeButton": true,
-                            "progressBar": true,
-                            "positionClass": "toast-top-center",
-                            "showDuration": "600",
-                        }
-                        toastr.error("error" + val[0]);
-                    });
-                } else {
-                    console.log('Success:', data);
+                    toastr.options = {
+                        "closeButton": true,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "showDuration": "600",
+                    }
+                    toastr.success(data.success);
                     $('#page-content').children().off();
                     $('#page-content').load(currentRouteName);
                     $('#page-content').children().on();
-                }
             },
             error: function (data) {
-                console.log('Error:', data);
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "showDuration": "600",
+                }
+                toastr.error("<strong>Something went wrong!</strong><br> Please try again.");
             }
         });
 

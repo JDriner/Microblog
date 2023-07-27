@@ -59,11 +59,6 @@ class PostController extends Controller
             'content' => $validated['content'],
         ];
 
-        //Means you are editing a shared post
-        if ($validated['shared_post_id'] != null) {
-            $postData['post_id'] = $validated['shared_post_id'];
-        }
-
         //if the user has updated the image or it has content
         if ($request->file('image')) {
             $imagePath = $request->file('image')

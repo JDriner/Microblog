@@ -12,8 +12,6 @@ class CommentController extends Controller
     {
         $validated = $request->validated();
 
-        // $user->comments()
-        //     ->create($validated);
         Comment::create([
             'user_id' => auth()->user()->id,
             'post_id' => $validated['post_id'],

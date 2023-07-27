@@ -35,10 +35,13 @@
                                     <div class="flex items-center">
                                         <input type="file" name="profile_picture" id="profile_picture"
                                             class="hidden">
-                                        <label for="profile_picture"
-                                            class="dp_label text-xs bg-gray-200 px-4 py-2 rounded-lg cursor-pointer">
-                                            Select Image
-                                        </label>
+                                            <div class="w-64">
+                                                <label for="profile_picture"
+                                                class="dp_label text-xs bg-gray-200 px-4 py-2 rounded-lg cursor-pointer whitespace-wrap">
+                                                Select Image
+                                            </label>
+                                            </div>
+                                     
                                         <span class="text-red-600 text-sm error-text profile_picture_error"></span>
                                     </div>
                                 </div>

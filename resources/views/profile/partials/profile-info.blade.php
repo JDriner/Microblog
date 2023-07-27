@@ -22,7 +22,7 @@
             <h2 class="text-sm font-light">{{ Auth::user()->email }}</h2>
         </div>
         <div class="mb-4">
-            <a href="{{ route('listFollows', 'all') }}">
+            <a href="{{ route('follows', 'all') }}">
                 <p class="text-xs text-gray-600 dark:text-gray-300 hover:text-slate-900">
                     {{ Auth::user()->followers->count() }} Followers | {{ Auth::user()->followings->count() }} Following
                 </p>
