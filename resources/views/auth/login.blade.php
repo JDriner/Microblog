@@ -50,7 +50,7 @@
             @endif
         </div>
 
-        <div class="flex items-center justify-end mt-4">
+        <div class="flex items-center justify-center mt-4">
             <x-primary-button class="ml-3">
                 {{ __('Log in') }}
             </x-primary-button>

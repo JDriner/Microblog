@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
+use App\Rules\UniqueUnverifiedEmail;
 
 class RegisterUserRequest extends FormRequest
 {
@@ -37,7 +38,8 @@ class RegisterUserRequest extends FormRequest
                 'required',
                 'email',
                 'max:255',
-                'unique:'.User::class,
+                // 'unique:'.User::class,
+                new UniqueUnverifiedEmail,
             ],
             'password' => [
                 'required',
@@ -45,6 +47,9 @@ class RegisterUserRequest extends FormRequest
                 'max:24',
                 'confirmed',
                 Password::defaults(),
+            ],
+            'password_confirmation' => [
+                'same:password',
             ],
         ];
     }
@@ -70,6 +75,7 @@ class RegisterUserRequest extends FormRequest
             'email.unique' => 'The email address is already taken.',
             'password.required' => 'Please enter a password.',
             'password.confirmed' => 'The password confirmation does not match.',
+            'password_confirmation.same' => 'The password confirmation does not match.',
         ];
     }
 

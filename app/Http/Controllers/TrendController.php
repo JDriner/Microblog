@@ -9,7 +9,7 @@ class TrendController extends Controller
 {
     public function trends(Request $request)
     {
-        // $popularHashtag = Post::popularHashtag();
+        // $popularHashtag = Post::getPopularHashtag();
         // dd($popularHashtag);
         // $posts = Post::postHasHashtag($popularHashtag);
         // return view('home.trends', compact('posts', 'popularHashtag'));

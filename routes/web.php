@@ -28,41 +28,45 @@ Route::get('/', function () {
 // Prevent users from going back after login/logout
 Route::group(['middleware' => 'prevent-back-history'], function () {
     // Auth::routes();
-
     // Middleware for authenticated and verified users
     Route::middleware('auth', 'verified')->group(function () {
         // routes for the navigation
         Route::get('/home', [HomeController::class, 'home'])->name('home');
         Route::get('/posts', [HomeController::class, 'posts'])->name('home.posts');
         Route::get('/trends', [TrendController::class, 'trends'])->name('trends');
-        
+
         // Routes for Profile management
-        Route::get('/view-profile', [ProfileController::class, 'view'])->name('profile.view');
-        Route::get('/view-profile/{id}', [ProfileController::class, 'viewUser'])->name('profile.view-profile');
-        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::post('/profile', [ProfileController::class, 'updatePicture'])->name('profile.updatePicture');
-        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::prefix('profile')->name('profile.')->group(function () {
+            Route::get('/me', [ProfileController::class, 'view'])->name('view');
+            Route::get('/{id}', [ProfileController::class, 'viewUser'])->name('view-profile');
+            Route::get('/', [ProfileController::class, 'edit'])->name('edit');
+            Route::patch('/', [ProfileController::class, 'update'])->name('update');
+            Route::post('/', [ProfileController::class, 'updatePicture'])->name('updatePicture');
+            Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
+        });
 
         // Routes for posts
         Route::resource('post', PostController::class);
         Route::get('/share/{id}', [PostController::class, 'share'])->name('post.share');
         Route::post('/editPost', [PostController::class, 'editPost'])->name('post.editPost');
         Route::post('/sharepost', [PostController::class, 'sharepost'])->name('post.sharepost');
+
         // Routes for like & unlike
         Route::post('/like', [PostLikeController::class, 'likePost'])->name('like.likePost');
         Route::post('/unlike', [PostLikeController::class, 'unlikePost'])->name('like.unlikePost');
 
         // Routes for listing the list follows, follow & unfollow
-        Route::get('/listFollows/{slug}', [FollowerController::class, 'listFollows'])->name('listFollows');
+        Route::get('/follows/{slug}', [FollowerController::class, 'listFollows'])->name('follows');
         Route::post('/follow', [FollowerController::class, 'follow'])->name('follow');
         Route::post('/unfollow', [FollowerController::class, 'unfollow'])->name('unfollow');
 
         // Routes for comments
-        Route::resource('comment', CommentController::class);
-        Route::post('/sendComment', [CommentController::class, 'sendComment'])->name('comment.sendComment');
-        Route::get('/viewComment/{id}', [CommentController::class, 'view'])->name('viewComment');
-        Route::post('/editComment', [CommentController::class, 'editComment'])->name('comment.editComment');
+        Route::prefix('/')->name('comment.')->group(function () {
+            Route::resource('comment', CommentController::class);
+            Route::post('/send-comment', [CommentController::class, 'sendComment'])->name('send-comment');
+            Route::get('/view-comment/{id}', [CommentController::class, 'view'])->name('view-comment');
+            Route::post('/edit-comment', [CommentController::class, 'editComment'])->name('edit-comment');
+        });
 
         // Routes for search
         Route::get('/search', [SearchController::class, 'search'])->name('search');

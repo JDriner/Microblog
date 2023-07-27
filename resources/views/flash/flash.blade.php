@@ -8,6 +8,24 @@
         toastr.success("{{ Session::get('success') }}");
     @endif
 
+    @if (Session::has('email-verified'))
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+        }
+        toastr.success("<strong>Congratulations!</strong><br>{{ Session::get('email-verified') }}");
+    @endif
+
+    @if (Session::has('email-unverified'))
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+        }
+        toastr.error("{{ Session::get('email-unverified') }}");
+    @endif
+
     @if ($errors->any())
         toastr.options = {
             "closeButton": true,
@@ -25,11 +43,4 @@
         toastr.info("{{ session('info') }}");
     @endif
 
-    // @error('comment')
-    //     toastr.options = {
-    //         "closeButton": true,
-    //         "progressBar": true
-    //     }
-    //     toastr.warning("{{ $message }}");
-    // @enderror
 </script>

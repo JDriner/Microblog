@@ -87,7 +87,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $query->where(function ($query) use ($search) {
             $query->where('first_name', 'LIKE', '%' . $search . '%')
                 ->orWhere('last_name', 'LIKE', '%' . $search . '%')
-                ->orWhere(DB::raw("concat(first_name, ' ', last_name)"), 'LIKE', "%" . $search . "%");
+                ->orWhere(DB::raw("concat(first_name, ' ', last_name)"), 'LIKE', '%' . $search . '%');
         })
             ->where('id', '!=', $loggedInUserId);
     }
