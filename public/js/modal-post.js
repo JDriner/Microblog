@@ -14,8 +14,7 @@ $(document).ready(function () {
     //  IMAGE PREVIEW
     $('#image').on('change', function (e) {
         const size = (this.files[0].size / 1024 / 1024).toFixed(2);
-        console.log("sizeadsfasdfasf");
-        console.log("size" + size);
+        // console.log("size" + size);
         if (size > 2) {
             $('.image_error').text('The file size should not be more than 2mb.');
             $('#preview').hide();
@@ -72,7 +71,7 @@ $(function () {
             $("#postForm").attr('action', "/editPost");
             $('#delete_post_modal_btn').hide();
             $('#shared_post_content').hide();
-            console.log(data);
+            // console.log(data);
             $('#content').val(data.content);
             $('#post_id').val(data.id);
             if (data.post_id != null) {
@@ -115,7 +114,7 @@ $(function () {
     // Delete Button shows modal
     $('.deletePost').on('click', function (e) {
         let post_id = $(this).attr('post_id');
-        console.log("delete: " + post_id);
+        // console.log("delete: " + post_id);
         $('#postModal').show();
         $('#delete_post_modal_btn').show();
         $('#post-modal-title').text('Delete Post');
@@ -131,6 +130,7 @@ $(function () {
         // $('#preview').trigger("reset");
         $('.error-text').text('');
         $('.image_label').text('Upload Image');
+        $('.post_submit_error').text('');
         $('#shared-image').hide();
         $('#postForm').hide();
         $('#postModal').hide();
@@ -148,6 +148,7 @@ $(function () {
         currentRouteName = String(currentRouteName);
 
         $.ajax({
+            // headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             url: $(form).attr('action'),
             type: $(form).attr('method'),
             data: formData,
@@ -157,6 +158,7 @@ $(function () {
             contentType: false,
             beforeSend: function () {
                 $(form).find('span.error-text').text('');
+                $('.post_submit_error').text('');
             },
             success: function (data) {
                 $(form)[0].reset;
@@ -172,12 +174,18 @@ $(function () {
                 toastr.success(data.success);
                 $('#page-content').load(currentRouteName);
             },
-            error: function (xhr, data) {
-                console.log("error" + data.error);
-                $.each(xhr.responseJSON.errors, function (key, value) {
-                    $(form).find('span.' + key + '_error').text(value)
-                });
-            }
+            error:
+                function (data) {
+                    // console.log(data);
+                    if (data.responseJSON.hasOwnProperty('errors')) {
+                        $.each(data.responseJSON.errors, function (key, value) {
+                            $(form).find('span.' + key + '_error').text(value)
+                        });
+                    } else {
+                        $('.post_submit_error').text(data.responseJSON.message);
+                    }
+
+                }
         });
     });
 
@@ -191,13 +199,13 @@ $(function () {
         var currentRouteName = currentUrl.split("/").slice(-1)[0];
         currentRouteName = String(currentRouteName);
         $.ajax({
+            // headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             type: "DELETE",
-            url: 'post/' + post_id,
+            url: '/post/' + post_id,
             success: function (data) {
                 $('#postForm').hide();
-                console.log(data)
+                // console.log(data)
                 $('#postModal').hide();
-                // alert(data.success);
                 toastr.options = {
                     "closeButton": true,
                     "progressBar": true,
@@ -208,7 +216,8 @@ $(function () {
                 $('#page-content').load(currentRouteName);
             },
             error: function (data) {
-                console.log('Error:', data);
+                $('#delete_post_error').text('Error!! ' + data.responseJSON.message);
+                // console.log('Error:', data);
             }
         });
     });

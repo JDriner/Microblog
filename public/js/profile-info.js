@@ -1,18 +1,18 @@
-$(document).ready(function() {
-    $('.changePicModal').on('click', function(e) {
+$(document).ready(function () {
+    $('.changePicModal').on('click', function (e) {
         // $('#changePictureForm').trigger("reset");
         $('#changePicModal').removeClass('invisible');
     });
-    $('.closeModal').on('click', function(e) {
+    $('.closeModal').on('click', function (e) {
         $('#changePictureForm').trigger("reset");
         $('#changePicModal').addClass('invisible');
     });
 });
 
 //  IMAGE Validation and preview
-$('#profile_picture').on('change', function(e) {
+$('#profile_picture').on('change', function (e) {
     const size = (this.files[0].size / 1024 / 1024).toFixed(2);
-    console.log(size);
+    // console.log(size);
     if (size > 2) {
         $('.profile_picture_error').text('File must be less than 2mb');
     } else {
@@ -34,7 +34,7 @@ $('#profile_picture').on('change', function(e) {
 });
 
 // Submit the picture form
-$(function() {
+$(function () {
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -42,12 +42,16 @@ $(function() {
     });
 
     // Change Picture form
-    $('#changePictureForm').on('submit', function(e) {
+    $('#changePictureForm').on('submit', function (e) {
         e.preventDefault();
         var form = this;
-        console.log("picture submit");
+        // console.log("picture submit");
         let file_name = document.getElementById('profile_picture').value;
-        console.log(file_name);
+        // console.log(file_name);
+        // Get the current URL then route name
+        var currentUrl = window.location.href;
+        var currentRouteName = currentUrl.split("/").slice(-1)[0];
+        currentRouteName = String(currentRouteName);
 
         $.ajax({
             url: $(form).attr('action'),
@@ -56,12 +60,12 @@ $(function() {
             processData: false,
             dataType: 'json',
             contentType: false,
-            beforeSend: function() {
+            beforeSend: function () {
                 $(form).find('span.error-text').text('')
             },
-            success: function(data) {
+            success: function (data) {
                 if (data.code == 0) {
-                    $.each(data.error, function(prefix, val) {
+                    $.each(data.error, function (prefix, val) {
                         $(form).find('span.' + prefix + '_error').text(val[0])
                     });
                 } else {
@@ -75,14 +79,12 @@ $(function() {
                         "showDuration": "600",
                     }
                     toastr.success("Profile Picture has been updated.");
-                    setTimeout(function() { // wait for 3 secs(2)
-                        location.reload(); // then reload the page.(3)
-                    }, 3000);
+                    $('#page-content').load(currentRouteName);
                 }
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 console.log('XHR:', xhr);
-                $.each(xhr.responseJSON.errors, function(key, value) {
+                $.each(xhr.responseJSON.errors, function (key, value) {
                     $(form).find('span.' + key + '_error').text(value)
                 });
             }

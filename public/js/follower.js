@@ -26,27 +26,28 @@ $(function () {
             },
             dataType: 'json',
             beforeSend: function () {
-                console.log("follow/unfollow")
+                // console.log("follow/unfollow")
             },
             success: function (data) {
-                if (data.code == 0) {
-                    $.each(data.error, function (prefix, val) {
-                        alert("error" + val[0])
-                    });
-                } else {
-                    console.log('Success:', data);
-                    toastr.options = {
-                        "closeButton": true,
-                        "progressBar": true,
-                        "positionClass": "toast-top-right",
-                        "showDuration": "600",
-                    }
-                    toastr.success(data.success);
-                    $('#page-content').load(currentRouteName);
+                // console.log('Success:', data);
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "showDuration": "600",
                 }
+                toastr.success(data.success);
+                $('#page-content').load(currentRouteName);
             },
             error: function (data) {
-                console.log('Error:', data);
+                // console.log('Error:', data);
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "showDuration": "600",
+                }
+                toastr.error("<strong>Something went wrong!</strong><br> Please try again.");
             }
         });
     });

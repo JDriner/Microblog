@@ -80,6 +80,9 @@ $(document).ready(function () {
         $('#comment-image').hide();
         $('#commentModal').hide();
         $('#comment').text("");
+        $('#edit_comment_error').text('');
+        $('#delete_comment_error').text('');
+
     });
 
     // create comment - submit form
@@ -103,6 +106,8 @@ $(document).ready(function () {
             contentType: false,
             beforeSend: function () {
                 $(form).find('span.error-text').text('');
+                $('#edit_comment_error').text('');
+
             },
             success: function (data) {
                 $(form)[0].reset;
@@ -125,6 +130,7 @@ $(document).ready(function () {
                 $.each(xhr.responseJSON.errors, function (key, value) {
                     $(form).find('span.' + key + '_error').text(value)
                 });
+                $('#edit_comment_error').text('Something went wrong upon editing this comment!');
             }
         });
     });
@@ -156,7 +162,8 @@ $(document).ready(function () {
                 $('#page-content').load(currentRouteName);
             },
             error: function (data) {
-                console.log('Error:', data);
+                  $('#delete_comment_error').text('Something went wrong upon deleting this comment!');
+                // console.log('Error:', data);
             }
         });
     });
