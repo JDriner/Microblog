@@ -36,7 +36,7 @@ class HomeController extends Controller
             ->take($this->suggestedUserCount)
             ->get();
 
-        return view('home.home', compact('posts', 'suggestedUsers', 'hashtags'));
+        return view('home.index', compact('posts', 'suggestedUsers', 'hashtags'));
     }
 
     /**
