@@ -23,7 +23,7 @@ $(function () {
         let postId = $(this).attr('post_id');
         let action = $(this).attr('action');
 
-        console.log(action + "===" + postId);
+        // console.log(action + "===" + postId);
         // Get the current URL then route name
         var currentUrl = window.location.href;
         var currentRouteName = currentUrl.split("/").slice(-1)[0];
@@ -38,7 +38,7 @@ $(function () {
             },
             dataType: 'json',
             beforeSend: function () {
-                console.log("like")
+                // console.log("like")
             },
             success: function (data) {
                     toastr.options = {
