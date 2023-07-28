@@ -47,31 +47,11 @@ class PostController extends Controller
         ]);
     }
 
-    public function editPost(EditPostRequest $request)
-    {
-        $validated = $request->validated();
-        $post = Post::findOrFail($validated['post_id']);
-        $this->authorize('update', [Post::class, $post]);
-
-        $imagePath = null;
-        $postData = [
-            'user_id' => Auth::user()->id,
-            'content' => $validated['content'],
-        ];
-
-        //if the user has updated the image or it has content
-        if ($request->file('image')) {
-            $imagePath = $request->file('image')
-                ->store('post_picture', 'public');
-            $postData['image'] = $imagePath;
-        }
-        $post->update($postData);
-
-        return response()->json([
-            'success' => 'Post saved successfully.',
-        ]);
-    }
-
+    /**
+     * Share a post as requested by the user
+     * @param SharePostRequest $request
+     * @return void
+     */
     public function sharePost(SharePostRequest $request)
     {
         $validated = $request->validated();
@@ -112,6 +92,12 @@ class PostController extends Controller
         return response()->json($post);
     }
 
+    /**
+     * Get the details of the post to be shared
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function share($id)
     {
         $post = Post::findOrFail($id);
@@ -125,9 +111,29 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EditPostRequest $request)
     {
-        //
+        $validated = $request->validated();
+        $post = Post::findOrFail($validated['post_id']);
+        $this->authorize('update', [Post::class, $post]);
+
+        $imagePath = null;
+        $postData = [
+            'user_id' => Auth::user()->id,
+            'content' => $validated['content'],
+        ];
+
+        //if the user has updated the image or it has content
+        if ($request->file('image')) {
+            $imagePath = $request->file('image')
+                ->store('post_picture', 'public');
+            $postData['image'] = $imagePath;
+        }
+        $post->update($postData);
+
+        return response()->json([
+            'success' => 'Post saved successfully.',
+        ]);
     }
 
     /**

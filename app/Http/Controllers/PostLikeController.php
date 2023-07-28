@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class PostLikeController extends Controller
 {
+    /**
+     * The user likes a post/clicks on the like button
+     * @param Request $request
+     * @return void
+     */
     public function likePost(Request $request)
     {
         PostLike::updateOrCreate([
@@ -20,6 +25,11 @@ class PostLikeController extends Controller
         ]);
     }
 
+    /**
+     * The user unlikes a post/clicks on th eunlike button
+     * @param Request $request
+     * @return void
+     */
     public function unlikePost(Request $request)
     {
         $likedPost = PostLike::whereUserId(Auth::id())

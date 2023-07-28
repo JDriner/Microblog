@@ -15,30 +15,48 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+    private $postsPerPage;
+
+    public function __construct()
+    {
+        $this->postsPerPage = config('microblog.posts_per_page');
+    }
     /**
-     * Display the user's profile form.
+     * Display the user's profile.
      */
     public function view(Request $request): View
     {
         $my_posts = Post::where('user_id', Auth::user()->id)
             ->latest()
-            ->paginate(5);
+            ->paginate($this->postsPerPage);
 
         return view('profile.view-profile', [
             'user' => $request->user(),
         ], compact('my_posts'));
     }
 
+    /**
+     * Viewuser account
+     *
+     * @param [type] $user_id
+     * @return
+     */
     public function viewUser($user_id)
     {
         $user = User::findOrFail($user_id);
         $my_posts = Post::where('user_id', $user_id)
             ->latest()
-            ->paginate(5);
+            ->paginate($this->postsPerPage);
 
         return view('profile.view-profile', compact('my_posts', 'user'));
     }
 
+    /**
+     * Fetch the details of the requested user then returns to the edit view
+     *
+     * @param Request $request
+     * @return View
+     */
     public function edit(Request $request): View
     {
         return view('profile.edit', [
@@ -66,6 +84,12 @@ class ProfileController extends Controller
             ->with('success', 'Your profile has been updated successfully!');
     }
 
+    /**
+     * Updates the profile picture of the user
+     *
+     * @param ProfilePictureUpdateRequest $request
+     * @return
+     */
     public function updatePicture(ProfilePictureUpdateRequest $request)
     {
         $image_path = $request->file('profile_picture')

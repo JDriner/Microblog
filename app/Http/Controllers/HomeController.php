@@ -8,32 +8,45 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function home(Request $request)
+    private $postsPerPage;
+    private $hashtagCounts;
+    private $suggestedUserCount;
+
+    public function __construct()
     {
-        $posts = Post::newsFeed()->paginate(5);
+        $this->postsPerPage = config('microblog.posts_per_page');
+        $this->hashtagCounts = config('microblog.hashtag_counts');
+        $this->suggestedUserCount = config('microblog.suggested_user_count');
+    }
+    /**
+     * Display the contents of the home page
+     *
+     * @return
+     */
+    public function home()
+    {
+        $posts = Post::newsFeed()
+            ->paginate($this->postsPerPage);
 
-        $hashtags = Post::countHashtags()->take(3);
-        // $hashtags = $hashtagCounts->toArray();
+        $postHashtags = new Post();
+        $hashtags = $postHashtags->popularHashtags()
+            ->take($this->hashtagCounts);
+
         $suggestedUsers = User::suggestedUsers()
-            ->take(5)
+            ->take($this->suggestedUserCount)
             ->get();
-
-        // foreach ($suggestedUsers as $x) {
-        //     print($x->id . $x->first_name . "<br>");
-        // }
-        // dd($suggestedUsers);
-
-        // if ($request->ajax()) {
-        //     $view = view('post.home-posts', compact('posts'))->render();
-        //     return response()->json(['html' => $view]);
-        // }
 
         return view('home.home', compact('posts', 'suggestedUsers', 'hashtags'));
     }
 
+    /**
+     * Display the posts
+     * @return
+     */
     public function posts()
     {
-        $posts = Post::newsFeed()->paginate(5);
+        $posts = Post::newsFeed()
+            ->paginate($this->postsPerPage);
 
         return view('post.home-posts', compact('posts'));
     }

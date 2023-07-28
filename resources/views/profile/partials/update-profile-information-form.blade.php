@@ -19,48 +19,54 @@
 
         <div>
             <x-input-label for="first_name" :value="__('First Name')" />
-            <x-text-input id="first_name" name="first_name" type="text" class="mt-1 block w-full" :value="old('first_name', $user->first_name)" autocomplete="first_name" />
+            <x-text-input id="first_name" name="first_name" type="text" class="mt-1 block w-full" :value="old('first_name', $user->first_name)"
+                autocomplete="first_name" />
             <x-input-error class="mt-2" :messages="$errors->get('first_name')" />
         </div>
 
         <div>
             <x-input-label for="last_name" :value="__('Last Name')" />
-            <x-text-input id="last_name" name="last_name" type="text" class="mt-1 block w-full" :value="old('last_name', $user->last_name)" autocomplete="last_name" />
+            <x-text-input id="last_name" name="last_name" type="text" class="mt-1 block w-full" :value="old('last_name', $user->last_name)"
+                autocomplete="last_name" />
             <x-input-error class="mt-2" :messages="$errors->get('last_name')" />
         </div>
 
         <div>
             <x-input-label for="phone_no" :value="__('Phone no')" />
-            <x-text-input id="phone_no" name="phone_no" type="text" class="mt-1 block w-full" :value="old('phone_no', $user->phone_no)" autocomplete="phone_no" />
+            <x-text-input id="phone_no" name="phone_no" type="text" class="mt-1 block w-full" :value="old('phone_no', $user->phone_no)"
+                autocomplete="phone_no" />
             <x-input-error class="mt-2" :messages="$errors->get('phone_no')" />
         </div>
 
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" autocomplete="username" />
-                <div>
-                    <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
-                        {{ __('Updating your email will log you out, and will require you to verify it again!') }}
-    
-                        {{-- <button form="send-verification" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-                            {{ __('Click here to re-send the verification email.') }}
-                        </button> --}}
+            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)"
+                autocomplete="username" />
+            <p class="text-red-500 mt-2 text-sm" id="warning-email" hidden="hidden">
+                Warning: Updating your email will mark your account as unverified and you will be logged out after
+                updating your account details.
+            </p>
+
+            <div>
+                <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
+                    {{ __('Updating your email will log you out, and will require you to verify it again!') }}
+                </p>
+
+                @if (session('status') === 'verification-link-sent')
+                    <p class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
+                        {{ __('A new verification link has been sent to your email address.') }}
                     </p>
-    
-                    @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
-                            {{ __('A new verification link has been sent to your email address.') }}
-                        </p>
-                    @endif
-                </div>
+                @endif
+            </div>
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
-            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
+            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
                 <div>
                     <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
                         {{ __('Your email address is unverified.') }}
 
-                        <button form="send-verification" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+                        <button form="send-verification"
+                            class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
                             {{ __('Click here to re-send the verification email.') }}
                         </button>
                     </p>
@@ -78,14 +84,23 @@
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600 dark:text-gray-400"
-                >{{ __('Saved.') }}</p>
+                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                    class="text-sm text-gray-600 dark:text-gray-400">{{ __('Saved.') }}</p>
             @endif
         </div>
     </form>
 </section>
+
+<script>
+    $(document).ready(function() {
+        var emailVal = $("#email").val();
+        $('#email').on('input', function() {
+            var currentVal = $("#email").val();
+            if (currentVal === emailVal) {
+                $('#warning-email').hide();
+            } else {
+                $('#warning-email').show();
+            }
+        });
+    });
+</script>

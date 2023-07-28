@@ -3,7 +3,7 @@
         toastr.options = {
             "closeButton": true,
             "progressBar": true,
-            "positionClass": "toast-top-full-width",
+            "positionClass": "toast-top-right",
         }
         toastr.success("{{ Session::get('success') }}");
     @endif
@@ -30,7 +30,7 @@
         toastr.options = {
             "closeButton": true,
             "progressBar": true,
-            "positionClass": "toast-top-full-width",
+            "positionClass": "toast-top-right",
         }
         toastr.error("<b>Error!!</b><br>Change a few things up and try submitting again.");
     @endif

@@ -90,59 +90,70 @@ class Post extends Model
     public function scopeNewsFeed($query)
     {
         //Get the IDs of the followed users.
-        $followingIds = auth()->user()
+        $user = auth()->user();
+        $followingIds = $user
             ->followings()
             ->pluck('user_following_id');
-        // Include own posts in the newsfeed
-        $currentUserId = auth()->user()->id;
 
         return $query->whereIn('user_id', $followingIds)
-            ->orWhere('user_id', $currentUserId)
+            ->orWhere('user_id', $user->id)
             ->latest();
     }
 
     // Search posts related to the keyword then returns the posts.
     public function scopeSearchPost($query, $search)
     {
-        return $query->where('content', 'LIKE', '%'.$search.'%');
+        return $query->where('content', 'LIKE', '%' . $search . '%');
     }
 
-    // ---------------TRENDING TOPICS-------------------------
+    // ---------------RECENT TRENDING TOPICS-------------------------
     public function getHashtags()
     {
-        $allHashtags = Post::all()->map(function ($post) {
-            preg_match_all('/#\w+/', $post->content, $matches);
+        $takeValue = config('microblog.default_chunk_count');
 
-            return $matches[0];
-        })->flatten();
+        // Retrieve the first 5000 latest posts
+        $latestPosts = Post::latest()
+            ->take($takeValue)
+            ->get();
+
+        // Extract hashtags from the content of each post
+        $allHashtags = $latestPosts
+            ->flatMap(function ($post) {
+                preg_match_all('/#\w+/', $post->content, $matches);
+                return $matches[0];
+            });
 
         return $allHashtags;
     }
 
-    public function scopeCountHashtags()
+    public function popularHashtags()
     {
         $allHashtags = $this->getHashtags();
-        $hashtagCounts = $allHashtags->countBy()->sortByDesc(function ($count) {
-            return $count;
-        });
+        $hashtagCounts = $allHashtags
+            ->countBy()
+            ->sortByDesc(function ($count) {
+                return $count;
+            });
 
         return $hashtagCounts;
     }
 
-    public function scopePopularHashtag()
+    public function countHashtags()
     {
-        $hashtagCounts = $this->countHashtags();
-        if ($hashtagCounts->isEmpty()) {
-            return null; // No hashtags found
-        }
+        $allHashtags = $this->getHashtags();
+        $hashtagCounts = $allHashtags
+            ->countBy()
+            ->sortByDesc(function ($count) {
+                return $count;
+            });
 
-        return $hashtagCounts->keys()->first();
+        return $hashtagCounts;
     }
 
     public function scopePostHasHashtag($query, $hashtag)
     {
         return $query->where('id', $this->id)
-            ->where('content', 'LIKE', '%'.$hashtag.'%');
+            ->where('content', 'LIKE', '%' . $hashtag . '%');
     }
 
     // Most Liked post

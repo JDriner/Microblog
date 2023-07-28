@@ -8,6 +8,11 @@ use App\Models\Comment;
 
 class CommentController extends Controller
 {
+    /**
+     * Function to store/create the comment
+     * @param SendCommentRequest $request
+     * @return
+     */
     public function sendComment(SendCommentRequest $request)
     {
         $validated = $request->validated();
@@ -23,6 +28,11 @@ class CommentController extends Controller
         ]);
     }
 
+    /**
+     * Fetch a comment for viewing
+     * @param [type] $id
+     * @return void
+     */
     public function view($id)
     {
         $comment = Comment::findOrFail($id);
@@ -30,7 +40,12 @@ class CommentController extends Controller
         return response()->json($comment);
     }
 
-    public function editComment(EditCommentRequest $request)
+    /**
+     * Edit a comment
+     * @param EditCommentRequest $request
+     * @return
+     */
+    public function edit(EditCommentRequest $request)
     {
         $validated = $request->validated();
         $comment = Comment::findOrfail($validated['comment_id']);
@@ -45,6 +60,11 @@ class CommentController extends Controller
         ]);
     }
 
+    /**
+     * Delete a comment
+     * @param [type] $id
+     * @return void
+     */
     public function destroy($id)
     {
         $comment = Comment::findOrFail($id);

@@ -36,18 +36,4 @@ class StorePostRequest extends FormRequest
             'image.max' => 'The image size must not exceed 2MB.',
         ];
     }
-
-    /**
-     * Handle a failed validation attempt.
-     *
-     * @return void
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    // protected function failedValidation(Validator $validator)
-    // {
-    //     throw new HttpResponseException(
-    //         response()->json(['code' => 0, 'error' => $validator->errors()->toArray()], 422)
-    //     );
-    // }
 }

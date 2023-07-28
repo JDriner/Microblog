@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class FollowerController extends Controller
 {
+    /**
+     * Follow a user that was requested
+     * @param Request $request
+     * @return
+     */
     public function follow(Request $request)
     {
         $follow = UserFollower::create([
@@ -20,6 +25,11 @@ class FollowerController extends Controller
         ]);
     }
 
+    /**
+     * Unfollow a user
+     * @param Request $request
+     * @return void
+     */
     public function unfollow(Request $request)
     {
         $followedUser = UserFollower::whereUserId(auth()->user()->id)
@@ -32,6 +42,11 @@ class FollowerController extends Controller
         ]);
     }
 
+    /**
+     * List down the followers/following and suggested users in the page
+     * @param [type] $type
+     * @return
+     */
     public function listFollows($type)
     {
         $user = auth()->user();

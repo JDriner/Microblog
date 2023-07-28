@@ -7,22 +7,37 @@ use Illuminate\Http\Request;
 
 class TrendController extends Controller
 {
+    /**
+     * Get the trending topics and return the results to the view
+     * @param Request $request
+     * @return
+     */
     public function trends(Request $request)
     {
-        // $popularHashtag = Post::getPopularHashtag();
-        // dd($popularHashtag);
-        // $posts = Post::postHasHashtag($popularHashtag);
-        // return view('home.trends', compact('posts', 'popularHashtag'));
-        // $allHashtags = Post::getHashtags();
-        $mostLikedPost = Post::mostLikedPost()->take(2);
-        // dd($mostLikedPost);
-        $hashtagCounts = Post::countHashtags()->take(3);
+        // number of posts to get/until what number of ranks
+        $likeRanks = config('microblog.like_ranks');
+        $hashtagCount = config('microblog.hashtag_counts');
 
-        $hashtags = $hashtagCounts->toArray();
+        $mostLikedPost = Post::mostLikedPost()
+            ->take($likeRanks);
 
-        $posts = Post::all();
+        $postInstance = new Post();
+        $hashtagCounts = $postInstance
+            ->countHashtags()
+            ->take($hashtagCount);
 
-        return view('home.trends', compact('posts', 'hashtags', 'mostLikedPost'));
+        $hashtags = $hashtagCounts
+            ->toArray();
 
+        $posts = Post::get();
+
+        return view(
+            'home.trends',
+            compact(
+                'posts',
+                'hashtags',
+                'mostLikedPost'
+            )
+        );
     }
 }

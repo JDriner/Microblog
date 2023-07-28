@@ -34,10 +34,10 @@
                         <div class="mt-4 w-full">
                             <div class="w-full">
                                 <span class="text-red-600 text-sm" id="edit_comment_error"></span>
-                                <input type="text" id="comment_post_id" name="post_id">
+                                <input type="hidden" id="comment_post_id" name="post_id">
                                 <span class="text-red-600 text-sm error-text post_id_error"></span>
 
-                                <input type="text" id="comment_id" name="comment_id">
+                                <input type="hidden" id="comment_id" name="comment_id">
                                 <span class="text-red-600 text-sm error-text comment_id_error"></span>
 
                                 <textarea name="comment" id="comment" rows="5" placeholder="Write your thoughts here..."

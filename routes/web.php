@@ -48,7 +48,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         // Routes for posts
         Route::resource('post', PostController::class);
         Route::get('/share/{id}', [PostController::class, 'share'])->name('post.share');
-        Route::post('/editPost', [PostController::class, 'editPost'])->name('post.editPost');
+        Route::put('/post', [PostController::class, 'update'])->name('post.update');
         Route::post('/sharepost', [PostController::class, 'sharepost'])->name('post.sharepost');
 
         // Routes for like & unlike
@@ -65,7 +65,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
             Route::resource('comment', CommentController::class);
             Route::post('/send-comment', [CommentController::class, 'sendComment'])->name('send-comment');
             Route::get('/view-comment/{id}', [CommentController::class, 'view'])->name('view-comment');
-            Route::post('/edit-comment', [CommentController::class, 'editComment'])->name('edit-comment');
+            Route::post('/edit-comment', [CommentController::class, 'edit'])->name('edit-comment');
         });
 
         // Routes for search
