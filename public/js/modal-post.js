@@ -69,7 +69,7 @@ $(function () {
             $('#post-modal-title').text('Edit Post');
             $('#modal-sub-title').text('Please make your desired changes for your post!');
             $('#postForm').show();
-            $("#postForm").attr('action', "/post");
+            $("#postForm").attr('action', "/editPost");
             $("#postForm").attr('method', "POST");
             $('#shared_post_content').hide();
             $('#delete_post_modal_btn').hide();
@@ -104,6 +104,7 @@ $(function () {
                 $('#image_selection_input').hide();
                 $('#delete_post_modal_btn').hide();
                 $("#postForm").attr('action', "/sharepost");
+                $("#postForm").attr('method', "POST");
                 $('#post_id').val(post_id);
                 // $('#shared-user-info').text(data.user_id+">first_name 's Post");
                 $('#shared-content').text(data.content);
@@ -192,7 +193,6 @@ $(function () {
                     } else {
                         $('.post_submit_error').text(data.responseJSON.message);
                     }
-
                 }
         });
     });

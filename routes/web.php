@@ -48,7 +48,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         // Routes for posts
         Route::resource('post', PostController::class);
         Route::get('/share/{id}', [PostController::class, 'share'])->name('post.share');
-        Route::put('/post', [PostController::class, 'update'])->name('post.update');
+        Route::post('/editPost', [PostController::class, 'update'])->name('post.update');
         Route::post('/sharepost', [PostController::class, 'sharepost'])->name('post.sharepost');
 
         // Routes for like & unlike
