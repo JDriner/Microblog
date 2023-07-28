@@ -89,14 +89,15 @@ class Post extends Model
     //Posts of users that the current user follows
     public function scopeNewsFeed($query)
     {
-        //Get the IDs of the followed users.
         $user = auth()->user();
-        $followingIds = $user
-            ->followings()
-            ->pluck('user_following_id');
 
-        return $query->whereIn('user_id', $followingIds)
-            ->orWhere('user_id', $user->id)
+        return $query->select('posts.*')
+            ->leftJoin('user_followers', 'user_followers.user_following_id', '=', 'posts.user_id')
+            ->where(function ($query) use ($user) {
+                $query->where('user_followers.user_id', $user->id)
+                    ->orWhere('posts.user_id', $user->id);
+            })
+            ->distinct('posts.id')
             ->latest();
     }
 

@@ -26,7 +26,7 @@ class HomeController extends Controller
     public function home()
     {
         $posts = Post::newsFeed()
-            ->paginate($this->postsPerPage);
+        ->paginate($this->postsPerPage);
 
         $postHashtags = new Post();
         $hashtags = $postHashtags->popularHashtags()
@@ -37,17 +37,5 @@ class HomeController extends Controller
             ->get();
 
         return view('home.index', compact('posts', 'suggestedUsers', 'hashtags'));
-    }
-
-    /**
-     * Display the posts
-     * @return
-     */
-    public function posts()
-    {
-        $posts = Post::newsFeed()
-            ->paginate($this->postsPerPage);
-
-        return view('post.home-posts', compact('posts'));
     }
 }
