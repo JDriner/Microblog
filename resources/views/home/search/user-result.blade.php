@@ -15,7 +15,7 @@
                 {{-- <span class="text-xs text-gray-300">({{ $user->mutualFollowers() }} mutual followers) </span> --}}
             </div>
             <div class="font-semibold text-xs text-black dark:text-white mt-2">
-                <a type="button" href="{{ route('profile.view', $user->id) }}"
+                <a type="button" href="{{ route('profile.view-profile', $user->id) }}"
                     class="text-white bg-indigo-600 hover:bg-indigo-500 rounded-md px-4 p-1 m-1">
                     View Profile
                 </a>

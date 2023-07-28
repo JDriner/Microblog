@@ -6,6 +6,9 @@ $(document).ready(function () {
     $('.closeModal').on('click', function (e) {
         $('#changePictureForm').trigger("reset");
         $('#changePicModal').addClass('invisible');
+        $('.dp_label').text('Select Image');
+        $('#preview-dp-div').hide();
+
     });
 });
 
@@ -24,7 +27,7 @@ $('#profile_picture').on('change', function (e) {
         if (file) {
             $('#preview-dp-div').show();
             preview.src = URL.createObjectURL(file);
-            $('.dp_label').text('File uploaded: ' + filename);
+            $('.dp_label').text('File has been selected! Click here to change.');
         } else {
             preview.src = "";
             $('.dp_label').text('No image selected.');

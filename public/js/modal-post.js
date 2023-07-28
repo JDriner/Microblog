@@ -53,6 +53,7 @@ $(function () {
         $('#modal-sub-title').text('Express your ideas, feelings, or anything you\'d like to share with others!');
         $('#postForm').show();
         $("#postForm").attr('action', "/post");
+        $("#postForm").attr('method', "POST");
         $('#image_selection_input').show();
         $('#delete_post_modal_btn').hide();
         $('#shared_post_content').hide();
@@ -68,18 +69,21 @@ $(function () {
             $('#post-modal-title').text('Edit Post');
             $('#modal-sub-title').text('Please make your desired changes for your post!');
             $('#postForm').show();
-            $("#postForm").attr('action', "/editPost");
-            $('#delete_post_modal_btn').hide();
+            $("#postForm").attr('action', "/post");
+            $("#postForm").attr('method', "POST");
             $('#shared_post_content').hide();
+            $('#delete_post_modal_btn').hide();
             // console.log(data);
             $('#content').val(data.content);
             $('#post_id').val(data.id);
+
             if (data.post_id != null) {
-                $('#shared_post_id').val(data.post_id);
                 $('#image_selection_input').hide();
             } else {
+                // else allow file upload
                 $('#image_selection_input').show();
             }
+
             if (data.image != null) {
                 $("#preview").css('display', 'block');
                 $('#preview').attr('src', "/storage/" + data.image + "");
@@ -88,28 +92,32 @@ $(function () {
         })
     });
 
-    // Share Button shows modal
     $('.sharePost').on('click', function (e) {
         let post_id = $(this).attr('post_id');
-        $.get('/share/' + post_id, function (data) {
-            $('#postModal').show();
-            $('#post-modal-title').text('Sharing Post');
-            $('#modal-sub-title').text('Tell something about this post!');
-            $('#postForm').show();
-            $('#shared_post_content').show();
-            $('#image_selection_input').hide();
-            $('#delete_post_modal_btn').hide();
-            $("#postForm").attr('action', "/sharepost");
-            $('#post_id').val(post_id);
-            // $('#shared-user-info').text(data.user_id+">first_name 's Post");
-            $('#shared-content').text(data.content);
-            if (data.image != null) {
-                $('#shared-image').show();
-                $('#shared-image').attr('src', "/storage/" + data.image);
-            }
-            $('#saveBtn').text('Share Post');
-        })
+        $.get('/share/' + post_id)
+            .done(function (data) {
+                $('#postModal').show();
+                $('#post-modal-title').text('Sharing Post');
+                $('#modal-sub-title').text('Tell something about this post!');
+                $('#postForm').show();
+                $('#shared_post_content').show();
+                $('#image_selection_input').hide();
+                $('#delete_post_modal_btn').hide();
+                $("#postForm").attr('action', "/sharepost");
+                $('#post_id').val(post_id);
+                // $('#shared-user-info').text(data.user_id+">first_name 's Post");
+                $('#shared-content').text(data.content);
+                if (data.image != null) {
+                    $('#shared-image').show();
+                    $('#shared-image').attr('src', "/storage/" + data.image);
+                }
+                $('#saveBtn').text('Share Post');
+            })
+            .fail(function (data) {
+                toastr.error("<strong>Error!</strong><br>This post is no longer available and it cannot be shared!");
+            });
     });
+    
 
     // Delete Button shows modal
     $('.deletePost').on('click', function (e) {
@@ -131,6 +139,7 @@ $(function () {
         $('.error-text').text('');
         $('.image_label').text('Upload Image');
         $('.post_submit_error').text('');
+        $('#shared_post_content').hide();
         $('#shared-image').hide();
         $('#postForm').hide();
         $('#postModal').hide();
@@ -141,7 +150,6 @@ $(function () {
         e.preventDefault();
         var form = this;
         let formData = new FormData(this);
-
         // Get the current URL then route name
         var currentUrl = window.location.href;
         var currentRouteName = currentUrl.split("/").slice(-1)[0];

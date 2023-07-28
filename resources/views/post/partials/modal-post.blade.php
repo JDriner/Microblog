@@ -3,7 +3,7 @@
     id="postModal" hidden>
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">​</span>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true"></span>
         <div
             class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
             <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -13,7 +13,7 @@
                         <p class="text-sm text-gray-500" id="modal-sub-title"></p>
                     </div>
                     {{-- Create and Edit Post Form --}}
-                    <form action="" method="POST" name="postForm" id="postForm" enctype="multipart/form-data"
+                    <form action="" method="" name="postForm" id="postForm" enctype="multipart/form-data"
                         hidden>
                         @csrf
                         <div class="mt-4 w-full flex justify-center items-center" id="shared_post_content"
