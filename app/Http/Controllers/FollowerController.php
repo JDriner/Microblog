@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FollowRequest;
 use App\Models\User;
 use App\Models\UserFollower;
+use App\Policies\FollowPolicy;
 use Illuminate\Http\Request;
 
 class FollowerController extends Controller
@@ -15,6 +17,8 @@ class FollowerController extends Controller
      */
     public function follow(Request $request)
     {
+        $this->authorize('follow', [UserFollower::class, $request->user_id]);
+
         $follow = UserFollower::create([
             'user_id' => auth()->user()->id,
             'user_following_id' => $request->user_id,
@@ -32,6 +36,7 @@ class FollowerController extends Controller
      */
     public function unfollow(Request $request)
     {
+        $this->authorize('unfollow', [UserFollower::class, $request->user_id]);
         $followedUser = UserFollower::whereUserId(auth()->user()->id)
             ->whereUserFollowingId($request->user_id)
             ->firstOrFail();
