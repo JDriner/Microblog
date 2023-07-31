@@ -13,13 +13,13 @@ class CommentController extends Controller
      * @param SendCommentRequest $request
      * @return
      */
-    public function sendComment(SendCommentRequest $request)
+    public function sendComment(SendCommentRequest $request, $post_id)
     {
         $validated = $request->validated();
 
         Comment::create([
             'user_id' => auth()->user()->id,
-            'post_id' => $validated['post_id'],
+            'post_id' => $post_id,
             'comment' => $validated['comment'],
         ]);
 
@@ -45,10 +45,10 @@ class CommentController extends Controller
      * @param EditCommentRequest $request
      * @return
      */
-    public function edit(EditCommentRequest $request)
+    public function edit(EditCommentRequest $request, $comment_id)
     {
         $validated = $request->validated();
-        $comment = Comment::findOrfail($validated['comment_id']);
+        $comment = Comment::findOrfail($comment_id);
         $this->authorize('update', [Comment::class, $comment]);
 
         $comment->update([
@@ -56,7 +56,7 @@ class CommentController extends Controller
         ]);
 
         return response()->json([
-            'success' => 'Comment has been updated!.',
+            'success' => 'Comment has been updated!',
         ]);
     }
 

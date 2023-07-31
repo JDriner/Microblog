@@ -13,12 +13,12 @@ class PostLikeController extends Controller
      * @param Request $request
      * @return void
      */
-    public function likePost(Request $request)
+    public function likePost(Request $request, $post_id)
     {
-        $this->authorize('like', [PostLike::class, $request->post_id]);
+        $this->authorize('like', [PostLike::class, $post_id]);
         PostLike::updateOrCreate([
             'user_id' => Auth::user()->id,
-            'post_id' => $request->post_id,
+            'post_id' => $post_id,
         ]);
 
         return response()->json([
@@ -31,11 +31,11 @@ class PostLikeController extends Controller
      * @param Request $request
      * @return void
      */
-    public function unlikePost(Request $request)
+    public function unlikePost(Request $request, $post_id)
     {
-        $this->authorize('unlike', [PostLike::class, $request->post_id]);
+        $this->authorize('unlike', [PostLike::class, $post_id]);
         $likedPost = PostLike::whereUserId(Auth::id())
-            ->wherePostId($request->post_id)
+            ->wherePostId($post_id)
             ->first();
         $likedPost->delete();
 

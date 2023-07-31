@@ -34,12 +34,6 @@
                         <div class="mt-4 w-full">
                             <div class="w-full">
                                 <span class="text-red-600 text-sm" id="edit_comment_error"></span>
-                                <input type="hidden" id="comment_post_id" name="post_id">
-                                <span class="text-red-600 text-sm error-text post_id_error"></span>
-
-                                <input type="hidden" id="comment_id" name="comment_id">
-                                <span class="text-red-600 text-sm error-text comment_id_error"></span>
-
                                 <textarea name="comment" id="comment" rows="5" placeholder="Write your thoughts here..."
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"></textarea>
                                 <div class="text-sm text-gray-400" id="comment_character_count"></div>

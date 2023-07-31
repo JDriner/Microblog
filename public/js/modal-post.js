@@ -65,12 +65,11 @@ $(function () {
             $('#post-modal-title').text('Edit Post');
             $('#modal-sub-title').text('Please make your desired changes for your post!');
             $('#postForm').show();
-            $("#postForm").attr('action', "/editPost");
+            $("#postForm").attr('action', "/update-post/"+data.id);
             $("#postForm").attr('method', "POST");
             $('#shared_post_content').hide();
             $('#delete_post_modal_btn').hide();
             $('#content').val(data.content);
-            $('#post_id').val(data.id);
 
             if (data.post_id != null) {
                 $('#image_selection_input').hide();
@@ -98,9 +97,9 @@ $(function () {
                 $('#shared_post_content').show();
                 $('#image_selection_input').hide();
                 $('#delete_post_modal_btn').hide();
-                $("#postForm").attr('action', "/sharepost");
+                $("#postForm").attr('action', "/share-post/"+post_id);
                 $("#postForm").attr('method', "POST");
-                $('#post_id').val(post_id);
+                // $('#post_id').val(post_id);
                 $('#shared-content').text(data.content);
                 if (data.image != null) {
                     $('#shared-image').show();
@@ -120,6 +119,7 @@ $(function () {
         // console.log("delete: " + post_id);
         $('#postModal').show();
         $('#delete_post_modal_btn').show();
+        $('#delete_post_error').text('');
         $('#post-modal-title').text('Delete Post');
         $('#modal-sub-title').text('Are you sure you want to delete this post?');
         $("#deletePostBtn").attr('value', post_id);
@@ -137,6 +137,7 @@ $(function () {
         $('#shared-image').hide();
         $('#postForm').hide();
         $('#postModal').hide();
+        $('#delete_post_error').text('');
     });
 
     // Create post form ----- SUBMISSION of form
@@ -158,7 +159,9 @@ $(function () {
             dataType: 'json',
             processData: false,
             contentType: false,
-            beforeSend: function () {
+            beforeSend: function (request) {
+                let csrfToken = $('meta[name="csrf-token"]').attr('content');
+                request.setRequestHeader('X-CSRF-TOKEN', csrfToken);
                 $(form).find('span.error-text').text('');
                 $('.post_submit_error').text('');
                 $('#saveBtn').prop("disabled", true);
@@ -200,7 +203,9 @@ $(function () {
             // headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             type: "DELETE",
             url: '/post/' + post_id,
-            beforeSend: function () {
+            beforeSend: function (request) {
+                let csrfToken = $('meta[name="csrf-token"]').attr('content');
+                request.setRequestHeader('X-CSRF-TOKEN', csrfToken);
                 $('#deletePostBtn').prop("disabled", true);
             },
             success: function (data) {

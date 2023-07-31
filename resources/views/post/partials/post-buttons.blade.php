@@ -2,12 +2,12 @@
     <!-- like or unlike post -->
     <div class="grow w-full ">
         @if (!$post->isAuthUserLikedPost())
-            <button type="button" post_id="{{ $post->id }}" action="/like"
+            <button type="button" action="/like/{{ $post->id }}"
                 class="like_unlike_btn text-slate-800 hover:text-red-600 dark:text-white dark:hover:text-red-600 pl-4">
                 <i class="fa-regular fa-heart"></i>
             </button>
         @else
-            <button type="button" post_id="{{ $post->id }}" action="/unlike"
+            <button type="button" action="/unlike/{{ $post->id }}"
                 class="like_unlike_btn text-red-700 hover:text-slate-800 pl-4 dark:hover:text-white">
                 <i class="fa-solid fa-heart fa-beat"></i>
             </button>

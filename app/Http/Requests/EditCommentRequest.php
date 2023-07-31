@@ -25,9 +25,6 @@ class EditCommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'comment_id' => [
-                Rule::exists('comments', 'id'),
-            ],
             'comment' => 'required|max:140',
         ];
     }
@@ -40,7 +37,6 @@ class EditCommentRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'comment_id' => 'The comment is not existing!',
             'comment.required' => 'Your comment should not be empty',
             'comment.max' => 'Your comment should not exceed 140 characters.',
         ];

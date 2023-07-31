@@ -31,8 +31,6 @@
                         <div class="mt-4 w-full">
                             <div class="w-full">
                                 <span class="text-red-600 text-sm post_submit_error"></span>
-                                <span class="text-red-600 text-sm error-text post_id_error"></span>
-                                <input type="hidden" id="post_id" name="post_id">
 
                                 <textarea name="content" id="content" rows="5" placeholder="Write your thoughts here..."
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"></textarea>
@@ -54,14 +52,13 @@
                                     <img id="preview" src="#" alt="your image" class="h-64 w-auto my-4"
                                         style="display:none;" />
                                 </div>
-                                <p class="text-xs text-gray-600 px-4 pt-2 mb-4">If you have any images related to your
-                                    post, you can upload them here. Images should be with the types jpg, jpeg, png and
-                                    gif.
-                                    The file size should not exceed 2mb.</p>
+                                <p class="text-xs text-gray-600 px-4 pt-2 mb-4">
+                                    If you have any images related to your post, you can upload them here. Images should be with the types jpg, jpeg, png and
+                                    gif. The file size should not exceed 2mb.
+                                </p>
 
                             </div>
                         </div>
-
                         <div class="px-4 py-4 sm:px-6 sm:flex sm:flex-row-reverse">
                             <button type="submit" id="saveBtn" value="create"
                                 class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
@@ -89,7 +86,6 @@
                             </button>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

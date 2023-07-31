@@ -15,7 +15,6 @@ $(document).ready(function () {
     });
 
     $('.addComment').on('click', function () {
-        // console.log("Add comment!");
         let post_id = $(this).attr('post_id');
         let user = $(this).attr('user_name');
         $.get('/share/' + post_id, function (data) {
@@ -25,9 +24,8 @@ $(document).ready(function () {
             $('#commentForm').show();
             $('#comment_post_content').show();
             $('#delete_comment_modal_btn').hide();
-            $("#commentForm").attr('action', "/send-comment");
+            $("#commentForm").attr('action', "/send-comment/"+post_id);
             $("#commentForm").attr('method', "POST");
-            $('#comment_post_id').val(post_id);
             $('#comment-user-info').text(user + "'s Post");
             $('#comment-content').text(data.content);
             if (data.image != null) {
@@ -39,10 +37,8 @@ $(document).ready(function () {
     });
 
     $('.editComment').on('click', function () {
-        // console.log("Edit comment!");
         let comment_id = $(this).attr('comment_id');
         let user = $(this).attr('user_name');
-        // console.log(comment_id);
         $.get('/view-comment/' + comment_id, function (data) {
             $('#commentModal').show();
             $('#commentForm').show();
@@ -50,9 +46,8 @@ $(document).ready(function () {
             $('#delete_comment_modal_btn').hide();
             $('#comment-modal-title').text('Edit Comment');
             $('#comment-sub-title').text('Make the necessary revisions for your comment!');
-            $("#commentForm").attr('action', "/edit-comment");
+            $("#commentForm").attr('action', "/edit-comment/" + comment_id);
             $("#commentForm").attr('method', "POST");
-            // $('#comment_post_id').val(post_id);
             $('#comment_id').val(data.id);
             $('#comment').text(data.comment);
             $('#saveCommentBtn').text('Update Comment!');
@@ -61,7 +56,6 @@ $(document).ready(function () {
 
     $('.deleteComment').on('click', function () {
         let comment_id = $(this).attr('comment_id');
-        // console.log("delete: " + comment_id);
         $('#commentModal').show();
         $('#delete_comment_modal_btn').show();
         $('#comment_post_content').hide();
@@ -69,7 +63,6 @@ $(document).ready(function () {
         $('#comment-modal-title').text('Delete Comment');
         $('#comment-sub-title').text('Are you sure you want to delete this comment?');
         $("#deleteCommentBtn").attr('value', comment_id);
-        // console.log("comment_id: " + comment_id);
     });
 
     // Close Modal
@@ -82,7 +75,6 @@ $(document).ready(function () {
         $('#comment').text("");
         $('#edit_comment_error').text('');
         $('#delete_comment_error').text('');
-
     });
 
     // create comment - submit form
@@ -97,6 +89,7 @@ $(document).ready(function () {
         currentRouteName = String(currentRouteName);
 
         $.ajax({
+            // headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             url: $(form).attr('action'),
             type: $(form).attr('method'),
             data: formData,
@@ -104,10 +97,12 @@ $(document).ready(function () {
             dataType: 'json',
             processData: false,
             contentType: false,
-            beforeSend: function () {
+            beforeSend: function (request) {
+                let csrfToken = $('meta[name="csrf-token"]').attr('content');
+                request.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+
                 $(form).find('span.error-text').text('');
                 $('#edit_comment_error').text('');
-
             },
             success: function (data) {
                 $(form)[0].reset;
@@ -139,14 +134,18 @@ $(document).ready(function () {
     $('#deleteCommentBtn').click(function (e) {
         e.preventDefault();
         let comment_id = $(this).attr('value');
-        // console.log("comment_id: " + comment_id);
         // Get the current URL then route name
         var currentUrl = window.location.href;
         var currentRouteName = currentUrl.split("/").slice(-1)[0];
         currentRouteName = String(currentRouteName);
         $.ajax({
+            // headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             type: "DELETE",
             url: '/comment/' + comment_id,
+            beforeSend: function (request) {
+                let csrfToken = $('meta[name="csrf-token"]').attr('content');
+                request.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+            },
             success: function (data) {
                 $('#commentForm').hide();
                 // console.log(data)

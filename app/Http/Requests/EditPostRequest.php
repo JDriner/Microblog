@@ -17,13 +17,6 @@ class EditPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'post_id' => [
-                Rule::exists('posts', 'id'),
-            ],
-            'shared_post_id' => [
-                'nullable',
-                Rule::exists('posts', 'id'),
-            ],
             'content' => 'required_without_all:image|max:140',
             'image' => [
                 // 'required_without_all:content',
