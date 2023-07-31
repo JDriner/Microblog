@@ -6,8 +6,12 @@
                 <i class="fa-solid fa-plus"></i>
             </button>
             <div class="mr-auto m-6">
-                <h2 class="text-lg  dark:text-white font-semibold">Create post</h2>
-                <p class="text-gray-600 dark:text-gray-400">Express your ideas, feelings, or anything you'd like!</p>
+                <h2 class="text-lg  dark:text-white font-semibold">
+                    Create post
+                </h2>
+                <p class="text-gray-600 dark:text-gray-400">
+                    Express your ideas, feelings, or anything you'd like!
+                </p>
             </div>
         </div>
     </div>
