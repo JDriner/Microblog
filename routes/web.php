@@ -47,24 +47,24 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         // Routes for posts
         Route::resource('post', PostController::class);
         Route::get('/share/{id}', [PostController::class, 'share'])->name('post.share');
-        Route::post('/editPost', [PostController::class, 'update'])->name('post.update');
-        Route::post('/sharepost', [PostController::class, 'sharepost'])->name('post.sharepost');
+        Route::post('/update-post/{id}', [PostController::class, 'update'])->name('post.update');
+        Route::post('/share-post/{id}', [PostController::class, 'sharePost'])->name('post.sharePost');
 
         // Routes for like & unlike
-        Route::post('/like', [PostLikeController::class, 'likePost'])->name('like.likePost');
-        Route::post('/unlike', [PostLikeController::class, 'unlikePost'])->name('like.unlikePost');
+        Route::post('/like/{id}', [PostLikeController::class, 'likePost'])->name('like.likePost');
+        Route::post('/unlike/{id}', [PostLikeController::class, 'unlikePost'])->name('like.unlikePost');
 
         // Routes for listing the list follows, follow & unfollow
         Route::get('/follows/{slug}', [FollowerController::class, 'listFollows'])->name('follows');
-        Route::post('/follow', [FollowerController::class, 'follow'])->name('follow');
-        Route::post('/unfollow', [FollowerController::class, 'unfollow'])->name('unfollow');
+        Route::post('/follow/{id}', [FollowerController::class, 'follow'])->name('follow');
+        Route::post('/unfollow/{id}', [FollowerController::class, 'unfollow'])->name('unfollow');
 
         // Routes for comments
         Route::prefix('/')->name('comment.')->group(function () {
             Route::resource('comment', CommentController::class);
-            Route::post('/send-comment', [CommentController::class, 'sendComment'])->name('send-comment');
+            Route::post('/send-comment/{id}', [CommentController::class, 'sendComment'])->name('send-comment');
             Route::get('/view-comment/{id}', [CommentController::class, 'view'])->name('view-comment');
-            Route::post('/edit-comment', [CommentController::class, 'edit'])->name('edit-comment');
+            Route::post('/edit-comment/{id}', [CommentController::class, 'edit'])->name('edit-comment');
         });
 
         // Routes for search

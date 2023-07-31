@@ -25,9 +25,6 @@ class SendCommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'post_id' => [
-                Rule::exists('posts', 'id'),
-            ],
             'comment' => 'required|max:140',
         ];
     }

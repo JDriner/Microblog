@@ -20,10 +20,7 @@ $(function () {
     // Like post
     $('.like_unlike_btn').click(function (e) {
         e.preventDefault();
-        let postId = $(this).attr('post_id');
         let action = $(this).attr('action');
-
-        // console.log(action + "===" + postId);
         // Get the current URL then route name
         var currentUrl = window.location.href;
         var currentRouteName = currentUrl.split("/").slice(-1)[0];
@@ -33,9 +30,6 @@ $(function () {
             type: "post",
             url: action,
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            data: {
-                post_id: postId
-            },
             dataType: 'json',
             beforeSend: function () {
                 // console.log("like")

@@ -52,12 +52,12 @@ class PostController extends Controller
      * @param SharePostRequest $request
      * @return void
      */
-    public function sharePost(SharePostRequest $request)
+    public function sharePost(SharePostRequest $request, $post_id)
     {
         $validated = $request->validated();
         Post::create([
             'user_id' => Auth::user()->id,
-            'post_id' => $validated['post_id'],
+            'post_id' => $post_id,
             'content' => $validated['content'],
         ]);
 
@@ -111,10 +111,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(EditPostRequest $request)
+    public function update(EditPostRequest $request, $post_id)
     {
         $validated = $request->validated();
-        $post = Post::findOrFail($validated['post_id']);
+        $post = Post::findOrFail($post_id);
         $this->authorize('update', [Post::class, $post]);
 
         $imagePath = null;

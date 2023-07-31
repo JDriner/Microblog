@@ -21,11 +21,11 @@
         </div>
         <div class="mt-2">
             @if ($user->isUserFollowed())
-                <button type="button" user_id="{{ $user->id }}" action="/unfollow"
+                <button type="button" action="/unfollow/{{ $user->id }}"
                     class="follow_unfollow dark:text-white border-2 border-indigo-500  hover:bg-indigo-500 rounded-md px-6 py-1">
                     Unfollow</button>
             @else
-                <button type="button" user_id="{{ $user->id }}" action="/follow"
+                <button type="button" action="/follow/{{ $user->id }}"
                     class="follow_unfollow text-white bg-indigo-600 hover:bg-indigo-500 rounded-md px-6 py-1">
                     Follow</button>
             @endif

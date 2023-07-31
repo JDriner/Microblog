@@ -15,10 +15,6 @@ class SharePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'post_id' => [
-                'required',
-                Rule::exists('posts', 'id')->whereNull('deleted_at'),
-            ],
             'content' => 'max:140',
         ];
     }
@@ -31,7 +27,6 @@ class SharePostRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'post_id' => 'The original post is no longer available. You cannot share this content.',
             'content.max' => 'Your post must be at least 140 characters long.',
         ];
     }

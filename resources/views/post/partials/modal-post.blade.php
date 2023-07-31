@@ -31,8 +31,6 @@
                         <div class="mt-4 w-full">
                             <div class="w-full">
                                 <span class="text-red-600 text-sm post_submit_error"></span>
-                                <span class="text-red-600 text-sm error-text post_id_error"></span>
-                                <input type="hidden" id="post_id" name="post_id">
 
                                 <textarea name="content" id="content" rows="5" placeholder="Write your thoughts here..."
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"></textarea>
