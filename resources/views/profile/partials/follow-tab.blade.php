@@ -3,7 +3,6 @@
 
 <!-- This is an example component -->
 <div class="max-w-2xl mx-auto">
-
     <div class="tab-buttons border-b border-gray-200 dark:border-gray-700 mb-4">
         <ul class="flex flex-wrap -mb-px" id="myTab" data-tabs-toggle="#followTabContent" role="tablist">
             <li class="mr-2" role="presentation">
@@ -100,15 +99,12 @@
     </div>
 </div>
 
-<script src="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.bundle.js"></script>
-
 <script>
     $(function() {
         // Update the content of the tab when clicked
         $('.tab-buttons').find("button").click(function(e) {
             e.preventDefault();
             let route = $(this).attr('route');
-            // console.log(route);
             history.pushState(null, '', route);
             $('#page-content').load(route);
         });
