@@ -56,7 +56,7 @@
                                 </div>
                                 <p class="text-xs text-gray-600 px-4 pt-2 mb-4">If you have any images related to your
                                     post, you can upload them here. Images should be with the types jpg, jpeg, png and
-                                    svg.
+                                    gif.
                                     The file size should not exceed 2mb.</p>
 
                             </div>

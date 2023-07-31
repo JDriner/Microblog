@@ -38,16 +38,4 @@ class HomeController extends Controller
 
         return view('home.index', compact('posts', 'suggestedUsers', 'hashtags'));
     }
-
-    /**
-     * Display the posts
-     * @return
-     */
-    public function posts()
-    {
-        $posts = Post::newsFeed()
-            ->paginate($this->postsPerPage);
-
-        return view('post.home-posts', compact('posts'));
-    }
 }

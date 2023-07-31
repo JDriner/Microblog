@@ -9,15 +9,6 @@ use Illuminate\Validation\Rule;
 
 class EditPostRequest extends FormRequest
 {
-    // public function authorize()
-    // {
-    //     $postId = $request->post_id;
-
-    //     $post = Post::find($postId);
-
-    //     return Gate::allows('update', $post);
-    // }
-
     /**
      * Get the validation rules that apply to the request.
      *

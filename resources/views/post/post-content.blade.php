@@ -41,10 +41,11 @@
         <div>
             <p class="text-gray-800 dark:text-white">
                 {!! nl2br(e($post->content)) !!}
-                {{-- {{ $post->content }} --}}
             </p>
             @if ($post->image)
-                <img src="{{ url('storage/' . $post->image) }}" alt="" title="">
+            <div class="flex justify-center items-center">
+                <img src="{{ url('storage/' . $post->image) }}" alt="Image for post" class="max-w-full">
+            </div>
             @endif
         </div>
     </a>

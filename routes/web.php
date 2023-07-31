@@ -32,7 +32,6 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
     Route::middleware('auth', 'verified')->group(function () {
         // routes for the navigation
         Route::get('/home', [HomeController::class, 'home'])->name('home');
-        Route::get('/posts', [HomeController::class, 'posts'])->name('home.posts');
         Route::get('/trends', [TrendController::class, 'trends'])->name('trends');
 
         // Routes for Profile management

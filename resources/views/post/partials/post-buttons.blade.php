@@ -13,8 +13,10 @@
             </button>
         @endif
         @if ($post->likes()->count() >= 1)
-            <span class="text-xs text-gray-700 dark:text-white pl-2">{{ $post->likes()->count() }}
-                likes</span>
+            <span class="text-xs text-gray-700 dark:text-white pl-2">
+                {{ $post->likes()->count() }}
+                {{ $post->likes()->count() > 1 ? 'likes' : 'like'}}
+            </span>
         @endif
     </div>
 
@@ -26,8 +28,10 @@
         </button>
         @if ($post->comments()->count() >= 1)
             <a href="{{ route('post.show', $post->id) }}"
-                class="text-xs text-gray-700 dark:text-white pl-2">{{ $post->comments()->count() }}
-                comments</a>
+                class="text-xs text-gray-700 dark:text-white pl-2">
+                {{ $post->comments()->count() }}
+                {{ $post->comments()->count() > 1 ? 'comments' : 'comment' }}
+            </a>
         @endif
     </div>
 

@@ -43,7 +43,7 @@ class PostController extends Controller
         Post::create($postData);
 
         return response()->json([
-            'success' => 'Post saved successfully.',
+            'success' => 'Post has been created successfully!',
         ]);
     }
 
@@ -62,7 +62,7 @@ class PostController extends Controller
         ]);
 
         return response()->json([
-            'success' => 'Post has been shared successfully.',
+            'success' => 'Post has been shared successfully!',
         ]);
     }
 
@@ -74,7 +74,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::findOrFail($id);
+        $post = Post::withTrashed()->findOrFail($id);
 
         return response()->view('post.view-post', compact('post'));
     }
@@ -132,7 +132,7 @@ class PostController extends Controller
         $post->update($postData);
 
         return response()->json([
-            'success' => 'Post saved successfully.',
+            'success' => 'Post has been updated successfully!',
         ]);
     }
 
