@@ -15,6 +15,7 @@ class PostLikeController extends Controller
      */
     public function likePost(Request $request)
     {
+        $this->authorize('like', [PostLike::class, $request->post_id]);
         PostLike::updateOrCreate([
             'user_id' => Auth::user()->id,
             'post_id' => $request->post_id,
@@ -32,6 +33,7 @@ class PostLikeController extends Controller
      */
     public function unlikePost(Request $request)
     {
+        $this->authorize('unlike', [PostLike::class, $request->post_id]);
         $likedPost = PostLike::whereUserId(Auth::id())
             ->wherePostId($request->post_id)
             ->first();

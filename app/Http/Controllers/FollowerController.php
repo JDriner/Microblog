@@ -17,7 +17,10 @@ class FollowerController extends Controller
      */
     public function follow(Request $request)
     {
-        $this->authorize('follow', [UserFollower::class, $request->user_id]);
+        $this->authorize(
+            'follow',
+            [UserFollower::class, $request->user_id]
+        );
 
         $follow = UserFollower::create([
             'user_id' => auth()->user()->id,
@@ -36,7 +39,11 @@ class FollowerController extends Controller
      */
     public function unfollow(Request $request)
     {
-        $this->authorize('unfollow', [UserFollower::class, $request->user_id]);
+        $this->authorize(
+            'unfollow',
+            [UserFollower::class, $request->user_id]
+        );
+
         $followedUser = UserFollower::whereUserId(auth()->user()->id)
             ->whereUserFollowingId($request->user_id)
             ->firstOrFail();

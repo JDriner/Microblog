@@ -1,6 +1,5 @@
 // Character Counter
 $(document).ready(function () {
-    // $('#postModal').hide();
     var maxLength = 140;
     var textarea = $('#content');
     textarea.on('input', function () {
@@ -36,8 +35,6 @@ $(document).ready(function () {
     });
 });
 
-
-
 // Ajax Functions
 $(function () {
     $.ajaxSetup({
@@ -63,7 +60,6 @@ $(function () {
     // Edit Button shows modal
     $('.editPost').on('click', function (e) {
         let post_id = $(this).attr('post_id');
-        // console.log("edit: " + post_id);
         $.get('/post/' + post_id + '/edit', function (data) {
             $('#postModal').show();
             $('#post-modal-title').text('Edit Post');
@@ -73,7 +69,6 @@ $(function () {
             $("#postForm").attr('method', "POST");
             $('#shared_post_content').hide();
             $('#delete_post_modal_btn').hide();
-            // console.log(data);
             $('#content').val(data.content);
             $('#post_id').val(data.id);
 
@@ -106,7 +101,6 @@ $(function () {
                 $("#postForm").attr('action', "/sharepost");
                 $("#postForm").attr('method', "POST");
                 $('#post_id').val(post_id);
-                // $('#shared-user-info').text(data.user_id+">first_name 's Post");
                 $('#shared-content').text(data.content);
                 if (data.image != null) {
                     $('#shared-image').show();
@@ -136,7 +130,6 @@ $(function () {
         $('#postForm').trigger("reset");
         $('#character_count').text('');
         $("#preview").css('display', 'none');
-        // $('#preview').trigger("reset");
         $('.error-text').text('');
         $('.image_label').text('Upload Image');
         $('.post_submit_error').text('');
@@ -168,23 +161,21 @@ $(function () {
             beforeSend: function () {
                 $(form).find('span.error-text').text('');
                 $('.post_submit_error').text('');
+                $('#saveBtn').prop("disabled", true);
             },
             success: function (data) {
                 $(form)[0].reset;
                 $('#postForm').trigger("reset");
                 $('#postForm').hide();
                 $('#postModal').hide();
-                toastr.options = {
-                    "closeButton": true,
-                    "progressBar": true,
-                    "positionClass": "toast-top-center",
-                    "showDuration": "300",
-                }
-                toastr.success(data.success);
+                toastr.success("<strong>Success!</strong><br>"+data.success);
+                $('#saveBtn').prop("disabled", false);
                 $('#page-content').load(currentRouteName);
             },
             error:
                 function (data) {
+                    $('#saveBtn').prop("disabled", false);
+
                     // console.log(data);
                     if (data.responseJSON.hasOwnProperty('errors')) {
                         $.each(data.responseJSON.errors, function (key, value) {
@@ -201,7 +192,6 @@ $(function () {
     $('#deletePostBtn').click(function (e) {
         e.preventDefault();
         let post_id = $(this).attr('value');
-        // console.log("Post_id: " + post_id);
         // Get the current URL then route name
         var currentUrl = window.location.href;
         var currentRouteName = currentUrl.split("/").slice(-1)[0];
@@ -210,22 +200,20 @@ $(function () {
             // headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             type: "DELETE",
             url: '/post/' + post_id,
+            beforeSend: function () {
+                $('#deletePostBtn').prop("disabled", true);
+            },
             success: function (data) {
                 $('#postForm').hide();
                 // console.log(data)
                 $('#postModal').hide();
-                toastr.options = {
-                    "closeButton": true,
-                    "progressBar": true,
-                    "positionClass": "toast-top-center",
-                    "showDuration": "600",
-                }
                 toastr.success(data.success);
+                $('#deletePostBtn').prop("disabled", false);
                 $('#page-content').load(currentRouteName);
             },
             error: function (data) {
+                $('#deletePostBtn').prop("disabled", false);
                 $('#delete_post_error').text('Error!! ' + data.responseJSON.message);
-                // console.log('Error:', data);
             }
         });
     });

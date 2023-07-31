@@ -46,9 +46,14 @@ class RegisterUserRequest extends FormRequest
                 'min:8',
                 'max:24',
                 'confirmed',
-                Password::defaults(),
+                // Password::defaults(),
+                Password::min(8)
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
             ],
             'password_confirmation' => [
+                'required',
                 'same:password',
             ],
         ];
@@ -88,7 +93,7 @@ class RegisterUserRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -106,7 +111,7 @@ class RegisterUserRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
 
@@ -127,6 +132,6 @@ class RegisterUserRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->input('email')) . '|' . $this->ip());
     }
 }

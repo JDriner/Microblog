@@ -26,7 +26,7 @@ class HomeController extends Controller
     public function home()
     {
         $posts = Post::newsFeed()
-        ->paginate($this->postsPerPage);
+            ->paginate($this->postsPerPage);
 
         $postHashtags = new Post();
         $hashtags = $postHashtags->popularHashtags()
