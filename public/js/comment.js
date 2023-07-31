@@ -89,6 +89,7 @@ $(document).ready(function () {
         currentRouteName = String(currentRouteName);
 
         $.ajax({
+            // headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             url: $(form).attr('action'),
             type: $(form).attr('method'),
             data: formData,
@@ -96,10 +97,12 @@ $(document).ready(function () {
             dataType: 'json',
             processData: false,
             contentType: false,
-            beforeSend: function () {
+            beforeSend: function (request) {
+                let csrfToken = $('meta[name="csrf-token"]').attr('content');
+                request.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+
                 $(form).find('span.error-text').text('');
                 $('#edit_comment_error').text('');
-
             },
             success: function (data) {
                 $(form)[0].reset;
@@ -136,8 +139,13 @@ $(document).ready(function () {
         var currentRouteName = currentUrl.split("/").slice(-1)[0];
         currentRouteName = String(currentRouteName);
         $.ajax({
+            // headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             type: "DELETE",
             url: '/comment/' + comment_id,
+            beforeSend: function (request) {
+                let csrfToken = $('meta[name="csrf-token"]').attr('content');
+                request.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+            },
             success: function (data) {
                 $('#commentForm').hide();
                 // console.log(data)

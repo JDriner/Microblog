@@ -57,6 +57,7 @@ $(function () {
         currentRouteName = String(currentRouteName);
 
         $.ajax({
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             url: $(form).attr('action'),
             method: $(form).attr('method'),
             data: new FormData(form),

@@ -18,7 +18,7 @@
                             </p>
                         </div>
 
-                        <form action="{{ route('profile.updatePicture') }}" method="POST" name="changePictureForm"
+                        <form action="{{ route('profile.update-picture') }}" method="POST" name="changePictureForm"
                             id="changePictureForm" enctype="multipart/form-data">
                             @csrf
                             <div class="mt-8">

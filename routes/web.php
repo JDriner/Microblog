@@ -40,7 +40,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
             Route::get('/{id}', [ProfileController::class, 'viewUser'])->name('view-profile');
             Route::get('/', [ProfileController::class, 'edit'])->name('edit');
             Route::patch('/', [ProfileController::class, 'update'])->name('update');
-            Route::post('/', [ProfileController::class, 'updatePicture'])->name('updatePicture');
+            Route::post('/', [ProfileController::class, 'updatePicture'])->name('update-picture');
             Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
         });
 
@@ -48,11 +48,11 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::resource('post', PostController::class);
         Route::get('/share/{id}', [PostController::class, 'share'])->name('post.share');
         Route::post('/update-post/{id}', [PostController::class, 'update'])->name('post.update');
-        Route::post('/share-post/{id}', [PostController::class, 'sharePost'])->name('post.sharePost');
+        Route::post('/share-post/{id}', [PostController::class, 'sharePost'])->name('post.share-post');
 
         // Routes for like & unlike
-        Route::post('/like/{id}', [PostLikeController::class, 'likePost'])->name('like.likePost');
-        Route::post('/unlike/{id}', [PostLikeController::class, 'unlikePost'])->name('like.unlikePost');
+        Route::post('/like/{id}', [PostLikeController::class, 'likePost'])->name('like.like-post');
+        Route::post('/unlike/{id}', [PostLikeController::class, 'unlikePost'])->name('like.unlike-post');
 
         // Routes for listing the list follows, follow & unfollow
         Route::get('/follows/{slug}', [FollowerController::class, 'listFollows'])->name('follows');
