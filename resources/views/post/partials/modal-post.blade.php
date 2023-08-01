@@ -42,6 +42,7 @@
                             <div class="max-w-xl mx-auto">
                                 <div class="flex items-center">
                                     <input type="file" name="image" id="image" class="hidden">
+                                    <input type="text" value="" name="image_value" id="image_value" class="hidden">
                                     <label for="image"
                                         class="image_label text-xs text-slate-800 bg-gray-200 hover:text-slate-100 hover:bg-gray-600 px-4 py-2 rounded-xl cursor-pointer w-full">
                                         <i class="fa-solid fa-upload fa-beat"></i> Upload Image

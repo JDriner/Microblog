@@ -49,6 +49,7 @@ $(function () {
         $('#post-modal-title').text('Create Post');
         $('#modal-sub-title').text('Express your ideas, feelings, or anything you\'d like to share with others!');
         $('#postForm').show();
+        $('#image_value').attr('value', '');
         $("#postForm").attr('action', "/post");
         $("#postForm").attr('method', "POST");
         $('#image_selection_input').show();
@@ -60,12 +61,13 @@ $(function () {
     // Edit Button shows modal
     $('.editPost').on('click', function (e) {
         let post_id = $(this).attr('post_id');
+        $('#image_value').attr('value', '');
         $.get('/post/' + post_id + '/edit', function (data) {
             $('#postModal').show();
             $('#post-modal-title').text('Edit Post');
             $('#modal-sub-title').text('Please make your desired changes for your post!');
             $('#postForm').show();
-            $("#postForm").attr('action', "/update-post/" + data.id);
+            $("#postForm").attr('action', "/update-post/"+data.id);
             $("#postForm").attr('method', "POST");
             $('#shared_post_content').hide();
             $('#delete_post_modal_btn').hide();
@@ -79,16 +81,9 @@ $(function () {
             }
 
             if (data.image != null) {
-                // Get a reference to our file input
-                const fileInput = document.querySelector('input[type="file"]');
-
-                // Create a new File object
-                const myFile = new File(['Hello World!'], 'myFile.txt', {
-                    type: 'text/plain',
-                    lastModified: new Date(),
-                });
                 $("#preview").css('display', 'block');
                 $('#preview').attr('src', "/storage/" + data.image + "");
+                $('#image_value').attr('value', "/storage/" + data.image + "");
             }
             $('#saveBtn').text('Update Post');
         })
@@ -105,7 +100,7 @@ $(function () {
                 $('#shared_post_content').show();
                 $('#image_selection_input').hide();
                 $('#delete_post_modal_btn').hide();
-                $("#postForm").attr('action', "/share-post/" + post_id);
+                $("#postForm").attr('action', "/share-post/"+post_id);
                 $("#postForm").attr('method', "POST");
                 // $('#post_id').val(post_id);
                 $('#shared-content').text(data.content);
@@ -119,7 +114,7 @@ $(function () {
                 toastr.error("<strong>Error!</strong><br>This post is no longer available and it cannot be shared!");
             });
     });
-
+    
 
     // Delete Button shows modal
     $('.deletePost').on('click', function (e) {
@@ -179,7 +174,7 @@ $(function () {
                 $('#postForm').trigger("reset");
                 $('#postForm').hide();
                 $('#postModal').hide();
-                toastr.success("<strong>Success!</strong><br>" + data.success);
+                toastr.success("<strong>Success!</strong><br>"+data.success);
                 $('#saveBtn').prop("disabled", false);
                 $('#page-content').load(currentRouteName);
             },
