@@ -24,11 +24,17 @@ class ProfileController extends Controller
     /**
      * Display the user's profile.
      */
-    public function view(Request $request): View
+    public function view(Request $request)
     {
         $my_posts = Post::where('user_id', Auth::user()->id)
             ->latest()
             ->paginate($this->postsPerPage);
+
+        $currentPage = request()->input('page', 1);
+        $lastPage = $my_posts->lastPage();
+        if ($currentPage > $lastPage) {
+            return redirect()->back();
+        }
 
         return view('profile.view-profile', [
             'user' => $request->user(),

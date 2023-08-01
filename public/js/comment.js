@@ -73,7 +73,7 @@ $(document).ready(function () {
         $('#comment-image').hide();
         $('#commentModal').hide();
         $('#comment').text("");
-        $('#edit_comment_error').text('');
+        // $('#edit_comment_error').text('');
         $('#delete_comment_error').text('');
     });
 
@@ -102,7 +102,7 @@ $(document).ready(function () {
                 request.setRequestHeader('X-CSRF-TOKEN', csrfToken);
 
                 $(form).find('span.error-text').text('');
-                $('#edit_comment_error').text('');
+                // $('#edit_comment_error').text('');
             },
             success: function (data) {
                 $(form)[0].reset;
@@ -125,7 +125,7 @@ $(document).ready(function () {
                 $.each(xhr.responseJSON.errors, function (key, value) {
                     $(form).find('span.' + key + '_error').text(value)
                 });
-                $('#edit_comment_error').text('Something went wrong upon editing this comment!');
+                // $('#edit_comment_error').text('Something went wrong upon editing this comment!');
             }
         });
     });
