@@ -36,6 +36,12 @@ class HomeController extends Controller
             ->take($this->suggestedUserCount)
             ->get();
 
+        $currentPage = request()->input('page', 1);
+        $lastPage = $posts->lastPage();
+        if ($currentPage > $lastPage) {
+            return redirect()->back();
+        }
+
         return view('home.index', compact('posts', 'suggestedUsers', 'hashtags'));
     }
 }

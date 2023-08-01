@@ -17,7 +17,8 @@ class EditPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'content' => 'required_without_all:image|max:140',
+            'content' => 'required_without_all:image',
+            'max:140',
             'image' => [
                 // 'required_without_all:content',
                 'image',
@@ -37,7 +38,7 @@ class EditPostRequest extends FormRequest
         return [
             'content.required_without_all' => 'Please enter the content of your post.',
             'content.max' => 'Your post must be at least 140 characters long.',
-            // 'image.required_without_all' => 'Please upload an image of your post when you have no content.',
+            'image.required_without_all' => 'Please upload an image of your post when you have no content.',
             'image.image' => 'Please upload a valid image file.',
             'image.mimes' => 'Only JPG, JPEG, PNG, and SVG image formats are allowed.',
             'image.max' => 'The image size must not exceed 2MB.',
