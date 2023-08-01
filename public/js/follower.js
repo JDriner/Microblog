@@ -14,7 +14,6 @@ $(function () {
         var currentUrl = window.location.href;
         var currentRouteName = currentUrl.split("/").slice(-1)[0];
         currentRouteName = String(currentRouteName);
-        // console.log(action);
         $.ajax({
             type: "post",
             url: action,
@@ -24,7 +23,6 @@ $(function () {
                 // console.log("follow/unfollow")
             },
             success: function (data) {
-                // console.log('Success:', data);
                 toastr.options = {
                     "closeButton": true,
                     "progressBar": true,
@@ -35,7 +33,6 @@ $(function () {
                 $('#page-content').load(currentRouteName);
             },
             error: function (data) {
-                // console.log('Error:', data);
                 toastr.options = {
                     "closeButton": true,
                     "progressBar": true,

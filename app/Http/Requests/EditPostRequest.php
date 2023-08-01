@@ -21,9 +21,7 @@ class EditPostRequest extends FormRequest
                 'required_without_all:image_value,image',
                 'max:140',
             ],
-
             'image' => [
-                // 'required_without_all:content',
                 'image',
                 'mimes:jpeg,jpg,png,svg,gif',
                 'max:2048',

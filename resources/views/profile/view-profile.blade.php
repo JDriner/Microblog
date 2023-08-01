@@ -5,10 +5,6 @@
     @if (Auth::user()->id != $user->id)
         <x-slot name="header">
             <div class="flex items-center">
-                {{-- <a dir="ltr" type="button" href="{{ URL::previous() }}"
-                    class=" text-sm bg-indigo-500 hover:bg-indigo-600 text-white px-2 rounded-s-lg mr-4">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </a> --}}
                 <h2 class="ml-2 font-semibold text-xs text-gray-800 dark:text-gray-200 leading-tight">
                     {{ __('You are viewing ' . $user->first_name . '\'s profile') }}
                 </h2>
@@ -37,7 +33,7 @@
             @endif
             <div class="max-w-xl mx-auto">
                 <!-- No posts yet -->
-                @if (count($my_posts) < 1)
+                @if (count($myPosts) < 1)
                     @if ($user->id == Auth::user()->id)
                         <div class="bg-white dark:bg-slate-800 dark:text-white shadow rounded-lg mt-3 p-6">
                             <div class="flex justify-between">
@@ -61,18 +57,15 @@
                     @endif
                 @endif
                 <!-- user has posts -->
-                @foreach ($my_posts as $post)
+                @foreach ($myPosts as $post)
                     @include('post.post-content')
                 @endforeach
                 <div class="my-4 mx-2">
-                    {{ $my_posts->links('pagination::tailwind') }}
+                    {{ $myPosts->links('pagination::tailwind') }}
                 </div>
             </div>
         </div>
     </div>
     @include('flash.flash')
-    @push('scripts')
-        {{-- <script src="{{ asset('js/load-page.js') }}"></script> --}}
-    @endpush
 </x-app-layout>
 

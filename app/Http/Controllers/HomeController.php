@@ -39,7 +39,7 @@ class HomeController extends Controller
         $currentPage = request()->input('page', 1);
         $lastPage = $posts->lastPage();
         if ($currentPage > $lastPage) {
-            return redirect()->back();
+            return redirect('/home');
         }
 
         return view('home.index', compact('posts', 'suggestedUsers', 'hashtags'));

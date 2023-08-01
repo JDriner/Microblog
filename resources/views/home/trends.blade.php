@@ -5,10 +5,6 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center">
-            {{-- <a dir="ltr" type="button" href="{{ URL::previous() }}"
-                class=" text-sm bg-indigo-500 hover:bg-indigo-600 text-white px-2 rounded-s-lg mr-4">
-                <i class="fa-solid fa-arrow-left"></i>
-            </a> --}}
             <h2 class="ml-2 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 Trending posts now! <i class="fa-solid fa-fire" style="color: #f5963d;"></i>
             </h2>
@@ -60,13 +56,7 @@
         </div>
 
     </div>
-    <!-- Loading pages -->
-    {{-- @include('home.load-page') --}}
 
     <!-- Flash Messages-->
     @include('flash.flash')
-
-    @push('scripts')
-        {{-- <script src="{{ asset('js/load-page.js') }}"></script> --}}
-    @endpush
 </x-app-layout>

@@ -12,16 +12,6 @@ use Illuminate\Support\Facades\Auth;
 class PostController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @return \Illuminate\Http\Response

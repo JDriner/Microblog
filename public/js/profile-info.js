@@ -1,6 +1,5 @@
 $(document).ready(function () {
     $('.changePicModal').on('click', function (e) {
-        // $('#changePictureForm').trigger("reset");
         $('#changePicModal').removeClass('invisible');
     });
     $('.closeModal').on('click', function (e) {
@@ -15,7 +14,6 @@ $(document).ready(function () {
 //  IMAGE Validation and preview
 $('#profile_picture').on('change', function (e) {
     const size = (this.files[0].size / 1024 / 1024).toFixed(2);
-    // console.log(size);
     if (size > 2) {
         $('.profile_picture_error').text('File must be less than 2mb');
     } else {
@@ -48,9 +46,7 @@ $(function () {
     $('#changePictureForm').on('submit', function (e) {
         e.preventDefault();
         var form = this;
-        // console.log("picture submit");
         let file_name = document.getElementById('profile_picture').value;
-        // console.log(file_name);
         // Get the current URL then route name
         var currentUrl = window.location.href;
         var currentRouteName = currentUrl.split("/").slice(-1)[0];

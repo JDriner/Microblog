@@ -74,9 +74,11 @@ $(function () {
             $('#content').val(data.content);
 
             if (data.post_id != null) {
+                // if the post beign edited is a shared post
                 $('#image_selection_input').hide();
+                $('#image_value').attr('value', 'image value is not empty');
             } else {
-                // else allow file upload
+                // else allow file upload (for post editing)
                 $('#image_selection_input').show();
             }
 

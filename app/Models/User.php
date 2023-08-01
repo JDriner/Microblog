@@ -95,18 +95,6 @@ class User extends Authenticatable implements MustVerifyEmail
     // Show suggested users
     public function scopeSuggestedUsers(Builder $query)
     {
-        // $loggedInUserId = auth()->user()->id;
-        // return $query->select('users.*')
-        //     ->join('user_followers as following', 'users.id', '=', 'following.user_following_id')
-        //     ->leftJoin('user_followers as followers', function ($join) use ($loggedInUserId) {
-        //         $join->on('users.id', '=', 'followers.user_id')
-        //             ->where('followers.user_following_id', '=', $loggedInUserId);
-        //     })
-        //     ->whereNull('followers.id') // Filter out users already followed by the logged-in user
-        //     ->where('users.id', '!=', $loggedInUserId) // Exclude the logged-in user
-        //     ->groupBy('users.id');
-
-        // --------------------WORKINGGGGGG------------
         $user = auth()->user();
         $followingIds = $user->followings->pluck('user_following_id');
         $suggestedUserId = UserFollower::whereIn('user_id', $followingIds)

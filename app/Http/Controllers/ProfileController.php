@@ -26,19 +26,18 @@ class ProfileController extends Controller
      */
     public function view(Request $request)
     {
-        $my_posts = Post::where('user_id', Auth::user()->id)
+        $myPosts = Post::where('user_id', Auth::user()->id)
             ->latest()
             ->paginate($this->postsPerPage);
 
         $currentPage = request()->input('page', 1);
-        $lastPage = $my_posts->lastPage();
+        $lastPage = $myPosts->lastPage();
         if ($currentPage > $lastPage) {
-            return redirect()->back();
-        }
+            return redirect('/home');        }
 
         return view('profile.view-profile', [
             'user' => $request->user(),
-        ], compact('my_posts'));
+        ], compact('myPosts'));
     }
 
     /**
@@ -50,11 +49,11 @@ class ProfileController extends Controller
     public function viewUser($user_id)
     {
         $user = User::findOrFail($user_id);
-        $my_posts = Post::where('user_id', $user_id)
+        $myPosts = Post::where('user_id', $user_id)
             ->latest()
             ->paginate($this->postsPerPage);
 
-        return view('profile.view-profile', compact('my_posts', 'user'));
+        return view('profile.view-profile', compact('myPosts', 'user'));
     }
 
     /**
@@ -98,37 +97,16 @@ class ProfileController extends Controller
      */
     public function updatePicture(ProfilePictureUpdateRequest $request)
     {
-        $image_path = $request->file('profile_picture')
+        $imagePath = $request->file('profile_picture')
             ->store('user_picture', 'public');
 
         $user = Auth::user();
-        $user->profile_picture = $image_path;
+        $user->profile_picture = $imagePath;
         $user->save();
 
         return response()->json([
             'success' => 'Profile picture has been updated.',
         ]);
 
-    }
-
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current-password'],
-        ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
     }
 }

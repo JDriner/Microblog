@@ -22,11 +22,9 @@ class TrendController extends Controller
             ->take($likeRanks);
 
         $postInstance = new Post();
-        $hashtagCounts = $postInstance
+        $hashtags = $postInstance
             ->countHashtags()
-            ->take($hashtagCount);
-
-        $hashtags = $hashtagCounts
+            ->take($hashtagCount)
             ->toArray();
 
         $posts = Post::get();

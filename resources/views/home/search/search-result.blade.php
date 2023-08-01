@@ -47,7 +47,4 @@
         </div>
     </div>
 
-    @push('scripts')
-        {{-- <script src="{{ asset('js/load-page.js') }}"></script> --}}
-    @endpush
 </x-app-layout>

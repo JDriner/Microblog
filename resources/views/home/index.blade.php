@@ -48,30 +48,13 @@
                 <h1 class="text-sm text-slate-900 dark:text-gray-300">
                     Suggested Users
                 </h1>
-                @php
-                    $counter = 0;
-                @endphp
                 @foreach ($suggestedUsers as $user)
-                    @if ($counter >= 4)
-                    @break
-                @endif
-                @include('home.search.user-result')
-                @php
-                    $counter++;
-                @endphp
-            @endforeach
-        @endif
+                    @include('home.search.user-result')
+                @endforeach
+            @endif
+        </div>
     </div>
-</div>
 
-
-<!-- Loading pages -->
-{{-- @include('home.load-page') --}}
-
-<!-- Flash Messages-->
-@include('flash.flash')
-
-@push('scripts')
-    {{-- <script src="{{ asset('js/load-page.js') }}"></script> --}}
-@endpush
+    <!-- Flash Messages-->
+    @include('flash.flash')
 </x-app-layout>
