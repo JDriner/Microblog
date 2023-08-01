@@ -21,7 +21,7 @@ class RedirectPageToFirst
         // Check if the page number is not a positive integer (invalid value) or non numeric
         if (!is_numeric($page) || intval($page) < 1) {
             // Redirect the user to the first page
-            return Redirect::to($request->url() . '?page=1');
+            return redirect('home');
         }
 
         // Continue to the next middleware or the controller

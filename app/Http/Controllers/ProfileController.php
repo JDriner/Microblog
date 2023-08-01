@@ -33,7 +33,7 @@ class ProfileController extends Controller
         $currentPage = request()->input('page', 1);
         $lastPage = $myPosts->lastPage();
         if ($currentPage > $lastPage) {
-            return redirect('/home');        }
+            return redirect('home');        }
 
         return view('profile.view-profile', [
             'user' => $request->user(),
