@@ -40,7 +40,7 @@ class PostController extends Controller
     /**
      * Share a post as requested by the user
      * @param SharePostRequest $request
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public function sharePost(SharePostRequest $request, $post_id)
     {
@@ -86,7 +86,7 @@ class PostController extends Controller
      * Get the details of the post to be shared
      *
      * @param [type] $id
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public function share($id)
     {
@@ -114,11 +114,15 @@ class PostController extends Controller
         ];
 
         //if the user has updated the image or it has content
+        if(!$validated['image_value']){
+            $postData['image'] = null;
+        }
         if ($request->file('image')) {
             $imagePath = $request->file('image')
                 ->store('post_picture', 'public');
             $postData['image'] = $imagePath;
         }
+
         $post->update($postData);
 
         return response()->json([

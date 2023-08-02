@@ -10,16 +10,18 @@ class CommentController extends Controller
 {
     /**
      * Function to store/create the comment
+     *
      * @param SendCommentRequest $request
-     * @return
+     * @param [type] $postId
+     * @return 'json'
      */
-    public function sendComment(SendCommentRequest $request, $post_id)
+    public function sendComment(SendCommentRequest $request, $postId)
     {
         $validated = $request->validated();
 
         Comment::create([
             'user_id' => auth()->user()->id,
-            'post_id' => $post_id,
+            'post_id' => $postId,
             'comment' => $validated['comment'],
         ]);
 
@@ -31,7 +33,7 @@ class CommentController extends Controller
     /**
      * Fetch a comment for viewing
      * @param [type] $id
-     * @return void
+     * @return 'json'
      */
     public function view($id)
     {
@@ -43,12 +45,12 @@ class CommentController extends Controller
     /**
      * Edit a comment
      * @param EditCommentRequest $request
-     * @return
+     * @return 'json'
      */
-    public function edit(EditCommentRequest $request, $comment_id)
+    public function edit(EditCommentRequest $request, $commentId)
     {
         $validated = $request->validated();
-        $comment = Comment::findOrfail($comment_id);
+        $comment = Comment::findOrfail($commentId);
         $this->authorize('update', [Comment::class, $comment]);
 
         $comment->update([
@@ -63,7 +65,7 @@ class CommentController extends Controller
     /**
      * Delete a comment
      * @param [type] $id
-     * @return void
+     * @return 'json'
      */
     public function destroy($id)
     {

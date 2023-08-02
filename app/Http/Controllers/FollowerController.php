@@ -13,18 +13,18 @@ class FollowerController extends Controller
     /**
      * Follow a user that was requested
      * @param Request $request
-     * @return
+     * @return 'json'
      */
-    public function follow(Request $request, $user_id)
+    public function follow(Request $request, $userId)
     {
         $this->authorize(
             'follow',
-            [UserFollower::class, $user_id]
+            [UserFollower::class, $userId]
         );
 
         $follow = UserFollower::create([
             'user_id' => auth()->user()->id,
-            'user_following_id' => $user_id,
+            'user_following_id' => $userId,
         ]);
 
         return response()->json([
@@ -35,17 +35,17 @@ class FollowerController extends Controller
     /**
      * Unfollow a user
      * @param Request $request
-     * @return void
+     * @return 'json'
      */
-    public function unfollow(Request $request, $user_id)
+    public function unfollow(Request $request, $userId)
     {
         $this->authorize(
             'unfollow',
-            [UserFollower::class, $user_id]
+            [UserFollower::class, $userId]
         );
 
         $followedUser = UserFollower::whereUserId(auth()->user()->id)
-            ->whereUserFollowingId($user_id)
+            ->whereUserFollowingId($userId)
             ->firstOrFail();
         $followedUser->delete();
 
@@ -57,7 +57,7 @@ class FollowerController extends Controller
     /**
      * List down the followers/following and suggested users in the page
      * @param [type] $type
-     * @return
+     * @return 'view'
      */
     public function listFollows($type)
     {

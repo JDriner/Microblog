@@ -54,6 +54,7 @@ $(document).ready(function () {
         })
     });
 
+
     $('.deleteComment').on('click', function () {
         let comment_id = $(this).attr('comment_id');
         $('#commentModal').show();
@@ -75,6 +76,19 @@ $(document).ready(function () {
         $('#comment').text("");
         // $('#edit_comment_error').text('');
         $('#delete_comment_error').text('');
+    });
+
+    // disable save comment button if there are no changes/no inputs in the comment box
+    var initialFormValues = $('#commentForm').serialize();
+    $('#saveCommentBtn').prop('disabled', true);
+    $('#commentForm').on('input', function () {
+        var currentFormValues = $('#commentForm').serialize();
+        // Compare current and initial form values
+        if (currentFormValues != initialFormValues) {
+            $('#saveCommentBtn').prop('disabled', false);
+        } else {
+            $('#saveCommentBtn').prop('disabled', true);
+        }
     });
 
     // create comment - submit form

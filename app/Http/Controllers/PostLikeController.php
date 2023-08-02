@@ -11,7 +11,7 @@ class PostLikeController extends Controller
     /**
      * The user likes a post/clicks on the like button
      * @param Request $request
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public function likePost(Request $request, $post_id)
     {
@@ -29,7 +29,7 @@ class PostLikeController extends Controller
     /**
      * The user unlikes a post/clicks on th eunlike button
      * @param Request $request
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public function unlikePost(Request $request, $post_id)
     {

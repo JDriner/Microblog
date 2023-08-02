@@ -21,6 +21,7 @@ class EditPostRequest extends FormRequest
                 'required_without_all:image_value,image',
                 'max:140',
             ],
+            'image_value' => ['boolean'],
             'image' => [
                 'image',
                 'mimes:jpeg,jpg,png,svg,gif',
@@ -41,7 +42,7 @@ class EditPostRequest extends FormRequest
             'content.max' => 'Your post must be at least 140 characters long.',
             'image.required_without_all' => 'Please upload an image of your post when you have no content.',
             'image.image' => 'Please upload a valid image file.',
-            'image.mimes' => 'Only JPG, JPEG, PNG, and SVG image formats are allowed.',
+            'image.mimes' => 'Only JPG, JPEG, PNG, and GIF image formats are allowed.',
             'image.max' => 'The image size must not exceed 2MB.',
         ];
     }

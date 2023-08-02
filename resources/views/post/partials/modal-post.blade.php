@@ -36,25 +36,33 @@
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"></textarea>
                                 <div class="text-sm text-gray-400" id="character_count"></div>
                                 <span class="text-red-600 text-sm error-text content_error"></span>
+
+                                <span class="text-red-600 text-sm error-text image_value_error"></span>
                             </div>
                         </div>
                         <div class="mt-4" id="image_selection_input" hidden="hidden">
                             <div class="max-w-xl mx-auto">
                                 <div class="flex items-center">
                                     <input type="file" name="image" id="image" class="hidden">
-                                    <input type="text" value="" name="image_value" id="image_value" class="hidden">
+                                    <input type="text" value="" name="image_value" id="image_value"
+                                        class="hidden">
+
                                     <label for="image"
                                         class="image_label text-xs text-slate-800 bg-gray-200 hover:text-slate-100 hover:bg-gray-600 px-4 py-2 rounded-xl cursor-pointer w-full">
                                         <i class="fa-solid fa-upload fa-beat"></i> Upload Image
                                     </label>
                                 </div>
                                 <span class="text-red-600 text-sm error-text image_error"></span>
-                                <div class="flex justify-center items-center">
-                                    <img id="preview" src="#" alt="your image" class="h-64 w-auto my-4"
-                                        style="display:none;" />
+                                <div id="preview_div" class="relative flex justify-center items-center" hidden="hidden">
+                                    <img id="preview" src="#" alt="your image" class="h-64 w-auto my-4" />
+                                    <button type="button"
+                                        class="removeImageBtn absolute text-xs top-4 right-8 text-white p-2 rounded bg-red-300 hover:bg-red-800">
+                                        <i class="fa-solid fa-minus text-white"></i> Remove image
+                                    </button>
                                 </div>
                                 <p class="text-xs text-gray-600 px-4 pt-2 mb-4">
-                                    If you have any images related to your post, you can upload them here. Images should be with the types jpg, jpeg, png and
+                                    If you have any images related to your post, you can upload them here. Images should
+                                    be with the types jpg, jpeg, png and
                                     gif. The file size should not exceed 2mb.
                                 </p>
 

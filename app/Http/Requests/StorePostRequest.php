@@ -32,7 +32,7 @@ class StorePostRequest extends FormRequest
             'content.required_without_all' => 'Please enter the content of your post when an image is not present.',
             'content.max' => 'Your post must be at least 140 characters long.',
             'image.required_without_all' => 'Please upload an image of your post when you have no content.',
-            'image.mimes' => 'Only JPG and PNG image formats are allowed.',
+            'image.mimes' => 'Only JPG, PNG and GIF image formats are allowed.',
             'image.max' => 'The image size must not exceed 2MB.',
         ];
     }
