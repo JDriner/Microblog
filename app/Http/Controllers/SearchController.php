@@ -20,10 +20,17 @@ class SearchController extends Controller
         $search = $request->search;
 
         $users = User::searchUser($search)
-            ->paginate($postsPerPage);
+            ->paginate($postsPerPage)
+            ->appends([
+                'search' => $search 
+            ]);
+            
         $posts = Post::searchPost($search)
             ->latest()
-            ->paginate($postsPerPage);
+            ->paginate($postsPerPage)
+            ->appends([
+                'search' => $search 
+            ]);
 
 
         return view('home.search.search-result', compact('users', 'posts', 'search'));
