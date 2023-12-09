@@ -44,7 +44,13 @@
             </p>
             @if ($post->image)
             <div class="flex justify-center items-center">
-                <img src="{{ url('storage/' . $post->image) }}" alt="Image for post" class="max-w-full">
+                @if (Str::startsWith($post->image, 'http') || Str::startsWith($post->image, 'https'))
+                    <!-- If $post->image is a link -->
+                    <img src="{{ $post->image }}" alt="Image for post" class="max-w-full">
+                @else
+                    <!-- If $post->image is a path -->
+                    <img src="{{ url('storage/' . $post->image) }}" alt="Image for post" class="max-w-full">
+                @endif
             </div>
             @endif
         </div>

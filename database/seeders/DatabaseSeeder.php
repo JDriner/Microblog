@@ -13,6 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //
+    $this->call([
+        AppResourceSeeder::class,
+        // PostSeeder::class,
+        // CommentSeeder::class,
+    ]);
     }
 }
