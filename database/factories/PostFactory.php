@@ -23,13 +23,13 @@ class PostFactory extends Factory
             // 'post_id' => $this->faker->lastName(),
             'content' => $this->faker->unique()->realText($this->faker->numberBetween(10, 140)),
             'image' => $imageUrl,
+            'created_at' => $this->faker->dateTimeThisYear(),
         ];
     }
     
     public function withComments()
     {
         return $this
-            ->has(PostFactory::new()->count(10), 'employees');
-            // ->withComments();  
+            ->has(CommentFactory::new()->count(1), 'comments');
     }
 }

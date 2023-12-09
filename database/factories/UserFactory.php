@@ -50,8 +50,8 @@ class UserFactory extends Factory
     public function withPosts()
     {
         return $this
-            ->has(PostFactory::new()->count(10), 'posts');
-            // ->withComments();
+            ->has(PostFactory::new()->count(10)
+            ->withComments() , 'posts');
     }
     
     /**
@@ -62,7 +62,7 @@ class UserFactory extends Factory
     public function withSharedPosts()
     {
         return $this
-            ->has(PostFactory::new ()->admin()->count(10), 'employees');
-            // ->withComments();  
+            ->has(PostFactory::new()->count(10)
+            ->withComments() , 'posts');
     }
 }
