@@ -3,13 +3,13 @@
 namespace Database\Factories;
 
 use App\Models\Post;
-use App\Models\User;
+use App\Models\user;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
-class CommentFactory extends Factory
+class PostLikeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -24,8 +24,6 @@ class CommentFactory extends Factory
         return [
             'user_id' => $user->id,
             'post_id' => $post->id,
-            'comment' => $this->faker->unique()->realText($this->faker->numberBetween(10, 140)),
-            'created_at' => $this->faker->dateTimeThisYear(),
         ];
     }
 }
