@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -41,7 +40,7 @@ class UserFactory extends Factory
             ];
         });
     }
-    
+
     /**
      * Create the posts of the users
      *
@@ -50,19 +49,8 @@ class UserFactory extends Factory
     public function withPosts()
     {
         return $this
-            ->has(PostFactory::new()->count(10)
-            ->withComments() , 'posts');
-    }
-    
-    /**
-     * Create the shared posts of the users
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function withSharedPosts()
-    {
-        return $this
-            ->has(PostFactory::new()->count(10)
-            ->withComments() , 'posts');
+            ->has(PostFactory::new()->originalPost()
+                    ->count(2)
+                    ->withComments(), 'posts');
     }
 }

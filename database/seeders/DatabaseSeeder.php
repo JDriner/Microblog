@@ -15,8 +15,9 @@ class DatabaseSeeder extends Seeder
     {
     $this->call([
         AppResourceSeeder::class,
-        // PostSeeder::class,
-        // CommentSeeder::class,
+        FollowSeeder::class,
+        PostSeeder::class,
+        PostLikeSeeder::class,
     ]);
     }
 }

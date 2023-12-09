@@ -86,7 +86,6 @@ class Post extends Model
             ->get();
     }
 
-
     /**
      * Posts of users that the current user follows/including their own posts
      * @param [type] $query

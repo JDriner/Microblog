@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use Database\Factories\UserFactory;
+use Database\Factories\PostLikeFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class AppResourceSeeder extends Seeder
+class PostLikeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -34,20 +34,8 @@ class AppResourceSeeder extends Seeder
      */
     public function executeSeeder()
     {
-        // Create dummy users
-        UserFactory::new ()
-            ->withPosts()
-            ->count(30)
+        PostLikeFactory::new ()
+            ->count(100)
             ->create();
-
-        // Create a primary user
-        $user = UserFactory::new ()
-            ->withPosts()
-            ->count(1)
-            ->create([
-                'first_name' => 'Driner',
-                'last_name' => 'Familaran',
-                'email' => 'dummy1@gmail.com',
-            ]);
     }
 }
